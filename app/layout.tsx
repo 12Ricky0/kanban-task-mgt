@@ -16,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${jarkarta.className} antialiased`}>{children}</body>
+      <body
+        className={`${jarkarta.className} bg-tetiary-white-space antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
