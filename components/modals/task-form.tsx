@@ -10,17 +10,30 @@ export default function TaskForm() {
 
   const options = ["Todo", "Doing", "Done"];
 
+  const [displayOptions, setDisplayOptions] = useState(false);
+
   const [task, setTask] = useState("Todo");
-  function handleAdd(e: React.ChangeEvent<HTMLInputElement>) {
-    e.preventDefault();
+
+  function handleDelete(key: number) {
+    setSubtasks((prev) => {
+      return prev.filter((_, i) => i !== key);
+    });
+  }
+
+  function handleAdd(event: React.ChangeEvent) {
+    event.preventDefault();
     setSubtasks([
       ...subtasks,
-      <SubtaskForm key={subtasks.length} index={subtasks.length} />,
+      <SubtaskForm
+        key={subtasks.length}
+        index={subtasks.length}
+        onDelete={handleDelete}
+      />,
     ]);
   }
   return (
     <Overlay>
-      <section className="bg-white mx-4 w-full rounded-lg z-10">
+      <section className="bg-white mx-4 w-full md:w-[480px] rounded-lg z-10">
         <h1 className="mx-6 font-bold text-[18px] text-primary-dark py-6">
           Add New Task
         </h1>
@@ -63,15 +76,16 @@ a little."
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
               Subtasks
             </h1>
-            {subtasks.length > 0 ? (
+            {/* {subtasks.length > 0 ? (
               subtasks
             ) : (
-              <SubtaskForm index={subtasks.length} />
-            )}
+              <SubtaskForm index={subtasks.length} onDelete={handleDelete} />
+            )} */}
+            {subtasks}
 
             <button
               className=" text-primary-violet hover:bg-secondary-light-blue h-10 font-bold text-[13px] bg-tetiary-white-space w-[100%] rounded-full"
-              onClick={() => handleAdd}
+              onClick={handleAdd}
             >
               +Add New Subtask
             </button>
@@ -81,8 +95,8 @@ a little."
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
               Status
             </h1>
-            <div>
-              <div className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] px-4 py-2 flex justify-between items-center">
+            <div onClick={() => setDisplayOptions(!displayOptions)}>
+              <div className="w-full border border-secondary-gray hover:border-primary-violet cursor-pointer border-opacity-25 rounded-lg font-medium text-[13px] px-4 py-2 flex justify-between items-center">
                 <input
                   type="text"
                   readOnly
@@ -94,21 +108,23 @@ a little."
                   alt="arrow-down"
                   width={8}
                   height={4}
-                  className="inline-block md:hidden"
+                  className="inline-block "
                 />
               </div>
 
-              <ul className="bg-primary-light-violet rounded-lg py-4 last:mb-0 absolute mt-[10px] w-[80%]">
-                {options.map((option) => (
-                  <li
-                    onClick={() => setTask(option)}
-                    className="text-secondary-gray mb-2"
-                    key={options.indexOf(option)}
-                  >
-                    {option}
-                  </li>
-                ))}
-              </ul>
+              {displayOptions && (
+                <ul className="bg-white rounded-lg py-4 last:mb-0 absolute mt-[10px] w-[80%] md:w-[430px] shadow-lg">
+                  {options.map((option) => (
+                    <li
+                      onClick={() => setTask(option)}
+                      className="text-secondary-gray mb-2 ml-4 font-medium"
+                      key={options.indexOf(option)}
+                    >
+                      {option}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
 

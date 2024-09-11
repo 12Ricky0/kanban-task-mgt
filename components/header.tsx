@@ -1,8 +1,12 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Header() {
+  const [showDropdown, setShowDropdown] = useState(false);
+
   return (
-    <header className="bg-white md:border-b flex py-[20px] md:py-0 justify-between items-center">
+    <header className="bg-white md:border-b flex py-[20px] lg:pb-7  md:py-0 justify-between items-center">
       <div className="inline-flex ml-4 md:ml-6 gap-4 md:gap-6">
         <Image
           src="/assets/logo-mobile.svg"
@@ -36,26 +40,40 @@ export default function Header() {
           />
         </div>
       </div>
-      <div className="inline-flex items-center mr-4 md:mr-6 gap-4 md:gap-6">
-        <div className="bg-primary-violet w-12 h-8 md:h-auto md:w-auto md:py-[15px] md:px-6 rounded-3xl flex items-center justify-center">
+
+      <div>
+        <div className="inline-flex items-center mr-4 md:mr-6 gap-4 md:gap-6">
+          <div className="bg-primary-violet w-12 h-8 md:h-auto md:w-auto md:py-[15px] md:px-6 rounded-3xl flex items-center justify-center">
+            <Image
+              src="/assets/icon-add-task-mobile.svg"
+              alt="add-task"
+              width={12}
+              height={12}
+              className="inline-block md:hidden"
+            />
+            <span className="text-white hidden md:block text-[15px] font-semibold">
+              + Add New Task
+            </span>
+          </div>
           <Image
-            src="/assets/icon-add-task-mobile.svg"
-            alt="add-task"
-            width={12}
-            height={12}
-            className="inline-block md:hidden"
+            src="/assets/icon-vertical-ellipsis.svg"
+            alt="vertical-ellipsis"
+            width={3.69}
+            height={16}
+            className="cursor-pointer"
+            onClick={() => setShowDropdown(!showDropdown)}
           />
-          <span className="text-white hidden md:block text-[15px] font-semibold">
-            + Add New Task
-          </span>
         </div>
-        <Image
-          src="/assets/icon-vertical-ellipsis.svg"
-          alt="vertical-ellipsis"
-          width={3.69}
-          height={16}
-          className=""
-        />
+        {showDropdown && (
+          <div className="absolute bg-white w-[192px] right-5 md:right-0 rounded-lg shadow-lg justify-end mt-5 py-4">
+            <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
+              Edit Board
+            </button>
+            <button className="ml-4 text-[13px] font-medium text-tetiary-red">
+              Delete Board
+            </button>
+          </div>
+        )}{" "}
       </div>
     </header>
   );

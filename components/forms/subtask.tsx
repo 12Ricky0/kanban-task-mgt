@@ -1,6 +1,16 @@
 import Image from "next/image";
+import { ReactEventHandler } from "react";
 
-export default function SubtaskForm({ index }: { index: number }) {
+export default function SubtaskForm({
+  index,
+  onDelete,
+}: {
+  index: number;
+  onDelete: (index: number) => void;
+}) {
+  function handleDelete() {
+    onDelete(index);
+  }
   return (
     <div className="flex gap-4 items-center mb-3">
       <input
@@ -15,7 +25,8 @@ export default function SubtaskForm({ index }: { index: number }) {
         alt="cross"
         width={16}
         height={16}
-        className="w-auto h-auto"
+        className="w-auto h-auto cursor-pointer"
+        onClick={handleDelete}
       />
     </div>
   );
