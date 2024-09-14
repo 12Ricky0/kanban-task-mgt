@@ -4,15 +4,16 @@ import { Overlay } from "../overlay";
 import SubtaskForm from "../forms/subtask";
 import { ReactEventHandler, useState } from "react";
 import Image from "next/image";
+import Status from "../forms/status";
 
 export default function TaskForm() {
   const [subtasks, setSubtasks] = useState<JSX.Element[]>([]);
 
-  const options = ["Todo", "Doing", "Done"];
+  // const options = ["Todo", "Doing", "Done"];
 
-  const [displayOptions, setDisplayOptions] = useState(false);
+  // const [displayOptions, setDisplayOptions] = useState(false);
 
-  const [task, setTask] = useState("Todo");
+  // const [task, setTask] = useState("Todo");
 
   function handleDelete(key: number) {
     setSubtasks((prev) => {
@@ -76,11 +77,6 @@ a little."
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
               Subtasks
             </h1>
-            {/* {subtasks.length > 0 ? (
-              subtasks
-            ) : (
-              <SubtaskForm index={subtasks.length} onDelete={handleDelete} />
-            )} */}
             {subtasks}
 
             <button
@@ -95,7 +91,8 @@ a little."
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
               Status
             </h1>
-            <div onClick={() => setDisplayOptions(!displayOptions)}>
+            <Status />
+            {/* <div onClick={() => setDisplayOptions(!displayOptions)}>
               <div className="w-full border border-secondary-gray hover:border-primary-violet cursor-pointer border-opacity-25 rounded-lg font-medium text-[13px] px-4 py-2 flex justify-between items-center">
                 <input
                   type="text"
@@ -125,7 +122,7 @@ a little."
                   ))}
                 </ul>
               )}
-            </div>
+            </div> */}
           </div>
 
           <button className="block mb-4 text-white hover:bg-primary-light-violet h-10 font-bold text-[13px] bg-primary-violet w-[100%] rounded-full">

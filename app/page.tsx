@@ -3,6 +3,7 @@ import Header from "@/components/header";
 import NavBar from "@/components/side-bar";
 import DeleteModal from "@/components/modals/delete";
 import TaskForm from "@/components/modals/task-form";
+import Details from "@/components/modals/task-details";
 
 export default function Home() {
   return (
@@ -10,7 +11,8 @@ export default function Home() {
       <Header />
       {/* <NavBar /> */}
       {/* <DeleteModal /> */}
-      <TaskForm />
+      <Details />
+      {/* <TaskForm /> */}
     </main>
   );
 }

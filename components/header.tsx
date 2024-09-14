@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import Subtask from "./subtask";
+import Popup from "./subtask-card";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -65,7 +65,7 @@ export default function Header() {
             onClick={() => setShowDropdown(!showDropdown)}
           />
         </div>
-        {showDropdown && <Subtask />}
+        {showDropdown && <Popup />}
       </div>
     </header>
   );
