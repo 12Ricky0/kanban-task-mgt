@@ -1,25 +1,26 @@
 "use client";
 import { useDraggable } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-export default function TaskCard({ title }: { title: string }) {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: "draggable",
-  });
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-      }
-    : undefined;
+export default function TaskCard({ title, id }: { title: string; id: string }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
   return (
     <section
       ref={setNodeRef}
       style={style}
-      {...listeners}
       {...attributes}
+      {...listeners}
       className="w-[280px] rounded-lg bg-white py-[23px]"
     >
       <article className="px-4">
-        <h1 className="font-bold text-primary-dark text-[20px] mb-2">
+        <h1 className="font-bold text-primary-dark text-[15px] mb-2">
           {title}
         </h1>
         <p className="mb-4 text-[13px] text-secondary-gray font-bold"></p>

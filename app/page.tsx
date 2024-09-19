@@ -6,8 +6,21 @@ import DeleteModal from "@/components/modals/delete";
 import TaskForm from "@/components/modals/task-form";
 import Details from "@/components/modals/task-details";
 import TaskCard from "@/components/task-card";
+import data from "@/data.json";
 
 export default function Home() {
+  const todo = data.boards.find((board) =>
+    board.columns.find((column) =>
+      column.tasks.find((task) => task.status == "Todo")
+    )
+  );
+
+  // const i = todo?.columns.find((column) =>
+  //   column.tasks.find((task) => task.status == "Todo")
+  // );
+
+  // console.log(i);
+
   return (
     <main className="">
       <Header />
@@ -16,15 +29,7 @@ export default function Home() {
           <NavBar />
         </div>
         <div>
-          <Droppable_Column>
-            <TaskCard title="Build UI for onboarding flow 1" />
-          </Droppable_Column>
-          <Droppable_Column>
-            <TaskCard title="Build UI for onboarding flow 2" />
-          </Droppable_Column>
-          <Droppable_Column>
-            <TaskCard title="Build UI for onboarding flow 3" />
-          </Droppable_Column>
+          <Droppable_Column />
         </div>
       </div>
       {/* <DeleteModal /> */}
