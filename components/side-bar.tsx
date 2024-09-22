@@ -1,13 +1,16 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function NavBar() {
-  return (
+  const [displaySidebar, setDisplaySidebar] = useState(true);
+  return displaySidebar ? (
     <nav className="bg-white rounded-lg mt-4 w-[80%] md:flex flex-col justify-between md:w-[260px] md:mx-0 md:rounded-none md:mt-0 md:h-screen mx-auto pb-4">
       <div>
         <h1 className="text-[12px] text-secondary-gray font-bold tracking-[2.4px] mb-[19px] mx-6 pt-4">
           ALL BOARDS (3)
         </h1>
-        <ul className="">
+        <ul className="cursor-pointer ">
           <li className="bg-primary-violet h-12 flex items-center mr-6 rounded-r-full">
             <Image
               src="/assets/icon-board.svg"
@@ -20,7 +23,7 @@ export default function NavBar() {
               Platform Launch
             </span>
           </li>
-          <li className=" h-12 flex items-center mr-6 rounded-r-full">
+          <li className="hover:bg-secondary-light-blue h-12 flex items-center mr-6 rounded-r-full">
             <Image
               src="/assets/icon-board.svg"
               alt="board"
@@ -84,7 +87,10 @@ export default function NavBar() {
           />
         </div>
 
-        <div className="hidden md:flex items-center mt-[30px]">
+        <div
+          onClick={() => setDisplaySidebar(!displaySidebar)}
+          className="hidden cursor-pointer md:flex items-center mt-[30px]"
+        >
           <Image
             src="/assets/icon-hide-sidebar.svg"
             alt="board"
@@ -98,5 +104,18 @@ export default function NavBar() {
         </div>
       </div>
     </nav>
+  ) : (
+    <div
+      onClick={() => setDisplaySidebar(!displaySidebar)}
+      className="bg-primary-violet absolute bottom-0 w-[56px] cursor-pointer h-[48px] z-10 md:flex items-center justify-center hidden rounded-r-full"
+    >
+      <Image
+        src="/assets/icon-show-sidebar.svg"
+        alt="board"
+        width={16}
+        height={16}
+        className="w-auto h-auto"
+      />
+    </div>
   );
 }

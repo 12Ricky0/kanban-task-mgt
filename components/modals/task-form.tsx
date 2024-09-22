@@ -21,7 +21,7 @@ export default function TaskForm() {
     });
   }
 
-  function handleAdd(event: React.ChangeEvent) {
+  function handleAdd(event: React.FormEvent) {
     event.preventDefault();
     setSubtasks([
       ...subtasks,

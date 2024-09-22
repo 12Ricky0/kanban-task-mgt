@@ -35,16 +35,15 @@ export default function Droppable_Column() {
     column.tasks.find((task) => task.status == "Todo")
   );
 
-  const [items, setItems] = useState(i?.tasks.map((task) => task.title) || []);
+  const [items, setItems] = useState(i?.tasks || []);
 
   function handleDragEnd(event: any) {
     const { active, over } = event;
 
     if (active.id !== over.id) {
       setItems((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
-
+        const oldIndex = items.findIndex((item) => item.title === active.id);
+        const newIndex = items.findIndex((item) => item.title === over.id);
         return arrayMove(items, oldIndex, newIndex);
       });
     }
@@ -53,7 +52,7 @@ export default function Droppable_Column() {
     <section className="ml-4 md:ml-0">
       <div className="flex flex-row items-center gap-3">
         <div className="size-[15px] rounded-full bg-[#49C4E5]" />
-        <h1 className="my-6 text-secondary-gray text-[12px] font-medium">
+        <h1 className="my-6 text-secondary-gray text-[12px] tracking-[2.4px] font-bold leading-normal">
           TODO
         </h1>
       </div>
@@ -63,9 +62,12 @@ export default function Droppable_Column() {
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
         >
-          <SortableContext items={items} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={items.map((t) => t.title)}
+            strategy={verticalListSortingStrategy}
+          >
             {items?.map((d) => (
-              <TaskCard title={d} key={d} id={d} />
+              <TaskCard title={d.title} key={d.title} id={d.title} />
             ))}
           </SortableContext>
         </DndContext>
