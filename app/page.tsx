@@ -7,7 +7,7 @@ import TaskForm from "@/components/modals/task-form";
 import Details from "@/components/modals/task-details";
 import TaskCard from "@/components/task-card";
 import data from "@/data.json";
-import BoardForm from "@/components/forms/board";
+// import BoardForm from "@/components/forms/board";
 
 export default function Home() {
   const todo = data.boards.find((board) =>
@@ -25,17 +25,17 @@ export default function Home() {
   return (
     <main className="">
       <Header />
-      {/* <div className="md:flex items-start gap-6">
+      <div className="md:flex items-start gap-6">
         <div className="hidden md:block">
           <NavBar />
         </div>
         <div>
           <Droppable_Column />
         </div>
-      </div> */}
+      </div>
       {/* <DeleteModal /> */}
       {/* <Details /> */}
-      <BoardForm />
+      {/* <BoardForm /> */}
     </main>
   );
 }
