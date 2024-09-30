@@ -31,11 +31,11 @@ export default function NavBar() {
               height={16}
               className="inline-block mr-3 ml-6"
             />
-            <span className="text-secondary-gray text-[15px] font-bold">
+            <span className="text-secondary-gray  text-[15px] font-bold">
               Marketing Plan
             </span>
           </li>
-          <li className=" h-12 flex items-center mr-6 rounded-r-full">
+          <li className=" h-12 flex hover:bg-secondary-light-blue items-center mr-6 rounded-r-full">
             <Image
               src="/assets/icon-board.svg"
               alt="board"
