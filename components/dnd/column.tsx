@@ -67,7 +67,12 @@ export default function Droppable_Column() {
             strategy={verticalListSortingStrategy}
           >
             {items?.map((d) => (
-              <TaskCard title={d.title} key={d.title} id={d.title} />
+              <TaskCard
+                subtask={d.subtasks}
+                title={d.title}
+                key={d.title}
+                id={d.title}
+              />
             ))}
           </SortableContext>
         </DndContext>

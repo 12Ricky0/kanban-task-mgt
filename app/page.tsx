@@ -11,11 +11,11 @@ import { AddColumnButton } from "@/components/buttons/buttons";
 // import BoardForm from "@/components/forms/board";
 
 export default function Home() {
-  const todo = data.boards.find((board) =>
-    board.columns.find((column) =>
-      column.tasks.find((task) => task.status == "Todo")
-    )
-  );
+  // const todo = data.boards.find((board) =>
+  //   board.columns.find((column) =>
+  //     column.tasks.find((task) => task.status == "Todo")
+  //   )
+  // );
 
   // const i = todo?.columns.find((column) =>
   //   column.tasks.find((task) => task.status == "Todo")
