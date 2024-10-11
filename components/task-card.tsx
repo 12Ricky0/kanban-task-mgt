@@ -3,14 +3,15 @@ import { useDraggable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Subtask } from "@/libs/definitions";
-
 export default function TaskCard({
   title,
   id,
+  drop_id,
   subtask,
 }: {
   title: string;
   id: string;
+  drop_id: string;
   subtask: Subtask[];
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -20,6 +21,7 @@ export default function TaskCard({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
   const completed = subtask.filter((task) => task.isCompleted === true).length;
 
   return (

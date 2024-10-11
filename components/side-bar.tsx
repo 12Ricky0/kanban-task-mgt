@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function NavBar() {
   const [displaySidebar, setDisplaySidebar] = useState(true);
   return displaySidebar ? (
-    <nav className="bg-white rounded-lg mt-4 w-[80%] md:flex flex-col justify-between md:w-[260px] md:mx-0 md:rounded-none md:mt-0 md:h-screen mx-auto pb-4">
+    <nav className="bg-white rounded-lg mt-4 w-[80%] md:flex flex-col justify-between md:w-[260px] md:mx-0 md:rounded-none md:mt-0 md:h-full mx-auto pb-4">
       <div>
         <h1 className="text-[12px] text-secondary-gray font-bold tracking-[2.4px] mb-[19px] mx-6 pt-4">
           ALL BOARDS (3)

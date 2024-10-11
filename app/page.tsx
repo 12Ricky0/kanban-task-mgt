@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Header from "@/components/header";
 import NavBar from "@/components/side-bar";
-import Droppable_Column from "@/components/dnd/column";
+import Column from "@/components/dnd/column";
 import DeleteModal from "@/components/modals/delete";
 import TaskForm from "@/components/modals/task-form";
 import Details from "@/components/modals/task-details";
@@ -11,18 +11,6 @@ import { AddColumnButton } from "@/components/buttons/buttons";
 // import BoardForm from "@/components/forms/board";
 
 export default function Home() {
-  // const todo = data.boards.find((board) =>
-  //   board.columns.find((column) =>
-  //     column.tasks.find((task) => task.status == "Todo")
-  //   )
-  // );
-
-  // const i = todo?.columns.find((column) =>
-  //   column.tasks.find((task) => task.status == "Todo")
-  // );
-
-  // console.log(i);
-
   return (
     <main className="">
       <Header />
@@ -30,12 +18,18 @@ export default function Home() {
         <div className="hidden md:block">
           <NavBar />
         </div>
-        <div>
-          <Droppable_Column />
-        </div>
-        <div>
-          <Droppable_Column />
-        </div>
+        {data.boards.map(
+          (column) =>
+            column.name === "Platform Launch" && (
+              <section className="flex gap-6 mb-6" key={column.name}>
+                {column.columns.map((task) => (
+                  <div key={task.name}>
+                    <Column name={task.name} task={task.tasks!} />
+                  </div>
+                ))}
+              </section>
+            )
+        )}
         <AddColumnButton />
       </div>
       {/* <DeleteModal /> */}
