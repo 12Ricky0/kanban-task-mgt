@@ -1,17 +1,15 @@
 "use client";
-import { useDraggable } from "@dnd-kit/core";
+import { UniqueIdentifier, useDraggable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Subtask } from "@/libs/definitions";
+import { Subtask, Tasks } from "@/libs/definitions";
 export default function TaskCard({
   title,
   id,
-  drop_id,
   subtask,
 }: {
   title: string;
-  id: string;
-  drop_id: string;
+  id: UniqueIdentifier;
   subtask: Subtask[];
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -19,9 +17,8 @@ export default function TaskCard({
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
+    transition: transition,
   };
-
   const completed = subtask.filter((task) => task.isCompleted === true).length;
 
   return (

@@ -1,0 +1,289 @@
+
+
+
+  function handleDragOver(event:DragOverEvent) {
+const { active, over, draggingRect } = event;
+    const { id } = active;
+    const { id: overId } = over;
+    // Find the containers
+      const activeContainer = active.data.current?.sortable?.containerId;
+      const overContainer = over?.data.current?.sortable?.containerId;
+
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer === overContainer
+    ) {
+      return;
+    }
+
+    setItems((prev) => {
+      const activeItems = prev[activeContainer];
+      const overItems = prev[overContainer];
+
+      // Find the indexes for the items
+      const activeIndex = activeItems.indexOf(active.id.toString());
+      const overIndex = overItems.indexOf(over.id.toString());
+
+      let newIndex;
+      if (overId in prev) {
+        // We're at the root droppable of a container
+        newIndex = overItems.length + 1;
+      } else {
+        const isBelowLastItem =
+          over &&
+          overIndex === overItems.length - 1 &&
+          draggingRect.offsetTop > over.rect.offsetTop + over.rect.height;
+
+        const modifier = isBelowLastItem ? 1 : 0;
+
+        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
+      }
+
+      return {
+        ...prev,
+        [activeContainer]: [
+          ...prev[activeContainer].filter((item) => item !== active.id),
+        ],
+        [overContainer]: [
+          ...prev[overContainer].slice(0, newIndex),
+          items[activeContainer][activeIndex],
+          ...prev[overContainer].slice(newIndex, prev[overContainer].length),
+        ],
+      };
+    });
+  }
+
+
+  function handleDragStart(event: DragStartEvent) {
+    const { active } = event;
+    const { id } = active;
+    setActiveId(id);
+  }
+
+  const handleDragMove = (event: DragMoveEvent) => {
+    const { active, over } = event;
+    console.log(active.id.toString().includes("t"));
+    // Handle Items Sorting
+    if (
+      active.id.toString() &&
+      over?.id.toString() &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      // Find the active container and over container
+      const activeContainer = active.data.current?.sortable?.containerId;
+      const overContainer = over.data.current?.sortable?.containerId;
+
+      // If the active or over container is not found, return
+      if (!activeContainer || !overContainer) return;
+
+      // Find the index of the active and over container
+      const activeContainerIndex = Object.keys(items).indexOf(
+        active.data.current!.sortable.containerId
+      );
+
+      const overContainerIndex = Object.keys(items).indexOf(
+        over.data.current!.sortable.containerId
+      );
+
+      // Find the index of the active and over item
+      const activeitemIndex = items[activeContainer].indexOf(
+        active.id.toString()
+      );
+      const overitemIndex = items[overContainer].indexOf(over.id.toString());
+      // In the same container
+      if (activeContainerIndex === overContainerIndex) {
+        let newItems = { ...items };
+        newItems[activeContainerIndex] = arrayMove(
+          newItems[activeContainerIndex],
+          activeitemIndex,
+          overitemIndex
+        );
+
+        setItems(newItems);
+      } else {
+        // In different containers
+        let newItems = { ...items };
+        const [removeditem] = newItems[activeContainerIndex].splice(
+          activeitemIndex,
+          1
+        );
+        newItems[overContainerIndex].splice(overitemIndex, 0, removeditem);
+        setItems(newItems);
+      }
+    }
+
+    // Handling Item Drop Into a Container
+    if (
+      active.id.toString().includes("item") &&
+      over?.id.toString().includes("container") &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      // Find the active and over container
+      const activeContainer = active.data.current?.sortable?.containerId;
+      const overContainer = over.data.current?.sortable?.containerId;
+
+      // If the active or over container is not found, return
+      if (!activeContainer || !overContainer) return;
+
+      // Find the index of the active and over container
+      const activeContainerIndex = Object.keys(items).indexOf(
+        active.data.current!.sortable.containerId
+      );
+
+      const overContainerIndex = Object.keys(items).indexOf(
+        over.data.current!.sortable.containerId
+      );
+
+      // Find the index of the active and over item
+      const activeitemIndex = items[activeContainer].indexOf(
+        active.id.toString()
+      );
+      // const overitemIndex = items[overContainer].indexOf(over.id.toString());
+
+      // Remove the active item from the active container and add it to the over container
+      let newItems = { ...items };
+      const [removeditem] = newItems[activeContainerIndex].splice(
+        activeitemIndex,
+        1
+      );
+      newItems[overContainerIndex].push(removeditem);
+      setItems(newItems);
+    }
+  };
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    // Handling Container Sorting
+    if (
+      active.id.toString().includes("container") &&
+      over?.id.toString().includes("container") &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      const activeContainer = active.data.current?.sortable?.containerId;
+      //  const overContainer = over.data.current?.sortable?.containerId;
+
+      // Find the index of the active and over container
+      const activeContainerIndex = Object.keys(items).indexOf(
+        active.data.current!.sortable.containerId
+      );
+
+      const overContainerIndex = Object.keys(items).indexOf(
+        over.data.current!.sortable.containerId
+      );
+
+      // Swap the active and over container
+      let newItems = { ...items };
+      newItems[activeContainer] = arrayMove(
+        newItems[activeContainer],
+        activeContainerIndex,
+        overContainerIndex
+      );
+      setItems(newItems);
+    }
+
+    // Handling item Sorting
+    if (
+      active.id.toString().includes("item") &&
+      over?.id.toString().includes("item") &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      // Find the active and over container
+      const activeContainer = active.data.current?.sortable?.containerId;
+      const overContainer = over.data.current?.sortable?.containerId;
+
+      // If the active or over container is not found, return
+      if (!activeContainer || !overContainer) return;
+      // Find the index of the active and over container
+      const activeContainerIndex = Object.keys(items).indexOf(
+        active.data.current!.sortable.containerId
+      );
+
+      const overContainerIndex = Object.keys(items).indexOf(
+        over.data.current!.sortable.containerId
+      );
+      // Find the index of the active and over item
+      const activeitemIndex = items[activeContainer].indexOf(
+        active.id.toString()
+      );
+      const overitemIndex = items[overContainer].indexOf(over.id.toString());
+
+      // In the same container
+      if (activeContainerIndex === overContainerIndex) {
+        let newItems = { ...items };
+        newItems[activeContainerIndex] = arrayMove(
+          newItems[activeContainerIndex],
+          activeitemIndex,
+          overitemIndex
+        );
+        setItems(newItems);
+      } else {
+        // In different containers
+        let newItems = { ...items };
+        const [removeditem] = newItems[activeContainerIndex].splice(
+          activeitemIndex,
+          1
+        );
+        newItems[overContainerIndex].splice(overitemIndex, 0, removeditem);
+        setItems(newItems);
+      }
+    }
+    // Handling item dropping into Container
+    if (
+      active.id.toString().includes("item") &&
+      over?.id.toString().includes("container") &&
+      active &&
+      over &&
+      active.id !== over.id
+    ) {
+      // Find the active and over container
+      const activeContainer = active.data.current?.sortable?.containerId;
+      const overContainer = over.data.current?.sortable?.containerId;
+
+      // If the active or over container is not found, return
+      if (!activeContainer || !overContainer) return;
+      // Find the index of the active and over container
+      const activeContainerIndex = Object.keys(items).indexOf(
+        active.data.current!.sortable.containerId
+      );
+
+      const overContainerIndex = Object.keys(items).indexOf(
+        over.data.current!.sortable.containerId
+      );
+      // Find the index of the active and over item
+      const activeitemIndex = items[activeContainer].indexOf(
+        active.id.toString()
+      );
+
+      let newItems = { ...items };
+      const [removeditem] = newItems[activeContainerIndex].splice(
+        activeitemIndex,
+        1
+      );
+      newItems[overContainerIndex].push(removeditem);
+      setItems(newItems);
+    }
+    setActiveId(null);
+  }
+
+
+function handleDragEnd(event: DragOverEvent) {
+    const { active, over } = event;
+
+    if (active.id !== over!.id) {
+      setItems((items) => {
+        const oldIndex = items.findIndex((item) => item.title === active.id);
+        const newIndex = items.findIndex((item) => item.title === over!.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  }
