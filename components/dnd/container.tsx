@@ -56,29 +56,40 @@ export default function Container() {
 
   const [items, setItems] = useState(mainTask || {});
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  // function handleDragEnd(event: DragEndEvent) {
-  //   const { active, over } = event;
-  //   if (active.id === over?.id) return;
 
-  //   if (
-  //     active.data.current!.sortable.containerId !==
-  //     over?.data.current!.sortable.containerId
-  //   )
-  //     return;
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (active.id === over?.id) return;
+    if (
+      active.data.current!.sortable.containerId !==
+      over?.data.current!.sortable.containerId
+    )
+      return;
 
-  //   if (active.id !== over!.id) {
-  //     const containerName = active.data.current?.sortable.containerId;
+    if (active.id !== over!.id) {
+      const activeContainer = active.data.current?.sortable?.containerId;
+      const overContainer = over!.data.current?.sortable?.containerId;
 
-  //     setItems((taskList) => {
-  //       const temp = { ...taskList };
-  //       if (!over) return temp;
-  //       const oldIdx = temp[containerName].indexOf(active.id.toString());
-  //       const newIdx = temp[containerName].indexOf(over.id.toString());
-  //       temp[containerName] = arrayMove(temp[containerName], oldIdx, newIdx);
-  //       return temp;
-  //     });
-  //   }
-  // }
+      setItems((taskList) => {
+        const temp = { ...taskList };
+        if (!over) return temp;
+        const oldIdx = temp[activeContainer].findIndex(
+          (task) => task.title === active.id.toString()
+        );
+        const newIdx = temp[overContainer].findIndex(
+          (task) => task.title === over.id.toString()
+        );
+        if (oldIdx !== -1 && newIdx !== -1) {
+          temp[activeContainer] = arrayMove(
+            temp[activeContainer],
+            oldIdx,
+            newIdx
+          );
+        }
+        return temp;
+      });
+    }
+  }
 
   // const handleDragOver = (e: DragOverEvent) => {
   //   const { active, over } = e;
@@ -129,7 +140,7 @@ export default function Container() {
 
   return (
     <DndContext
-      // onDragEnd={handleDragEnd}
+      onDragEnd={handleDragEnd}
       sensors={sensors}
       // onDragOver={handleDragOver}
       collisionDetection={closestCenter}
