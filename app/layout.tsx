@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import KanbanProvider from "@/context";
 import "./globals.css";
 
 const jarkarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
@@ -19,7 +20,7 @@ export default function RootLayout({
       <body
         className={`${jarkarta.className} bg-tetiary-white-space antialiased`}
       >
-        {children}
+        <KanbanProvider>{children}</KanbanProvider>
       </body>
     </html>
   );

@@ -34,7 +34,7 @@ export default function TaskForm() {
   }
   return (
     <Overlay>
-      <section className="bg-white mx-4 w-full md:w-[480px] rounded-lg z-10">
+      <section className="bg-white z-50 mx-4 w-full md:w-[480px] rounded-lg">
         <h1 className="mx-6 font-bold text-[18px] text-primary-dark py-6">
           Add New Task
         </h1>

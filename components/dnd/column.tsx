@@ -37,10 +37,7 @@ export default function Column({
           {name.toLocaleUpperCase()} ({task.length})
         </h1>
       </div>
-      <SortableContext
-        id={name}
-        items={Object.values(task).map((k) => k.title)}
-      >
+      <SortableContext id={name} items={task.map((t) => t.title)}>
         <ul ref={setNodeRef} className="">
           {task.map((d) => (
             <div key={d.title} className="mb-5">

@@ -57,40 +57,25 @@ export default function Container() {
   const [items, setItems] = useState(mainTask || {});
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
-  function handleDragEnd(event: DragEndEvent) {
+  function handleDragEnd(event: DragOverEvent) {
     const { active, over } = event;
-    if (active.id === over?.id) return;
-    if (
-      active.data.current!.sortable.containerId !==
-      over?.data.current!.sortable.containerId
-    )
-      return;
+    console.log(items);
+    const containerName = active.data.current?.sortable?.containerId;
 
     if (active.id !== over!.id) {
-      const activeContainer = active.data.current?.sortable?.containerId;
-      const overContainer = over!.data.current?.sortable?.containerId;
-
-      setItems((taskList) => {
-        const temp = { ...taskList };
-        if (!over) return temp;
-        const oldIdx = temp[activeContainer].findIndex(
-          (task) => task.title === active.id.toString()
+      setItems((items) => {
+        const temp = { ...items };
+        const oldIndex = temp[containerName].findIndex(
+          (item) => item.title === active.id
         );
-        const newIdx = temp[overContainer].findIndex(
-          (task) => task.title === over.id.toString()
+        const newIndex = temp[containerName].findIndex(
+          (item) => item.title === over!.id
         );
-        if (oldIdx !== -1 && newIdx !== -1) {
-          temp[activeContainer] = arrayMove(
-            temp[activeContainer],
-            oldIdx,
-            newIdx
-          );
-        }
+        arrayMove(temp[containerName], oldIndex, newIndex);
         return temp;
       });
     }
   }
-
   // const handleDragOver = (e: DragOverEvent) => {
   //   const { active, over } = e;
   //   if (!over) return;
@@ -149,12 +134,7 @@ export default function Container() {
       // onDragEnd={handleDragEnd}
     >
       {Object.entries(items).map(([column, task]) => (
-        <Column
-          name={column}
-          key={column}
-          task={task.map((t) => t)}
-          // subtask={task.map((item) => item.subtasks)}
-        />
+        <Column name={column} key={column} task={task && task.map((t) => t)} />
       ))}
     </DndContext>
   );
