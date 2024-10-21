@@ -4,7 +4,7 @@ import KanbanSchema from "@/models/kanbanData";
 export async function POST(request: Request) {
   const res = await request.json();
   await dbConnect();
-  //   await KanbanSchema.create(res);
+  await KanbanSchema.create(res);
   console.log(res);
 
   return Response.json(

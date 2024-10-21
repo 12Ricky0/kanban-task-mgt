@@ -25,6 +25,6 @@ const boardSchema = new mongoose.Schema<Board>({
 
 const KanbanSchema =
   mongoose.models.KanbanSchema ||
-  mongoose.model<Board>("UserProduct", boardSchema);
+  mongoose.model<Board>("KanbanTask", boardSchema);
 
 export default KanbanSchema;
