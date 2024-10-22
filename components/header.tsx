@@ -5,11 +5,16 @@ import Popup from "./subtask-card";
 import { KanbanContext } from "@/context";
 import NavBar from "./side-bar";
 import TaskForm from "./modals/task-form";
+import Link from "next/link";
 
 export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false);
-  const { displayMenu, setDisplayMenu, displayTaskForm, setDisplayTaskForm } =
-    useContext(KanbanContext);
+  const {
+    displayMenu,
+    setDisplayMenu,
+    displayTaskForm,
+    setDisplayTaskForm,
+  }: any = useContext(KanbanContext);
 
   return (
     <section>
@@ -33,10 +38,14 @@ export default function Header() {
             />
             {/* <div className="border-r hidden md:block h-[80px]" /> */}
           </div>
-
+          <div className="md:inline-flex hidden gap-2 items-center">
+            <h1 className="text-[18px] md:text-[20px] leading-normal font-bold">
+              Platform Launch
+            </h1>
+          </div>
           <div
             onClick={() => setDisplayMenu(!displayMenu)}
-            className="inline-flex gap-2 items-center"
+            className="inline-flex md:hidden gap-2 items-center"
           >
             <h1 className="text-[18px] md:text-[20px] leading-normal font-bold">
               Platform Launch

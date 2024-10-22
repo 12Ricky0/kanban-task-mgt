@@ -25,9 +25,9 @@ import {
 import { useState } from "react";
 import Column from "./column";
 import TaskCard from "../task-card";
-import { Subtask } from "@/libs/definitions";
+import { Subtask, Board } from "@/libs/definitions";
 
-export default function Container() {
+export default function Container({ data }: { data: Board[] }) {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -41,15 +41,11 @@ export default function Container() {
     })
   );
 
-  const i = data.boards.filter(
-    (board) => board.name === "Platform Launch" && board.columns
-  );
-
   const mainTask: { [key: string]: { title: string; subtasks: Subtask[] }[] } =
-    i[0].columns.reduce((acc: any, column) => {
+    data[0].columns.reduce((acc: any, column) => {
       acc[column.name] = column.tasks.map((task) => ({
         title: task.title,
-        subtasks: task.subtasks, // assuming subtasks is an array
+        subtasks: task.subtasks,
       }));
       return acc;
     }, {});

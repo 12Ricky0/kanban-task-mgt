@@ -10,8 +10,9 @@ import data from "@/data.json";
 import { AddColumnButton } from "@/components/buttons/buttons";
 import Container from "@/components/dnd/container";
 // import BoardForm from "@/components/forms/board";
+import { fetchPlatformLaunch } from "@/libs/data";
 
-export default function Home() {
+export default async function Home() {
   // const mainTask = i[0].columns.map((column) => column.tasks);
   // const tas: { [key: string]: string[] } = i[0].columns.reduce(
   //   (acc, column) => {
@@ -25,6 +26,9 @@ export default function Home() {
   //   {}
   // );
 
+  // let data = await fetchPlatformLaunch("Platform Launch");
+  // let res = await data?.json();
+
   return (
     <main className="">
       <Header />
@@ -32,7 +36,7 @@ export default function Home() {
         <div className="hidden md:block">
           <NavBar />
         </div>
-        <Container />
+        {/* <Container data={res} /> */}
         <AddColumnButton />
       </div>
       {/* <DeleteModal /> */}
