@@ -27,7 +27,7 @@ import Column from "./column";
 import TaskCard from "../task-card";
 import { Subtask, Board } from "@/libs/definitions";
 
-export default function Container({ data }: { data: Board[] }) {
+export default function Container({ data, id }: { data: Board[]; id: string }) {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -55,7 +55,6 @@ export default function Container({ data }: { data: Board[] }) {
 
   function handleDragEnd(event: DragOverEvent) {
     const { active, over } = event;
-    console.log(items);
     const containerName = active.data.current?.sortable?.containerId;
 
     if (active.id !== over!.id) {
@@ -130,7 +129,12 @@ export default function Container({ data }: { data: Board[] }) {
       // onDragEnd={handleDragEnd}
     >
       {Object.entries(items).map(([column, task]) => (
-        <Column name={column} key={column} task={task && task.map((t) => t)} />
+        <Column
+          id={id}
+          name={column}
+          key={column}
+          task={task && task.map((t) => t)}
+        />
       ))}
     </DndContext>
   );

@@ -9,9 +9,11 @@ import { Subtask, Task } from "@/libs/definitions";
 
 export default function Column({
   task,
+  id,
   name,
 }: {
   task: Task[];
+  id: string;
   name: string;
   // subtask: Subtask[];
 }) {
@@ -41,7 +43,13 @@ export default function Column({
         <ul ref={setNodeRef} className="">
           {task.map((d) => (
             <div key={d.title} className="mb-5">
-              <TaskCard subtask={d.subtasks} title={d.title} id={d.title} />
+              <TaskCard
+                dataID={id}
+                slug={name}
+                subtask={d.subtasks}
+                title={d.title}
+                id={d.title}
+              />
             </div>
           ))}
         </ul>

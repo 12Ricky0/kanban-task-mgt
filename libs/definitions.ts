@@ -16,7 +16,7 @@ export interface Tasks {
 
 export interface Column {
   name: string;
-  tasks: Task[];
+  tasks: Tasks[];
 }
 
 export interface Board {

@@ -8,7 +8,7 @@ const subTaskSchema = new mongoose.Schema({
 
 const taskSchema = new mongoose.Schema({
   title: String,
-  describe: String,
+  description: String,
   status: String,
   subtasks: [subTaskSchema],
 });
@@ -23,8 +23,7 @@ const boardSchema = new mongoose.Schema<Board>({
   columns: [columnSchema],
 });
 
-const KanbanSchema =
-  mongoose.models.KanbanSchema ||
-  mongoose.model<Board>("KanbanTask", boardSchema);
+const Kanban =
+  mongoose.models.Kanban || mongoose.model<Board>("Kanban", boardSchema);
 
-export default KanbanSchema;
+export default Kanban;

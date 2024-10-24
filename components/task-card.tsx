@@ -3,13 +3,18 @@ import { UniqueIdentifier, useDraggable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Subtask, Tasks } from "@/libs/definitions";
-import Details from "./modals/task-details";
+import Link from "next/link";
+
 export default function TaskCard({
   title,
+  dataID,
+  slug,
   id,
   subtask,
 }: {
   title: string;
+  slug: string;
+  dataID: string;
   id: UniqueIdentifier;
   subtask: Subtask[];
 }) {
@@ -31,16 +36,17 @@ export default function TaskCard({
         {...listeners}
         className="w-[280px] rounded-lg bg-white py-[23px]"
       >
-        <article className="px-4">
-          <h1 className="font-bold text-primary-dark text-[15px] mb-2">
-            {title}
-          </h1>
-          <p className="mb-4 text-[13px] text-secondary-gray font-bold">
-            {completed} of {subtask.length} subtasks
-          </p>
-        </article>
+        <Link href={`/details/${dataID}/${slug}/${title}`}>
+          <article className="px-4">
+            <h1 className="font-bold text-primary-dark text-[15px] mb-2">
+              {title}
+            </h1>
+            <p className="mb-4 text-[13px] text-secondary-gray font-bold">
+              {completed} of {subtask.length} subtasks
+            </p>
+          </article>
+        </Link>
       </section>
-      {/* <Details /> */}
     </div>
   );
 }
