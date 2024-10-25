@@ -1,29 +1,50 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import Link from "next/link";
+import { Board } from "@/libs/definitions";
+import { KanbanContext } from "@/context";
 
-export default function NavBar() {
+export default function NavBar({ boards }: { boards: Board[] }) {
   const [displaySidebar, setDisplaySidebar] = useState(true);
+  const { userboard, setUserBoard }: any = useContext(KanbanContext);
+
   return displaySidebar ? (
     <nav className="bg-white rounded-lg mt-4 w-[80%] md:flex flex-col justify-between md:w-[260px] md:mx-0 md:rounded-none md:mt-0 md:h-full mx-auto pb-4">
       <div>
         <h1 className="text-[12px] text-secondary-gray font-bold tracking-[2.4px] mb-[19px] mx-6 pt-4">
-          ALL BOARDS (3)
+          ALL BOARDS ({boards?.length})
         </h1>
-        <ul className="cursor-pointer ">
-          <li className="bg-primary-violet h-12 flex items-center mr-6 rounded-r-full">
-            <Image
-              src="/assets/icon-board.svg"
-              alt="board"
-              width={16}
-              height={16}
-              className="inline-block mr-3 ml-6"
-            />
-            <span className="text-white text-[15px] font-bold">
-              Platform Launch
-            </span>
-          </li>
-          <li className="hover:bg-secondary-light-blue h-12 flex items-center mr-6 rounded-r-full">
+        <ul className="cursor-pointer flex flex-col gap">
+          {boards?.map((board) => (
+            <li
+              onClick={() => setUserBoard({ name: board.name })}
+              key={board.name}
+              className={` group  ${
+                userboard.name == board.name
+                  ? "bg-primary-violet"
+                  : "hover:bg-secondary-light-blue"
+              } h-12 flex items-center mr-6 rounded-r-full  `}
+            >
+              <Image
+                src="/assets/icon-board.svg"
+                alt="board"
+                width={16}
+                height={16}
+                className="inline-block mr-3 ml-6"
+              />
+              <span
+                className={` ${
+                  userboard.name == board.name
+                    ? "text-white"
+                    : "text-[#828FA3] group-hover:text-primary-violet"
+                } text-[15px] font-bold `}
+              >
+                {board.name}
+              </span>
+            </li>
+          ))}
+          {/* <li className="hover:bg-secondary-light-blue h-12 flex items-center mr-6 rounded-r-full">
             <Image
               src="/assets/icon-board.svg"
               alt="board"
@@ -46,7 +67,7 @@ export default function NavBar() {
             <span className="text-secondary-gray text-[15px] font-bold">
               Roadmap
             </span>
-          </li>
+          </li> */}
           <li className=" h-12 flex items-center mr-6 rounded-r-full">
             <Image
               src="/assets/icon-board.svg"
@@ -55,9 +76,11 @@ export default function NavBar() {
               height={16}
               className="inline-block mr-3 ml-6"
             />
-            <span className="text-primary-violet text-[15px] font-bold">
-              + Create New Board
-            </span>
+            <Link href="/createboard">
+              <span className="text-primary-violet text-[15px] font-bold">
+                + Create New Board
+              </span>
+            </Link>
           </li>
         </ul>
       </div>

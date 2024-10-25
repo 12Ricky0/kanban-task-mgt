@@ -10,7 +10,7 @@ import data from "@/data.json";
 import { AddColumnButton } from "@/components/buttons/buttons";
 import Container from "@/components/dnd/container";
 // import BoardForm from "@/components/forms/board";
-import { fetchPlatformLaunch, fetchTaskDetails } from "@/libs/data";
+import { fetchAllTask, fetchTaskDetails } from "@/libs/data";
 
 export default async function Home() {
   // const mainTask = i[0].columns.map((column) => column.tasks);
@@ -26,16 +26,17 @@ export default async function Home() {
   //   {}
   // );
 
-  let data = await fetchPlatformLaunch("Platform Launch");
+  let data = await fetchAllTask();
   let res = await data?.json();
+  // console.log(res);
   return (
     <main className="">
       <Header />
       <div className="flex gap-6 overflow-scroll">
         <div className="hidden md:block">
-          <NavBar />
+          <NavBar boards={res} />
         </div>
-        <Container id={res[0]._id} data={res} />
+        <Container data={res} />
         <AddColumnButton />
       </div>
       {/* <DeleteModal /> */}

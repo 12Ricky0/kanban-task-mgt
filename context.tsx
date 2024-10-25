@@ -2,6 +2,7 @@
 
 import { createContext, useState } from "react";
 export const KanbanContext = createContext({});
+import { Board } from "./libs/definitions";
 
 export default function KanbanProvider({
   children,
@@ -10,6 +11,7 @@ export default function KanbanProvider({
 }) {
   const [displayMenu, setDisplayMenu] = useState(false);
   const [displayTaskForm, setDisplayTaskForm] = useState(false);
+  const [userboard, setUserBoard] = useState({ name: "Platform Launch" });
   return (
     <KanbanContext.Provider
       value={{
@@ -17,6 +19,8 @@ export default function KanbanProvider({
         setDisplayMenu,
         displayTaskForm,
         setDisplayTaskForm,
+        userboard,
+        setUserBoard,
       }}
     >
       {children}

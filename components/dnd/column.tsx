@@ -9,23 +9,28 @@ import { Subtask, Task } from "@/libs/definitions";
 
 export default function Column({
   task,
-  id,
+  index,
   name,
 }: {
   task: Task[];
-  id: string;
+  index: string;
   name: string;
   // subtask: Subtask[];
 }) {
-  function color(name: string) {
-    switch (name) {
-      case "Todo":
+  function color(index: string) {
+    switch (index) {
+      case "0":
         return "bg-[#49C4E5]";
-      case "Doing":
+      case "1":
         return "bg-[#8471F2]";
-      case "Done":
+      case "2":
         return "bg-[#67E2AE]";
-
+      case "3":
+        return "bg-red";
+      case "4":
+        return "bg-[#FB7813]";
+      case "5":
+        return "bg-[#FFF455]";
       default:
         return "bg-red";
     }
@@ -34,8 +39,8 @@ export default function Column({
   return (
     <article className="min-h-full">
       <div className="inline-flex flex-row items-center gap-3">
-        <div className={`size-[15px] rounded-full ${color(name)}`} />
-        <h1 className="my-6 text-secondary-gray text-[12px] tracking-[2.4px] font-bold leading-normal">
+        <div className={`size-[15px] rounded-full ${color(index)}`} />
+        <h1 className="my-6 mr-[100px] text-secondary-gray text-[12px] tracking-[2.4px] font-bold leading-normal">
           {name.toLocaleUpperCase()} ({task.length})
         </h1>
       </div>
@@ -44,7 +49,6 @@ export default function Column({
           {task.map((d) => (
             <div key={d.title} className="mb-5">
               <TaskCard
-                dataID={id}
                 slug={name}
                 subtask={d.subtasks}
                 title={d.title}

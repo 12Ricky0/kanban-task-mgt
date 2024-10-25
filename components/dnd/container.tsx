@@ -1,6 +1,5 @@
 "use client";
 
-import data from "@/data.json";
 import {
   DndContext,
   closestCenter,
@@ -22,12 +21,37 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { KanbanContext } from "@/context";
 import Column from "./column";
 import TaskCard from "../task-card";
 import { Subtask, Board } from "@/libs/definitions";
 
-export default function Container({ data, id }: { data: Board[]; id: string }) {
+export default function Container({ data }: { data: Board[] }) {
+  const { userboard }: any = useContext(KanbanContext);
+  const [results, setResults] = useState();
+  const [items, setItems] = useState<{
+    [key: string]: { title: string; subtasks: Subtask[] }[];
+  }>({});
+
+  useEffect(() => {
+    const filteredResults = data.filter((d) => d.name === userboard.name);
+    const mainTask: {
+      [key: string]: { title: string; subtasks: Subtask[] }[];
+    } =
+      filteredResults.length > 0
+        ? filteredResults[0].columns.reduce((acc: any, column) => {
+            acc[column.name] = column.tasks.map((task) => ({
+              title: task.title,
+              subtasks: task.subtasks,
+            }));
+            return acc;
+          }, {})
+        : {};
+
+    setItems(mainTask);
+  }, [userboard, data]);
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -41,18 +65,7 @@ export default function Container({ data, id }: { data: Board[]; id: string }) {
     })
   );
 
-  const mainTask: { [key: string]: { title: string; subtasks: Subtask[] }[] } =
-    data[0].columns.reduce((acc: any, column) => {
-      acc[column.name] = column.tasks.map((task) => ({
-        title: task.title,
-        subtasks: task.subtasks,
-      }));
-      return acc;
-    }, {});
-
-  const [items, setItems] = useState(mainTask || {});
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-
   function handleDragEnd(event: DragOverEvent) {
     const { active, over } = event;
     const containerName = active.data.current?.sortable?.containerId;
@@ -117,7 +130,6 @@ export default function Container({ data, id }: { data: Board[]; id: string }) {
   //     return temp;
   //   });
   // };
-
   return (
     <DndContext
       onDragEnd={handleDragEnd}
@@ -130,7 +142,7 @@ export default function Container({ data, id }: { data: Board[]; id: string }) {
     >
       {Object.entries(items).map(([column, task]) => (
         <Column
-          id={id}
+          index={Object.keys(items).indexOf(column).toString()}
           name={column}
           key={column}
           task={task && task.map((t) => t)}

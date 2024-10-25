@@ -13,7 +13,6 @@ export default function Details({ data }: { data: Tasks }) {
   const completed = data.subtasks.filter(
     (task) => task.isCompleted === true
   ).length;
-
   return (
     <Overlay>
       <section className="bg-white md:w-[480px] rounded-lg mx-4 pt-6 pb-8">

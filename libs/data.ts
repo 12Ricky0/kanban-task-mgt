@@ -2,10 +2,10 @@
 import { dbConnect } from "./dbConnect";
 import Kanban from "@/models/kanbanData";
 
-export async function fetchPlatformLaunch(name: string) {
+export async function fetchAllTask() {
   try {
     await dbConnect();
-    const res = await Kanban.find({ name: name });
+    const res = await Kanban.find();
     return Response.json(res);
   } catch (error) {
     console.error(error);
@@ -18,7 +18,7 @@ export async function fetchTaskDetails(id: string) {
   try {
     await dbConnect();
     const res = await Kanban.findOne({
-      _id: id,
+      name: id,
     });
 
     return Response.json(res);
