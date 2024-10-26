@@ -1,18 +1,47 @@
 "use client";
 import { Subtask } from "@/libs/definitions";
-import { ReactEventHandler, useState } from "react";
-export default function Popup({ className }: { className?: string }) {
+import { useState, useContext } from "react";
+import DeleteModal from "./modals/delete";
+import { Overlay } from "./overlay";
+import { KanbanContext } from "@/context";
+export default function Popup({
+  className,
+  type,
+}: {
+  className?: string;
+  type: string;
+}) {
+  // const [showDelete, setShowDelete] = useState(false);
+  const {
+    showDelete,
+    setShowDelete,
+    setShowActionButtons,
+    showActionButtons,
+  }: any = useContext(KanbanContext);
+
   return (
-    <section
-      className={`${className} absolute bg-white w-[192px] right-5 md:right-0 rounded-lg shadow-lg justify-end mt-5 py-4`}
-    >
-      <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
-        Edit Board
-      </button>
-      <button className="ml-4 text-[13px] font-medium text-tetiary-red">
-        Delete Board
-      </button>
-    </section>
+    <>
+      <section
+        className={`${className} absolute bg-white w-[192px] right-5 md:right-0 rounded-lg shadow-lg justify-end mt-5 py-4`}
+      >
+        <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
+          Edit Board
+        </button>
+        <button
+          onClick={() => {
+            setShowDelete(!showDelete);
+          }}
+          className="ml-4 text-[13px] font-medium text-tetiary-red"
+        >
+          Delete Board
+        </button>
+      </section>
+      {showDelete && (
+        <Overlay>
+          <DeleteModal title={type} type={type} />
+        </Overlay>
+      )}
+    </>
   );
 }
 

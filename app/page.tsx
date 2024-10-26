@@ -31,8 +31,8 @@ export default async function Home() {
   // console.log(res);
   return (
     <main className="">
-      <Header />
-      <div className="flex gap-6 overflow-scroll">
+      <Header boards={res} />
+      <div className="flex gap-6 pl-6 md:pl-0 overflow-scroll">
         <div className="hidden md:block">
           <NavBar boards={res} />
         </div>

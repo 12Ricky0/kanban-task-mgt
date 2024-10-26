@@ -12,6 +12,9 @@ export default function KanbanProvider({
   const [displayMenu, setDisplayMenu] = useState(false);
   const [displayTaskForm, setDisplayTaskForm] = useState(false);
   const [userboard, setUserBoard] = useState({ name: "Platform Launch" });
+  const [showDelete, setShowDelete] = useState(false);
+  const [showActionButtons, setShowActionButtons] = useState(false);
+
   return (
     <KanbanContext.Provider
       value={{
@@ -21,6 +24,10 @@ export default function KanbanProvider({
         setDisplayTaskForm,
         userboard,
         setUserBoard,
+        showDelete,
+        setShowDelete,
+        showActionButtons,
+        setShowActionButtons,
       }}
     >
       {children}

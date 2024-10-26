@@ -33,7 +33,7 @@ export default function Status({ defautValue }: { defautValue?: string }) {
       </div>
 
       {displayOptions && (
-        <ul className="bg-white rounded-lg cursor-pointer py-4 last:mb-0 absolute mt-[10px] w-[80%] md:w-[430px] shadow-lg">
+        <ul className="bg-white rounded-lg cursor-pointer py-4 last:mb-0 absolute mt-[10px] w-[50%] md:w-[430px] shadow-lg">
           {options.map((option) => (
             <li
               onClick={() => setTask(option)}

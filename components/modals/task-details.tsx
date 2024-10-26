@@ -8,17 +8,26 @@ import { useState } from "react";
 import { Tasks } from "@/libs/definitions";
 import { Board } from "@/libs/definitions";
 import Popup from "../subtask-card";
+import DeleteModal from "./delete";
+import { deleteModel } from "mongoose";
+import { useRouter } from "next/navigation";
 export default function Details({ data }: { data: Tasks }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const completed = data.subtasks.filter(
     (task) => task.isCompleted === true
   ).length;
+
   return (
     <Overlay>
-      <section className="bg-white md:w-[480px] rounded-lg mx-4 pt-6 pb-8">
+      <section
+        className={`bg-white md:w-[480px] rounded-lg mx-4 pt-6 pb-8 ${
+          showDeleteModal ? "hidden" : "block"
+        }`}
+      >
         <article className="mx-6">
           <div>
-            <div className="flex items-center gap-6 mb-6">
+            <div className="flex justify-between items-center gap-6 mb-6">
               <h1 className="font-bold text-primary-dark md:text-[20px]">
                 {data.title}
               </h1>
@@ -37,10 +46,16 @@ export default function Details({ data }: { data: Tasks }) {
                 className={` absolute bg-white w-[192px] md:translate-x-[350px] translate-x-28 rounded-lg shadow-lg justify-end -translate-y-[32px] py-4`}
               >
                 <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
-                  Edit Board
+                  Edit Task
                 </button>
-                <button className="ml-4 text-[13px] font-medium text-tetiary-red">
-                  Delete Board
+                <button
+                  onClick={() => {
+                    setShowDeleteModal(!deleteModel);
+                    setShowDropdown(!showDropdown);
+                  }}
+                  className="ml-4 text-[13px] font-medium text-tetiary-red"
+                >
+                  Delete Task
                 </button>
               </section>
             )}{" "}
@@ -64,6 +79,7 @@ export default function Details({ data }: { data: Tasks }) {
           </div>
         </article>
       </section>
+      {showDeleteModal && <DeleteModal type="Task" title={data.title} />}
     </Overlay>
   );
 }
