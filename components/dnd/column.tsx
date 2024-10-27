@@ -26,20 +26,21 @@ export default function Column({
       case "2":
         return "bg-[#67E2AE]";
       case "3":
-        return "bg-red";
+        return "bg-red-500";
       case "4":
         return "bg-[#FB7813]";
       case "5":
         return "bg-[#FFF455]";
       default:
-        return "bg-red";
+        return "bg-red-500";
     }
   }
+
   const { setNodeRef } = useDroppable({ id: name });
   return (
     <article className="min-h-full">
       <div className="inline-flex flex-row items-center gap-3">
-        <div className={`size-[15px] rounded-full ${color(index)}`} />
+        <div className={`size-[15px] rounded-full bg-red ${color(index)}`} />
         <h1 className="my-6 mr-[100px] text-secondary-gray text-[12px] tracking-[2.4px] font-bold leading-normal">
           {name.toLocaleUpperCase()} ({task.length})
         </h1>

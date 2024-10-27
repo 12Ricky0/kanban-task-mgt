@@ -1,9 +1,10 @@
 "use client";
 import { Overlay } from "../overlay";
-import { useState } from "react";
+import { useState, useActionState } from "react";
 import SubtaskForm from "./subtask";
 import Image from "next/image";
 import { BoardColumns } from "./subtask";
+import { createBoard } from "@/libs/actions";
 export default function BoardForm() {
   // const [columns, setColumns] = useState<JSX.Element[]>([]);
 
@@ -23,6 +24,8 @@ export default function BoardForm() {
     setColumns((prev) => [...prev, { id: prev.length, name: "New" }]);
   }
 
+  const [state, formAction] = useActionState(createBoard, null);
+
   return (
     <Overlay>
       <section className="bg-white mx-4 w-full md:w-[480px] rounded-lg z-10">
@@ -30,7 +33,7 @@ export default function BoardForm() {
           Add New Board
         </h1>
 
-        <form action="" className="mx-6">
+        <form action={formAction} className="mx-6">
           <div className="flex flex-col">
             <label
               className="mb-2 text-[13px] text-secondary-gray font-bold"
@@ -41,10 +44,17 @@ export default function BoardForm() {
             <input
               type="text"
               id="title"
-              name="title"
+              name="board-title"
               placeholder="e.g. Web Design"
               className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
+            {state?.errors.name && (
+              <div className="">
+                <p className="text-[13px] md:text-[14px] text-tetiary-red">
+                  {state.errors.name}
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="mt-6">

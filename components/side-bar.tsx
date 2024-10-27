@@ -8,6 +8,7 @@ import { KanbanContext } from "@/context";
 export default function NavBar({ boards }: { boards: Board[] }) {
   const [displaySidebar, setDisplaySidebar] = useState(true);
   const { userboard, setUserBoard }: any = useContext(KanbanContext);
+  // console.log(userboard);
 
   return displaySidebar ? (
     <nav className="bg-white rounded-lg mt-4 w-[80%] md:flex flex-col  justify-between md:w-[260px] md:mx-0 md:rounded-none md:mt-0 md:h-full mx-auto pb-4">
@@ -18,7 +19,7 @@ export default function NavBar({ boards }: { boards: Board[] }) {
         <ul className="cursor-pointer flex flex-col gap">
           {boards?.map((board) => (
             <li
-              onClick={() => setUserBoard({ name: board.name })}
+              onClick={() => setUserBoard({ name: board.name, id: board._id })}
               key={board.name}
               className={` group  ${
                 userboard.name == board.name

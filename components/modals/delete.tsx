@@ -2,13 +2,16 @@
 import { Overlay } from "../overlay";
 import { useContext } from "react";
 import { KanbanContext } from "@/context";
+import { deleteBoard } from "@/libs/actions";
 
 export default function DeleteModal({
   title,
   type,
+  id,
 }: {
   title: string;
   type: string;
+  id?: string;
 }) {
   const { setShowDelete, setShowActionButtons }: any =
     useContext(KanbanContext);
@@ -28,7 +31,14 @@ export default function DeleteModal({
           </p>
 
           <div className="md:flex gap-4">
-            <button className="block mb-4 text-white hover:bg-tetiary-light-red leading-[23p] h-10 font-bold text-[13px] bg-tetiary-red w-[100%] rounded-full">
+            <button
+              onClick={() => {
+                deleteBoard(id!);
+                setShowDelete(false);
+                setShowActionButtons(false);
+              }}
+              className="block mb-4 text-white hover:bg-tetiary-light-red leading-[23p] h-10 font-bold text-[13px] bg-tetiary-red w-[100%] rounded-full"
+            >
               Delete
             </button>
             <button

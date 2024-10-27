@@ -43,8 +43,8 @@ export function BoardColumns({
     <section className="flex gap-4 items-center mb-3">
       <input
         type="text"
-        id="subtask"
-        name="subtask"
+        id="column"
+        name="column"
         placeholder="e.g. Make coffee"
         defaultValue={name}
         className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"

@@ -88,7 +88,9 @@ export default function Header({ boards }: { boards: Board[] }) {
               onClick={() => setShowActionButtons(!showActionButtons)}
             />
           </div>
-          {showActionButtons && <Popup type={userboard.name} />}
+          {showActionButtons && (
+            <Popup type={userboard.name} id={userboard.id} />
+          )}
         </div>
       </header>
       {displayMenu && (

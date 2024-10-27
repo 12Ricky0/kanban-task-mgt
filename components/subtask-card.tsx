@@ -7,9 +7,11 @@ import { KanbanContext } from "@/context";
 export default function Popup({
   className,
   type,
+  id,
 }: {
   className?: string;
   type: string;
+  id: string;
 }) {
   // const [showDelete, setShowDelete] = useState(false);
   const {
@@ -38,7 +40,7 @@ export default function Popup({
       </section>
       {showDelete && (
         <Overlay>
-          <DeleteModal title={type} type={type} />
+          <DeleteModal id={id} title={type} type={type} />
         </Overlay>
       )}
     </>
