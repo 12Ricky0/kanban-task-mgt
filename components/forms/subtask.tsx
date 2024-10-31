@@ -35,9 +35,11 @@ export default function SubtaskForm({
 export function BoardColumns({
   name,
   onDelete,
+  inputRef,
 }: {
   name: string;
   onDelete: () => void;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }) {
   return (
     <section className="flex gap-4 items-center mb-3">
@@ -45,6 +47,7 @@ export function BoardColumns({
         type="text"
         id="column"
         name="column"
+        ref={inputRef}
         placeholder="e.g. Make coffee"
         defaultValue={name}
         className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"

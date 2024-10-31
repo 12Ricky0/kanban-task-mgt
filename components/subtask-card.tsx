@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import DeleteModal from "./modals/delete";
 import { Overlay } from "./overlay";
 import { KanbanContext } from "@/context";
+import Link from "next/link";
 export default function Popup({
   className,
   type,
@@ -17,6 +18,7 @@ export default function Popup({
   const {
     showDelete,
     setShowDelete,
+    userboard,
     setShowActionButtons,
     showActionButtons,
   }: any = useContext(KanbanContext);
@@ -27,7 +29,7 @@ export default function Popup({
         className={`${className} absolute bg-white w-[192px] right-5 md:right-0 rounded-lg shadow-lg justify-end mt-5 py-4`}
       >
         <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
-          Edit Board
+          <Link href={`/editboard/${userboard.id}`}>Edit Board</Link>
         </button>
         <button
           onClick={() => {

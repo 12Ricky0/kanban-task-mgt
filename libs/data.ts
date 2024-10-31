@@ -26,3 +26,15 @@ export async function fetchTaskDetails(id: string) {
     console.error(error);
   }
 }
+export async function fetchTaskDetailsById(id: string) {
+  try {
+    await dbConnect();
+    const res = await Kanban.findOne({
+      _id: id,
+    });
+
+    return Response.json(res);
+  } catch (error) {
+    console.error(error);
+  }
+}
