@@ -3,8 +3,8 @@ import { z } from "zod";
 import Kanban from "@/models/kanbanData";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Board } from "./definitions";
-import { columns, board } from "./definitions";
+import { Column } from "./definitions";
+import { columns, board, subTask, tasks } from "./definitions";
 
 export async function createBoard(prevState: any, formData: FormData) {
   const columnNames = formData.getAll("column");
@@ -77,4 +77,47 @@ export async function deleteBoard(id: string) {
   } catch (error) {}
   revalidatePath("/");
   redirect("/");
+}
+
+export async function createTask(
+  id: string,
+  prevState: any,
+  formData: FormData
+) {
+  const rawFormData = Object.fromEntries(formData.entries());
+  const subtasks = formData.getAll("subtask");
+  const status = formData.get("status");
+
+  const subtask = subtasks.map((name) => ({
+    title: name,
+    isCompleted: false,
+  }));
+
+  const validateSubtask = z.array(subTask).safeParse(subtask);
+
+  const validateTask = tasks.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+    status: status,
+    subtasks: validateSubtask.data,
+  });
+
+  if (!validateTask.success) {
+    return {
+      errors: validateTask.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create Board.",
+    };
+  }
+
+  try {
+    const doc = await Kanban.findById(id);
+
+    const res = doc.columns.find((c: Column) => c.name === status);
+    res.tasks.push(validateTask.data);
+    await doc.save();
+  } catch (error) {}
+  revalidatePath("/");
+  redirect("/");
+
+  // console.log(id);
 }

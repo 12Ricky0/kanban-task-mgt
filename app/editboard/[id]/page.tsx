@@ -1,5 +1,5 @@
 import { fetchTaskDetailsById } from "@/libs/data";
-import EditBoardForm from "@/components/forms/editBoard";
+import EditBoardForm from "@/components/forms/editboard";
 export default async function Edit_Board({
   params,
 }: {

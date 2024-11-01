@@ -27,16 +27,16 @@ export interface Board {
   columns: Column[];
 }
 
-export const subArray = z.object({
+export const subTask = z.object({
   title: z.string({}),
   isCompleted: z.boolean(),
 });
 
 export const tasks = z.object({
-  title: z.string({}),
+  title: z.string({}).min(1, { message: "Can`t be empty" }),
   description: z.string(),
-  status: z.string(),
-  subtasks: z.array(subArray),
+  status: z.string().min(1, { message: "Select status" }),
+  subtasks: z.array(subTask),
 });
 
 export const columns = z

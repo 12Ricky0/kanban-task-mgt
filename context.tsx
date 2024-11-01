@@ -11,7 +11,6 @@ export default function KanbanProvider({
   children: React.ReactNode;
 }) {
   const [displayMenu, setDisplayMenu] = useState(false);
-  const [displayTaskForm, setDisplayTaskForm] = useState(false);
   const [userboard, setUserBoard] = useState({ name: "", id: "" });
   const [showDelete, setShowDelete] = useState(false);
   const [showActionButtons, setShowActionButtons] = useState(false);
@@ -30,8 +29,6 @@ export default function KanbanProvider({
       value={{
         displayMenu,
         setDisplayMenu,
-        displayTaskForm,
-        setDisplayTaskForm,
         userboard,
         setUserBoard,
         showDelete,

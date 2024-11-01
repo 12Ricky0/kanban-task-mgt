@@ -12,8 +12,6 @@ export default function Header({ boards }: { boards: Board[] }) {
   const {
     displayMenu,
     setDisplayMenu,
-    displayTaskForm,
-    setDisplayTaskForm,
     userboard,
     showActionButtons,
     setShowActionButtons,
@@ -64,21 +62,20 @@ export default function Header({ boards }: { boards: Board[] }) {
 
         <div>
           <div className="inline-flex items-center mr-4 md:mr-6 gap-4 md:gap-6">
-            <div
-              onClick={() => setDisplayTaskForm(!displayTaskForm)}
-              className="bg-primary-violet w-12 h-8 md:h-auto md:w-auto md:py-[15px] cursor-pointer  md:px-6 rounded-3xl flex items-center justify-center"
-            >
-              <Image
-                src="/assets/icon-add-task-mobile.svg"
-                alt="add-task"
-                width={12}
-                height={12}
-                className="inline-block md:hidden"
-              />
-              <span className="text-white hidden md:block text-[15px] font-semibold">
-                + Add New Task
-              </span>
-            </div>
+            <Link href={`/createtask/${userboard.id}`}>
+              <div className="bg-primary-violet w-12 h-8 md:h-auto md:w-auto md:py-[15px] cursor-pointer  md:px-6 rounded-3xl flex items-center justify-center">
+                <Image
+                  src="/assets/icon-add-task-mobile.svg"
+                  alt="add-task"
+                  width={12}
+                  height={12}
+                  className="inline-block md:hidden"
+                />
+                <span className="text-white hidden md:block text-[15px] font-semibold">
+                  + Add New Task
+                </span>
+              </div>
+            </Link>
             <Image
               src="/assets/icon-vertical-ellipsis.svg"
               alt="vertical-ellipsis"
@@ -96,11 +93,6 @@ export default function Header({ boards }: { boards: Board[] }) {
       {displayMenu && (
         <div className="absolute w-full">
           <NavBar boards={boards} />
-        </div>
-      )}
-      {displayTaskForm && (
-        <div className="absolute w-full">
-          <TaskForm />
         </div>
       )}
     </section>

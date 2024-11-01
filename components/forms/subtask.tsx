@@ -1,5 +1,6 @@
+"use client";
 import Image from "next/image";
-import { ReactEventHandler } from "react";
+import { useEffect, useState } from "react";
 
 export default function SubtaskForm({
   index,
@@ -11,12 +12,20 @@ export default function SubtaskForm({
   function handleDelete() {
     onDelete(index);
   }
+
+  const [subtask, setSubtask] = useState("");
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setSubtask(e.target.value);
+  }
   return (
     <div className="flex gap-4 items-center mb-3">
       <input
         type="text"
         id="subtask"
         name="subtask"
+        // onChange={handleChange}
+        defaultValue=""
         placeholder="e.g. Make coffee"
         className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
       />

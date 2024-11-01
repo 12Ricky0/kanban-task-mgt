@@ -2,25 +2,32 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export default function Status({ defautValue }: { defautValue?: string }) {
-  const options = ["Todo", "Doing", "Done"];
+export default function Status({
+  defautValue,
+  options,
+}: {
+  defautValue?: string;
+  options: string[];
+}) {
+  // const options = ["Todo", "Doing", "Done"];
 
   const [displayOptions, setDisplayOptions] = useState(false);
 
   const [task, setTask] = useState(defautValue);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    setTask(e.target.value);
-  }
+  // function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
+  //   setTask(e.target.value);
+  // }
 
   return (
     <div onClick={() => setDisplayOptions(!displayOptions)}>
       <div className="w-full border border-secondary-gray hover:border-primary-violet cursor-pointer border-opacity-25 rounded-lg font-medium text-[13px] px-4 py-2 flex justify-between items-center">
         <input
-          onChange={handleChange}
+          // onChange={handleChange}
           type="text"
+          name="status"
           readOnly
-          value={task}
+          defaultValue={task}
           className="border-0 focus:outline-none"
         />
         <Image

@@ -6,14 +6,14 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 export function Overlay({ children }: { children: ReactNode }) {
-  const { setDisplayTaskForm }: any = useContext(KanbanContext);
+  // const { setDisplayTaskForm }: any = useContext(KanbanContext);
   const router = useRouter();
   const pathname = decodeURIComponent(usePathname());
   function handleClick(e: React.MouseEvent) {
     if (e.target === e.currentTarget) {
-      setDisplayTaskForm(false);
+      // setDisplayTaskForm(false);
 
-      if (pathname.includes("details") || pathname.includes("createboard")) {
+      if (pathname.includes("details") || pathname.includes("create")) {
         router.back();
       }
     }

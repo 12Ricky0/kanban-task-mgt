@@ -30,7 +30,6 @@ export default function EditBoardForm({
   }
   const payload = updateBoard.bind(null, id);
   const [state, formAction] = useActionState(payload, null);
-  console.log(board);
   return (
     <Overlay>
       <section className="bg-white mx-4 w-full md:w-[480px] rounded-lg z-10">
@@ -54,13 +53,13 @@ export default function EditBoardForm({
               placeholder="e.g. Web Design"
               className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
-            {/* {state?.errors.name && (
+            {state?.errors.name && (
               <div className="">
                 <p className="text-[13px] md:text-[14px] text-tetiary-red">
                   {state.errors.name}
                 </p>
               </div>
-            )} */}
+            )}
           </div>
 
           <div className="mt-6">

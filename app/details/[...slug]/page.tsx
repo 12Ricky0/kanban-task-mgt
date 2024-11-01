@@ -16,6 +16,7 @@ export default async function TaskDetails({
   const response = await res?.json();
   let data = response.columns.find((column: Column) => column.name === name);
   data = data.tasks.find((task: Tasks) => task.title === title);
+  const columnNames = response.columns.map((column: Column) => column.name);
 
-  return <Details data={data} />;
+  return <Details options={columnNames} data={data} />;
 }

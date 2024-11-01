@@ -11,7 +11,13 @@ import Popup from "../subtask-card";
 import DeleteModal from "./delete";
 import { deleteModel } from "mongoose";
 import { useRouter } from "next/navigation";
-export default function Details({ data }: { data: Tasks }) {
+export default function Details({
+  data,
+  options,
+}: {
+  data: Tasks;
+  options: string[];
+}) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const completed = data.subtasks.filter(
@@ -75,7 +81,7 @@ export default function Details({ data }: { data: Tasks }) {
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
               Current Status
             </h1>
-            <Status defautValue={data.status} />
+            <Status options={options} defautValue={data.status} />
           </div>
         </article>
       </section>
