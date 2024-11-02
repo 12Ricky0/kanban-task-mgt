@@ -5,7 +5,8 @@ export default async function Edit_Board({
 }: {
   params: { id: string };
 }) {
-  const id = decodeURIComponent(params.id);
+  const s = await params;
+  const id = decodeURIComponent(s.id);
   let req = await fetchTaskDetailsById(id);
   const response = await req?.json();
   return <EditBoardForm id={id} board={response} />;

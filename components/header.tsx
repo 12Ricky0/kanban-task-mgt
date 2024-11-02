@@ -4,7 +4,7 @@ import { useContext } from "react";
 import Popup from "./subtask-card";
 import { KanbanContext } from "@/context";
 import NavBar from "./side-bar";
-import TaskForm from "./modals/task-form";
+import TaskForm from "./forms/task-form";
 import Link from "next/link";
 import { Board } from "@/libs/definitions";
 

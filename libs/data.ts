@@ -14,18 +14,18 @@ export async function fetchAllTask() {
   }
 }
 
-export async function fetchTaskDetails(id: string) {
-  try {
-    await dbConnect();
-    const res = await Kanban.findOne({
-      name: id,
-    });
+// export async function fetchTaskDetails(id: string) {
+//   try {
+//     await dbConnect();
+//     const res = await Kanban.findOne({
+//       name: id,
+//     });
 
-    return Response.json(res);
-  } catch (error) {
-    console.error(error);
-  }
-}
+//     return Response.json(res);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 export async function fetchTaskDetailsById(id: string) {
   try {
     await dbConnect();

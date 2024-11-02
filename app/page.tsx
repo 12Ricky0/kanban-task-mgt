@@ -3,7 +3,7 @@ import Header from "@/components/header";
 import NavBar from "@/components/side-bar";
 import Column from "@/components/dnd/column";
 import DeleteModal from "@/components/modals/delete";
-import TaskForm from "@/components/modals/task-form";
+import TaskForm from "@/components/forms/task-form";
 import Details from "@/components/modals/task-details";
 import TaskCard from "@/components/task-card";
 import data from "@/data.json";

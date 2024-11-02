@@ -10,13 +10,18 @@ import { Board } from "@/libs/definitions";
 import Popup from "../subtask-card";
 import DeleteModal from "./delete";
 import { deleteModel } from "mongoose";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 export default function Details({
   data,
   options,
+  id,
+  name,
 }: {
   data: Tasks;
   options: string[];
+  id: string;
+  name: string;
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -52,7 +57,9 @@ export default function Details({
                 className={` absolute bg-white w-[192px] md:translate-x-[350px] translate-x-28 rounded-lg shadow-lg justify-end -translate-y-[32px] py-4`}
               >
                 <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
-                  Edit Task
+                  <Link href={`/updatetask/${id}/${name}/${data.title}`}>
+                    Edit Task
+                  </Link>
                 </button>
                 <button
                   onClick={() => {

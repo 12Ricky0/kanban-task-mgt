@@ -3,6 +3,7 @@ import { z } from "zod";
 export interface Subtask {
   title: string;
   isCompleted: boolean;
+  _id?: string;
 }
 
 export interface Task {

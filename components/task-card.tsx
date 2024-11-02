@@ -38,7 +38,7 @@ export default function TaskCard({
         {...listeners}
         className="w-[280px] rounded-lg bg-white py-[23px]"
       >
-        <Link href={`/details/${userboard.name}/${slug}/${title}`}>
+        <Link href={`/details/${userboard.id}/${slug}/${title}`}>
           <article className="px-4">
             <h1 className="font-bold text-primary-dark text-[15px] mb-2">
               {title}

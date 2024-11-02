@@ -1,46 +1,66 @@
 "use client";
 
 import { Overlay } from "../overlay";
-import SubtaskForm from "../forms/subtask";
+import SubtaskForm from "./subtask";
 import { ReactEventHandler, useState, useActionState, useContext } from "react";
 import Image from "next/image";
-import Status from "../forms/status";
+import Status from "./status";
 import { createTask } from "@/libs/actions";
 import { KanbanContext } from "@/context";
+import { Tasks } from "@/libs/definitions";
 
-export default function TaskForm({ options }: { options: string[] }) {
-  const [subtasks, setSubtasks] = useState<JSX.Element[]>([]);
-  const { userboard }: any = useContext(KanbanContext);
+export default function Edit_Task_Form({
+  options,
+  task,
+}: {
+  options: string[];
+  task: Tasks;
+}) {
+  const [subtasks, setSubtasks] = useState<JSX.Element[]>(
+    task.subtasks.map((t) => (
+      <SubtaskForm
+        defaultValue={t.title}
+        key={t._id}
+        index={t._id!}
+        onDelete={() =>
+          setSubtasks((prev) => prev.filter((subtask) => subtask.key !== t._id))
+        }
+      />
+    ))
+  );
+  //   const { userboard }: any = useContext(KanbanContext);
 
-  const payload = createTask.bind(null, userboard.id);
+  //   const payload = createTask.bind(null, userboard.id);
 
-  const [state, formAction] = useActionState(payload, null);
-
-  function handleDelete(key: number) {
-    setSubtasks((prev) => {
-      return prev.filter((_, i) => i !== key);
-    });
-  }
+  //   const [state, formAction] = useActionState(payload, null);
 
   function handleAdd(event: React.FormEvent) {
     event.preventDefault();
-    setSubtasks([
-      ...subtasks,
+    const uniqueId = Date.now();
+
+    setSubtasks((prev) => [
+      ...prev,
       <SubtaskForm
-        key={subtasks.length}
-        index={subtasks.length}
-        onDelete={handleDelete}
+        key={uniqueId}
+        index={uniqueId}
+        onDelete={() => handleDelete(uniqueId)}
       />,
     ]);
+  }
+
+  function handleDelete(id: number) {
+    setSubtasks((prev) =>
+      prev.filter((subtask) => subtask.key !== id.toString())
+    );
   }
   return (
     <Overlay>
       <section className="bg-white z-50 mx-4 w-full md:w-[480px] rounded-lg">
         <h1 className="mx-6 font-bold text-[18px] text-primary-dark py-6">
-          Add New Task
+          Edit Task
         </h1>
 
-        <form action={formAction} className="mx-6">
+        <form className="mx-6">
           <div className="flex flex-col">
             <label
               className="mb-2 text-[13px] text-secondary-gray font-bold"
@@ -53,15 +73,16 @@ export default function TaskForm({ options }: { options: string[] }) {
               id="title"
               name="title"
               placeholder="e.g. Take coffee break"
+              defaultValue={task.title}
               className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
-            {state?.errors.title && (
+            {/* {state?.errors.title && (
               <div className="">
                 <p className="text-[13px] md:text-[14px] text-tetiary-red">
                   {state.errors.title}
                 </p>
               </div>
-            )}
+            )} */}
           </div>
           <div className="flex flex-col mt-6">
             <label
@@ -74,6 +95,7 @@ export default function TaskForm({ options }: { options: string[] }) {
               id="des"
               rows={4}
               name="description"
+              defaultValue={task.description}
               placeholder="e.g. It’s always good to take a break. This 
 15 minute break will  recharge the batteries 
 a little."
@@ -99,14 +121,14 @@ a little."
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
               Status
             </h1>
-            <Status options={options} />
-            {state?.errors.status && (
+            <Status options={options} defautValue={task.status} />
+            {/* {state?.errors.status && (
               <div className="">
                 <p className="text-[13px] md:text-[14px] text-tetiary-red">
                   {state.errors.status}
                 </p>
               </div>
-            )}
+            )} */}
           </div>
 
           <button className="block mb-4 text-white hover:bg-primary-light-violet h-10 font-bold text-[13px] bg-primary-violet w-[100%] rounded-full">

@@ -1,5 +1,5 @@
 import Details from "@/components/modals/task-details";
-import { fetchTaskDetails } from "@/libs/data";
+import { fetchTaskDetailsById } from "@/libs/data";
 import { Column, Tasks } from "@/libs/definitions";
 
 export default async function TaskDetails({
@@ -7,16 +7,27 @@ export default async function TaskDetails({
 }: {
   params: { slug: string };
 }) {
-  const slug = await params?.slug;
+  let s = await params;
+  const slug = s.slug;
   const id = decodeURIComponent(slug[0]);
   const name = slug[1];
   const title = decodeURIComponent(slug[2]);
 
-  let res = await fetchTaskDetails(id);
+  let res = await fetchTaskDetailsById(id);
   const response = await res?.json();
-  let data = response.columns.find((column: Column) => column.name === name);
-  data = data.tasks.find((task: Tasks) => task.title === title);
+  let data_one = response.columns.find(
+    (column: Column) => column.name === name
+  );
+  let data_two = data_one.tasks.find((task: Tasks) => task.title === title);
   const columnNames = response.columns.map((column: Column) => column.name);
 
-  return <Details options={columnNames} data={data} />;
+  // console.log(data_one);
+  return (
+    <Details
+      options={columnNames}
+      data={data_two}
+      id={id}
+      name={data_one.name}
+    />
+  );
 }
