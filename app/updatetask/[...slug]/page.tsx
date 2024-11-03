@@ -18,9 +18,15 @@ export default async function Edit_Task({
 
   const columnNames = response.columns.map((column: Column) => column.name);
 
-  let data = response.columns.find((column: Column) => column.name === name);
-  data = data.tasks.find((task: Tasks) => task.title === title);
+  let res = response.columns.find((column: Column) => column.name === name);
+  let data = res.tasks.find((task: Tasks) => task.title === title);
 
-  // console.log(data);
-  return <Edit_Task_Form options={columnNames} task={data} />;
+  return (
+    <Edit_Task_Form
+      options={columnNames}
+      column_id={res._id}
+      task={data}
+      id={response._id}
+    />
+  );
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Overlay } from "../overlay";
 import { Subtask_List } from "../subtask-card";
 import Status from "../forms/status";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Tasks } from "@/libs/definitions";
 import { Board } from "@/libs/definitions";
 import Popup from "../subtask-card";
@@ -12,19 +12,25 @@ import DeleteModal from "./delete";
 import { deleteModel } from "mongoose";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { KanbanContext } from "@/context";
 export default function Details({
   data,
   options,
   id,
   name,
+  column_id,
 }: {
   data: Tasks;
   options: string[];
   id: string;
   name: string;
+  column_id: string;
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const { setShowDelete, showDelete }: any = useContext(KanbanContext);
+
   const completed = data.subtasks.filter(
     (task) => task.isCompleted === true
   ).length;
@@ -33,7 +39,7 @@ export default function Details({
     <Overlay>
       <section
         className={`bg-white md:w-[480px] rounded-lg mx-4 pt-6 pb-8 ${
-          showDeleteModal ? "hidden" : "block"
+          showDelete ? "hidden" : "block"
         }`}
       >
         <article className="mx-6">
@@ -63,7 +69,7 @@ export default function Details({
                 </button>
                 <button
                   onClick={() => {
-                    setShowDeleteModal(!deleteModel);
+                    setShowDelete(!showDelete);
                     setShowDropdown(!showDropdown);
                   }}
                   className="ml-4 text-[13px] font-medium text-tetiary-red"
@@ -92,7 +98,14 @@ export default function Details({
           </div>
         </article>
       </section>
-      {showDeleteModal && <DeleteModal type="Task" title={data.title} />}
+      {showDelete && (
+        <DeleteModal
+          id={id}
+          column_id={column_id}
+          type="Task"
+          title={data.title}
+        />
+      )}
     </Overlay>
   );
 }

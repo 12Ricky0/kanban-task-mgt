@@ -3,8 +3,7 @@ import { z } from "zod";
 import Kanban from "@/models/kanbanData";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Column } from "./definitions";
-import { columns, board, subTask, tasks } from "./definitions";
+import { columns, board, subTask, tasks, Column } from "./definitions";
 
 export async function createBoard(prevState: any, formData: FormData) {
   const columnNames = formData.getAll("column");
@@ -84,7 +83,6 @@ export async function createTask(
   prevState: any,
   formData: FormData
 ) {
-  const rawFormData = Object.fromEntries(formData.entries());
   const subtasks = formData.getAll("subtask");
   const status = formData.get("status");
 
@@ -118,6 +116,63 @@ export async function createTask(
   } catch (error) {}
   revalidatePath("/");
   redirect("/");
+}
 
-  // console.log(id);
+export async function updateTask(
+  id: string,
+  prevState: any,
+  formData: FormData
+) {
+  const subtasks = formData.getAll("subtask");
+  const completed = formData.getAll("completed");
+  const status = formData.get("status");
+  const column_id = formData.get("column-id");
+
+  const subtask = subtasks.map((name, index) => ({
+    title: name,
+    isCompleted: completed[index] === "true",
+  }));
+
+  const validateSubtask = z.array(subTask).safeParse(subtask);
+
+  const validateTask = tasks.safeParse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+    status: status,
+    subtasks: validateSubtask.data,
+  });
+
+  if (!validateTask.success) {
+    return {
+      errors: validateTask.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create Board.",
+    };
+  }
+
+  try {
+    const doc = await Kanban.findById(id);
+
+    let res = doc.columns.find((c: Column) => c._id!.toString() === column_id);
+    const { title, description, status: s, subtasks } = validateTask.data;
+
+    const toEdit = res.tasks[0];
+    toEdit.title = title;
+    toEdit.description = description;
+    toEdit.status = s;
+    toEdit.subtasks = subtasks;
+    await doc.save();
+  } catch (error) {}
+  revalidatePath("/");
+  redirect("/");
+}
+
+export async function deleteTask(id: string, column_id: string, title: string) {
+  try {
+    await Kanban.updateOne(
+      { _id: id, "columns._id": column_id },
+      { $pull: { "columns.$.tasks": { title: title } } }
+    );
+  } catch (error) {}
+  revalidatePath("/");
+  redirect("/");
 }

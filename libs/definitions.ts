@@ -15,11 +15,13 @@ export interface Tasks {
   description: string;
   status: string;
   subtasks: Subtask[];
+  _id?: string;
 }
 
 export interface Column {
   name: string;
   tasks: Tasks[];
+  _id?: string;
 }
 
 export interface Board {

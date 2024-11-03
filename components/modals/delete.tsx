@@ -2,20 +2,24 @@
 import { Overlay } from "../overlay";
 import { useContext } from "react";
 import { KanbanContext } from "@/context";
-import { deleteBoard } from "@/libs/actions";
+import { deleteBoard, deleteTask } from "@/libs/actions";
+import { usePathname } from "next/navigation";
 
 export default function DeleteModal({
   title,
   type,
   id,
+  column_id,
 }: {
   title: string;
   type: string;
   id?: string;
+  column_id?: string;
 }) {
   const { setShowDelete, setShowActionButtons }: any =
     useContext(KanbanContext);
 
+  const pathname = usePathname();
   return (
     <div className="flex absolute">
       <section className="bg-white z-10 mx-4 md:w-[480px] rounded-lg pb-6">
@@ -33,9 +37,16 @@ export default function DeleteModal({
           <div className="md:flex gap-4">
             <button
               onClick={() => {
-                deleteBoard(id!);
-                setShowDelete(false);
-                setShowActionButtons(false);
+                if (pathname == "/") {
+                  deleteBoard(id!);
+                  setShowDelete(false);
+                  setShowActionButtons(false);
+                } else {
+                  // console.log(pathname);
+                  deleteTask(id!, column_id!, title);
+                }
+                return;
+                // console.log(pathname == "/");
               }}
               className="block mb-4 text-white hover:bg-tetiary-light-red leading-[23p] h-10 font-bold text-[13px] bg-tetiary-red w-[100%] rounded-full"
             >

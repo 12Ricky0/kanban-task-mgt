@@ -5,34 +5,49 @@ import SubtaskForm from "./subtask";
 import { ReactEventHandler, useState, useActionState, useContext } from "react";
 import Image from "next/image";
 import Status from "./status";
-import { createTask } from "@/libs/actions";
+import { updateTask } from "@/libs/actions";
 import { KanbanContext } from "@/context";
 import { Tasks } from "@/libs/definitions";
 
 export default function Edit_Task_Form({
   options,
   task,
+  id,
+  column_id,
 }: {
   options: string[];
   task: Tasks;
+  id: string;
+  column_id: string;
 }) {
   const [subtasks, setSubtasks] = useState<JSX.Element[]>(
     task.subtasks.map((t) => (
-      <SubtaskForm
-        defaultValue={t.title}
-        key={t._id}
-        index={t._id!}
-        onDelete={() =>
-          setSubtasks((prev) => prev.filter((subtask) => subtask.key !== t._id))
-        }
-      />
+      <div key={t._id}>
+        <SubtaskForm
+          defaultValue={t.title}
+          key={t._id}
+          index={t._id!}
+          onDelete={() =>
+            setSubtasks((prev) =>
+              prev.filter((subtask) => subtask.key !== t._id)
+            )
+          }
+        />
+        <input
+          type="text"
+          hidden
+          readOnly
+          name="completed"
+          value={JSON.stringify(t.isCompleted)}
+        />
+      </div>
     ))
   );
   //   const { userboard }: any = useContext(KanbanContext);
 
-  //   const payload = createTask.bind(null, userboard.id);
+  const payload = updateTask.bind(null, id);
 
-  //   const [state, formAction] = useActionState(payload, null);
+  const [state, formAction] = useActionState(payload, null);
 
   function handleAdd(event: React.FormEvent) {
     event.preventDefault();
@@ -40,11 +55,20 @@ export default function Edit_Task_Form({
 
     setSubtasks((prev) => [
       ...prev,
-      <SubtaskForm
-        key={uniqueId}
-        index={uniqueId}
-        onDelete={() => handleDelete(uniqueId)}
-      />,
+      <div key={uniqueId}>
+        <SubtaskForm
+          key={uniqueId}
+          index={uniqueId}
+          onDelete={() => handleDelete(uniqueId)}
+        />
+        <input
+          type="text"
+          hidden
+          readOnly
+          name="completed"
+          value={JSON.stringify(false)}
+        />
+      </div>,
     ]);
   }
 
@@ -60,7 +84,7 @@ export default function Edit_Task_Form({
           Edit Task
         </h1>
 
-        <form className="mx-6">
+        <form action={formAction} className="mx-6">
           <div className="flex flex-col">
             <label
               className="mb-2 text-[13px] text-secondary-gray font-bold"
@@ -76,13 +100,13 @@ export default function Edit_Task_Form({
               defaultValue={task.title}
               className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
-            {/* {state?.errors.title && (
+            {state?.errors.title && (
               <div className="">
                 <p className="text-[13px] md:text-[14px] text-tetiary-red">
                   {state.errors.title}
                 </p>
               </div>
-            )} */}
+            )}
           </div>
           <div className="flex flex-col mt-6">
             <label
@@ -122,17 +146,24 @@ a little."
               Status
             </h1>
             <Status options={options} defautValue={task.status} />
-            {/* {state?.errors.status && (
+            {state?.errors.status && (
               <div className="">
                 <p className="text-[13px] md:text-[14px] text-tetiary-red">
                   {state.errors.status}
                 </p>
               </div>
-            )} */}
+            )}
+            <input
+              type="text"
+              name="column-id"
+              value={column_id}
+              hidden
+              readOnly
+            />
           </div>
 
           <button className="block mb-4 text-white hover:bg-primary-light-violet h-10 font-bold text-[13px] bg-primary-violet w-[100%] rounded-full">
-            Create Task
+            Save Task
           </button>
         </form>
       </section>

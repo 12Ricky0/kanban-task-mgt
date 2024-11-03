@@ -13,7 +13,11 @@ export function Overlay({ children }: { children: ReactNode }) {
     if (e.target === e.currentTarget) {
       // setDisplayTaskForm(false);
 
-      if (pathname.includes("details") || pathname.includes("create")) {
+      if (
+        pathname.includes("details") ||
+        pathname.includes("create") ||
+        pathname.includes("edit")
+      ) {
         router.back();
       }
     }
