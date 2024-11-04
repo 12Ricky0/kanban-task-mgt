@@ -21,6 +21,7 @@ export default async function TaskDetails({
   let data_two = data_one.tasks.find((task: Tasks) => task.title === title);
   const columnNames = response.columns.map((column: Column) => column.name);
 
+  // console.log(data_two);
   return (
     <Details
       options={columnNames}

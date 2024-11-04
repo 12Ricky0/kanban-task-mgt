@@ -38,16 +38,17 @@ export default function TaskCard({
         {...listeners}
         className="w-[280px] rounded-lg bg-white py-[23px]"
       >
-        <Link href={`/details/${userboard.id}/${slug}/${title}`}>
-          <article className="px-4">
+        <article className="px-4">
+          <Link href={`/details/${userboard.id}/${slug}/${title}`}>
             <h1 className="font-bold text-primary-dark text-[15px] mb-2">
               {title}
             </h1>
-            <p className="mb-4 text-[13px] text-secondary-gray font-bold">
-              {completed} of {subtask.length} subtasks
-            </p>
-          </article>
-        </Link>
+          </Link>
+
+          <p className="mb-4 text-[13px] text-secondary-gray font-bold">
+            {completed} of {subtask.length} subtasks
+          </p>
+        </article>
       </section>
     </div>
   );

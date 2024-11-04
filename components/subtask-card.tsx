@@ -5,6 +5,7 @@ import DeleteModal from "./modals/delete";
 import { Overlay } from "./overlay";
 import { KanbanContext } from "@/context";
 import Link from "next/link";
+import { updatedIsCompleted } from "@/libs/actions";
 export default function Popup({
   className,
   type,
@@ -49,18 +50,33 @@ export default function Popup({
   );
 }
 
-export function Subtask_List({ subtasks }: { subtasks: Subtask[] }) {
+export function Subtask_List({
+  subtasks,
+  id,
+  column_id,
+  task_id,
+}: {
+  subtasks: Subtask[];
+  id: string;
+  column_id: string;
+  task_id: string;
+}) {
   const [isChecked, setIsChecked] = useState(false);
 
   const [checkedStates, setCheckedStates] = useState(
     subtasks.map((subtask) => subtask.isCompleted)
   );
 
-  const handleCheckboxChange = (index: number) => {
+  const handleCheckboxChange = (
+    index: number,
+    title: string,
+    status: boolean
+  ) => {
     // Toggle the checked state for the specific subtask at index
     const newCheckedStates = [...checkedStates];
     newCheckedStates[index] = !newCheckedStates[index];
     setCheckedStates(newCheckedStates);
+    updatedIsCompleted(id, column_id, task_id, title, status);
   };
 
   return (
@@ -74,7 +90,9 @@ export function Subtask_List({ subtasks }: { subtasks: Subtask[] }) {
         >
           <input
             checked={checkedStates[index]}
-            onChange={() => handleCheckboxChange(index)}
+            onChange={() =>
+              handleCheckboxChange(index, subtask._id!, checkedStates[index])
+            }
             type="checkbox"
             className="cursor-pointer"
           />

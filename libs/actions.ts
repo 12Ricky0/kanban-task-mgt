@@ -3,7 +3,15 @@ import { z } from "zod";
 import Kanban from "@/models/kanbanData";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { columns, board, subTask, tasks, Column } from "./definitions";
+import {
+  columns,
+  board,
+  subTask,
+  tasks,
+  Column,
+  Tasks,
+  Subtask,
+} from "./definitions";
 
 export async function createBoard(prevState: any, formData: FormData) {
   const columnNames = formData.getAll("column");
@@ -164,6 +172,44 @@ export async function updateTask(
   } catch (error) {}
   revalidatePath("/");
   redirect("/");
+}
+
+export async function updatedIsCompleted(
+  id: string,
+  column_id: string,
+  task_id: string,
+  title_id: string,
+  status: boolean
+) {
+  const doc = await Kanban.findById(id);
+  let col = doc.columns.find((c: Column) => c._id!.toString() === column_id);
+  let title = col.tasks.find((task: Tasks) => task._id!.toString() === task_id);
+  try {
+    await Kanban.updateOne(
+      {
+        _id: id,
+        "columns._id": column_id,
+        "columns.tasks._id": task_id,
+        "columns.tasks.subtasks._id": title_id,
+      },
+      {
+        $set: {
+          "columns.$[col].tasks.$[task].subtasks.$[subtask].isCompleted":
+            !status,
+        },
+      },
+      {
+        arrayFilters: [
+          { "col._id": column_id },
+          { "task._id": task_id },
+          { "subtask._id": title_id },
+        ],
+      }
+    );
+  } catch (error) {}
+  revalidatePath(
+    "/details/" + id + "/" + encodeURI(col.name) + "/" + encodeURI(title.title)
+  );
 }
 
 export async function deleteTask(id: string, column_id: string, title: string) {

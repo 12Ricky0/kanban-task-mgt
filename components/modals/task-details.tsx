@@ -88,7 +88,12 @@ export default function Details({
           </h2>
 
           <div className="mb-6">
-            <Subtask_List subtasks={data.subtasks} />
+            <Subtask_List
+              id={id}
+              column_id={column_id}
+              task_id={data._id!}
+              subtasks={data.subtasks}
+            />
           </div>
           <div>
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
