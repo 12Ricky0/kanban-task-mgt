@@ -26,6 +26,7 @@ import { KanbanContext } from "@/context";
 import Column from "./column";
 import TaskCard from "../task-card";
 import { Subtask, Board } from "@/libs/definitions";
+import { createPortal } from "react-dom";
 
 export default function Container({ data }: { data: Board[] }) {
   const { userboard }: any = useContext(KanbanContext);
@@ -66,85 +67,116 @@ export default function Container({ data }: { data: Board[] }) {
   );
 
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-  function handleDragEnd(event: DragOverEvent) {
-    const { active, over } = event;
-    const containerName = active.data.current?.sortable?.containerId;
 
-    if (active.id !== over!.id) {
-      setItems((items) => {
-        const temp = { ...items };
-        const oldIndex = temp[containerName].findIndex(
-          (item) => item.title === active.id
-        );
-        const newIndex = temp[containerName].findIndex(
-          (item) => item.title === over!.id
-        );
-        arrayMove(temp[containerName], oldIndex, newIndex);
-        return temp;
-      });
-    }
+  function handleDragStart(event: DragStartEvent) {
+    const { active } = event;
+    const { id } = active;
+    setActiveId(id);
   }
-  // const handleDragOver = (e: DragOverEvent) => {
-  //   const { active, over } = e;
-  //   if (!over) return;
 
-  //   const initialContainer = active.data.current?.sortable?.containerId;
-  //   const targetContainer = over.data.current?.sortable?.containerId;
-  //   if (!initialContainer) return;
+  function handleDragOver(event) {
+    const { active, over, draggingRect } = event;
 
-  //   setItems((taskList) => {
-  //     const temp = { ...taskList };
+    // Find the containers
+    const activeContainer = active.data.current?.sortable?.containerId;
+    const overContainer = over?.data.current?.sortable?.containerId;
 
-  //     if (!targetContainer) {
-  //       if (taskList[over!.id].includes(active.id.toString())) return temp;
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer === overContainer
+    ) {
+      return;
+    }
 
-  //       temp[initialContainer] = temp[initialContainer].filter(
-  //         (task) => task !== active.id.toString()
-  //       );
+    setItems((prev) => {
+      const activeItems = prev[activeContainer];
+      const overItems = prev[overContainer];
 
-  //       temp[over!.id].push(active.id.toString());
+      // Find the indexes for the items
 
-  //       return temp;
-  //     }
+      const activeIndex = activeItems.findIndex(
+        (item) => item.title === active.id
+      );
+      const overIndex = overItems.findIndex((item) => item.title === over?.id);
 
-  //     if (initialContainer === targetContainer) {
-  //       const oldIdx = temp[initialContainer].indexOf(active.id.toString());
-  //       const newIdx = temp[initialContainer].indexOf(over!.id.toString());
-  //       temp[initialContainer] = arrayMove(
-  //         temp[initialContainer],
-  //         oldIdx,
-  //         newIdx
-  //       );
-  //     } else {
-  //       temp[initialContainer] = temp[initialContainer].filter(
-  //         (task) => task !== active.id.toString()
-  //       );
+      let newIndex;
+      if (over?.id in prev) {
+        // We're at the root droppable of a container
+        newIndex = overItems.length + 1;
+      } else {
+        const isBelowLastItem =
+          over &&
+          overIndex === overItems.length - 1 &&
+          draggingRect.offsetTop > over.rect.offsetTop + over.rect.height;
 
-  //       const newIdx = temp[targetContainer].indexOf(over!.id.toString());
-  //       const oldIdx = temp[initialContainer].indexOf(active.id.toString());
-  //       const [removeditem] = temp[initialContainer].splice(oldIdx, 1);
+        const modifier = isBelowLastItem ? 1 : 0;
 
-  //       temp[targetContainer].splice(newIdx, 0, removeditem);
-  //     }
+        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
+      }
 
-  //     return temp;
-  //   });
-  // };
+      return {
+        ...prev,
+        [activeContainer]: [
+          ...prev[activeContainer].filter((item) => item.title !== active.id),
+        ],
+        [overContainer]: [
+          ...prev[overContainer].slice(0, newIndex),
+          items[activeContainer][activeIndex],
+          ...prev[overContainer].slice(newIndex, prev[overContainer].length),
+        ],
+      };
+    });
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    const activeContainer = active.data.current?.sortable?.containerId;
+    const overContainer = over?.data.current?.sortable?.containerId;
+
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer !== overContainer
+    ) {
+      return;
+    }
+
+    const activeIndex = items[activeContainer].findIndex(
+      (item) => item.title === active.id
+    );
+    const overIndex = items[overContainer].findIndex(
+      (item) => item.title === over?.id
+    );
+
+    if (activeIndex !== overIndex) {
+      setItems((items) => ({
+        ...items,
+        [overContainer]: arrayMove(
+          items[overContainer],
+          activeIndex,
+          overIndex
+        ),
+      }));
+    }
+
+    setActiveId(null);
+  }
   return (
     <DndContext
-      onDragEnd={handleDragEnd}
-      sensors={sensors}
-      // onDragOver={handleDragOver}
-      collisionDetection={closestCenter}
-      // onDragStart={handleDragStart}
-      // onDragMove={handleDragMove}
       // onDragEnd={handleDragEnd}
+      sensors={sensors}
+      onDragOver={handleDragOver}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      onDragStart={handleDragStart}
     >
       {Object.entries(items).map(([column, task]) => (
         <Column
           index={Object.keys(items).indexOf(column).toString()}
           name={column}
           key={column}
+          active={activeId}
           task={task && task.map((t) => t)}
         />
       ))}

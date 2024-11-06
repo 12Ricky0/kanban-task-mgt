@@ -16,10 +16,10 @@ export default function TaskCard({
   title: string;
   slug: string;
   id: UniqueIdentifier;
-  subtask: Subtask[];
+  subtask?: Subtask[];
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: id });
+    useSortable({ id: id, data: { type: "task", title } });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -27,7 +27,7 @@ export default function TaskCard({
   };
   const { userboard }: any = useContext(KanbanContext);
 
-  const completed = subtask.filter((task) => task.isCompleted === true).length;
+  const completed = subtask!.filter((task) => task.isCompleted === true).length;
 
   return (
     <div>
@@ -46,7 +46,7 @@ export default function TaskCard({
           </Link>
 
           <p className="mb-4 text-[13px] text-secondary-gray font-bold">
-            {completed} of {subtask.length} subtasks
+            {completed} of {subtask!.length} subtasks
           </p>
         </article>
       </section>

@@ -1,20 +1,25 @@
 "use client";
-import { useDroppable } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import TaskCard from "../task-card";
+import { CSS } from "@dnd-kit/utilities";
+import { DragOverlay, useDroppable } from "@dnd-kit/core";
+
 import { Subtask, Task } from "@/libs/definitions";
 
 export default function Column({
   task,
   index,
   name,
+  active,
 }: {
   task: Task[];
   index: string;
   name: string;
+  active: any;
   // subtask: Subtask[];
 }) {
   function color(index: string) {
@@ -36,7 +41,17 @@ export default function Column({
     }
   }
 
-  const { setNodeRef } = useDroppable({ id: name });
+  // const { attributes, listeners, setNodeRef, transform, transition } =
+  //   useSortable({ id: name, data: { type: "container", name } });
+  const { setNodeRef } = useDroppable({
+    id: name,
+  });
+
+  // const style = {
+  //   transform: CSS.Transform.toString(transform),
+  //   transition: transition,
+  // };
+
   return (
     <article className="min-h-full">
       <div className="inline-flex flex-row items-center gap-3">
@@ -46,7 +61,13 @@ export default function Column({
         </h1>
       </div>
       <SortableContext id={name} items={task.map((t) => t.title)}>
-        <ul ref={setNodeRef} className="">
+        <ul
+          ref={setNodeRef}
+          // style={style}
+          // {...attributes}
+          // {...listeners}
+          className=""
+        >
           {task.map((d) => (
             <div key={d.title} className="mb-5">
               <TaskCard
