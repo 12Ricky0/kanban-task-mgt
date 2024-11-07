@@ -14,6 +14,7 @@ export default function KanbanProvider({
   const [userboard, setUserBoard] = useState({ name: "", id: "" });
   const [showDelete, setShowDelete] = useState(false);
   const [showActionButtons, setShowActionButtons] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     fetch("/api")
@@ -22,8 +23,25 @@ export default function KanbanProvider({
         setUserBoard({ name: data[0].name, id: data[0]._id });
         return data;
       });
+
+    if (localStorage.getItem("theme") === "dark") {
+      setDarkMode(true);
+    }
   }, []);
 
+  useEffect(() => {
+    if (
+      darkMode ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
   return (
     <KanbanContext.Provider
       value={{
@@ -35,6 +53,8 @@ export default function KanbanProvider({
         setShowDelete,
         showActionButtons,
         setShowActionButtons,
+        darkMode,
+        setDarkMode,
       }}
     >
       {children}

@@ -32,8 +32,8 @@ export default function EditBoardForm({
   const [state, formAction] = useActionState(payload, null);
   return (
     <Overlay>
-      <section className="bg-white mx-4 w-full md:w-[480px] rounded-lg z-10">
-        <h1 className="mx-6 font-bold text-[18px] text-primary-dark py-6">
+      <section className="bg-white dark:bg-secondary-dark-gray mx-4 w-full md:w-[480px] rounded-lg z-10">
+        <h1 className="mx-6 dark:text-white font-bold text-[18px] text-primary-dark py-6">
           Edit Board
         </h1>
 
@@ -51,7 +51,7 @@ export default function EditBoardForm({
               name="board-title"
               defaultValue={board.name}
               placeholder="e.g. Web Design"
-              className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
+              className="w-full border dark:text-white dark:bg-secondary-dark-gray border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
             {state?.errors.name && (
               <div className="">

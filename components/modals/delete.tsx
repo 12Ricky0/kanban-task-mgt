@@ -22,7 +22,7 @@ export default function DeleteModal({
   const pathname = usePathname();
   return (
     <div className="flex absolute">
-      <section className="bg-white z-10 mx-4 md:w-[480px] rounded-lg pb-6">
+      <section className="bg-white dark:bg-secondary-dark-gray z-10 mx-4 md:w-[480px] rounded-lg pb-6">
         <article className="mx-6 md:mx-8">
           <h1 className="text-[18px] my-6 font-bold text-tetiary-red">
             Delete this {type}?

@@ -17,7 +17,7 @@ export default function RootLayout(props: {
   return (
     <html lang="en">
       <body
-        className={`${jarkarta.className} bg-tetiary-white-space antialiased`}
+        className={`${jarkarta.className} bg-tetiary-white-space dark:bg-primary-semi-dark antialiased`}
       >
         <KanbanProvider>
           {props.children}

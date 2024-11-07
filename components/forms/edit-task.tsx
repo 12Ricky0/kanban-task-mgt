@@ -79,15 +79,15 @@ export default function Edit_Task_Form({
   }
   return (
     <Overlay>
-      <section className="bg-white z-50 mx-4 w-full md:w-[480px] rounded-lg">
-        <h1 className="mx-6 font-bold text-[18px] text-primary-dark py-6">
+      <section className="bg-white dark:bg-secondary-dark-gray z-50 mx-4 w-full md:w-[480px] rounded-lg">
+        <h1 className="mx-6 font-bold text-[18px] dark:text-white text-primary-dark py-6">
           Edit Task
         </h1>
 
         <form action={formAction} className="mx-6">
           <div className="flex flex-col">
             <label
-              className="mb-2 text-[13px] text-secondary-gray font-bold"
+              className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold"
               htmlFor="title"
             >
               Title
@@ -98,7 +98,7 @@ export default function Edit_Task_Form({
               name="title"
               placeholder="e.g. Take coffee break"
               defaultValue={task.title}
-              className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
+              className="w-full border border-secondary-gray dark:text-white dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
             {state?.errors.title && (
               <div className="">
@@ -110,7 +110,7 @@ export default function Edit_Task_Form({
           </div>
           <div className="flex flex-col mt-6">
             <label
-              className="mb-2 text-[13px] text-secondary-gray font-bold"
+              className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold"
               htmlFor="des"
             >
               Description
@@ -123,12 +123,12 @@ export default function Edit_Task_Form({
               placeholder="e.g. It’s always good to take a break. This 
 15 minute break will  recharge the batteries 
 a little."
-              className="w-full border leading-[23px] border-opacity-25 border-secondary-gray rounded-lg font-medium text-[13px] px-4 py-2"
+              className="w-full border dark:text-white dark:bg-secondary-dark-gray leading-[23px] border-opacity-25 border-secondary-gray rounded-lg font-medium text-[13px] px-4 py-2"
             />
           </div>
 
           <div className="mt-6">
-            <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
+            <h1 className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold">
               Subtasks
             </h1>
             {subtasks}
@@ -142,7 +142,7 @@ a little."
           </div>
 
           <div className="flex flex-col py-6">
-            <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
+            <h1 className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold">
               Status
             </h1>
             <Status options={options} defautValue={task.status} />

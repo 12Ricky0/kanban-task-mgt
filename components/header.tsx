@@ -19,7 +19,7 @@ export default function Header({ boards }: { boards: Board[] }) {
 
   return (
     <section className="">
-      <header className="bg-white  dark:bg-black md:border-b flex py-[20px] md:py-0 justify-between items-center">
+      <header className="bg-white  dark:bg-secondary-dark-gray md:border-b flex py-[20px] md:py-0 justify-between items-center">
         <div className="inline-flex ml-4 md:ml-6 gap-4 md:gap-6">
           <Image
             src="/assets/logo-mobile.svg"
@@ -39,7 +39,7 @@ export default function Header({ boards }: { boards: Board[] }) {
             />
           </div>
           <div className="md:inline-flex hidden gap-2 items-center">
-            <h1 className="text-[18px] md:text-[20px] leading-normal font-bold">
+            <h1 className="text-[18px] dark:text-white md:text-[20px] leading-normal font-bold">
               {userboard.name}
             </h1>
           </div>
@@ -47,7 +47,7 @@ export default function Header({ boards }: { boards: Board[] }) {
             onClick={() => setDisplayMenu(!displayMenu)}
             className="inline-flex md:hidden gap-2 items-center"
           >
-            <h1 className="text-[18px] md:text-[20px] leading-normal font-bold">
+            <h1 className="text-[18px] md:text-[20px] dark:text-white leading-normal font-bold">
               {userboard.name}
             </h1>
             <Image

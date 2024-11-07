@@ -35,15 +35,15 @@ export default function TaskForm({ options }: { options: string[] }) {
   }
   return (
     <Overlay>
-      <section className="bg-white z-50 mx-4 w-full md:w-[480px] rounded-lg">
-        <h1 className="mx-6 font-bold text-[18px] text-primary-dark py-6">
+      <section className="bg-white dark:bg-secondary-dark-gray z-50 mx-4 w-full md:w-[480px] rounded-lg">
+        <h1 className="mx-6 font-bold text-[18px] dark:text-white text-primary-dark py-6">
           Add New Task
         </h1>
 
         <form action={formAction} className="mx-6">
           <div className="flex flex-col">
             <label
-              className="mb-2 text-[13px] text-secondary-gray font-bold"
+              className="mb-2 text-[13px] text-secondary-gray dark:text-white font-bold"
               htmlFor="title"
             >
               Title
@@ -53,7 +53,7 @@ export default function TaskForm({ options }: { options: string[] }) {
               id="title"
               name="title"
               placeholder="e.g. Take coffee break"
-              className="w-full border border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
+              className="w-full border dark:text-white border-secondary-gray dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
             {state?.errors.title && (
               <div className="">
@@ -65,7 +65,7 @@ export default function TaskForm({ options }: { options: string[] }) {
           </div>
           <div className="flex flex-col mt-6">
             <label
-              className="mb-2 text-[13px] text-secondary-gray font-bold"
+              className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold"
               htmlFor="des"
             >
               Description
@@ -77,12 +77,12 @@ export default function TaskForm({ options }: { options: string[] }) {
               placeholder="e.g. It’s always good to take a break. This 
 15 minute break will  recharge the batteries 
 a little."
-              className="w-full border leading-[23px] border-opacity-25 border-secondary-gray rounded-lg font-medium text-[13px] px-4 py-2"
+              className="w-full border dark:text-white leading-[23px] dark:bg-secondary-dark-gray border-opacity-25 border-secondary-gray rounded-lg font-medium text-[13px] px-4 py-2"
             />
           </div>
 
           <div className="mt-6">
-            <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
+            <h1 className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold">
               Subtasks
             </h1>
             {subtasks}

@@ -27,7 +27,7 @@ export default function Popup({
   return (
     <>
       <section
-        className={`${className} absolute bg-white w-[192px] right-5 md:right-0 rounded-lg shadow-lg justify-end mt-5 py-4`}
+        className={`${className} absolute bg-white dark:bg-primary-semi-dark w-[192px] right-5 md:right-0 rounded-lg shadow-lg justify-end mt-5 py-4`}
       >
         <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
           <Link href={`/editboard/${userboard.id}`}>Edit Board</Link>
@@ -84,8 +84,10 @@ export function Subtask_List({
       {subtasks.map((subtask, index) => (
         <section
           key={subtask.title}
-          className={`flex gap-4 bg-secondary-light-blue px-3 pt-[13px] pb-4 text-[12px] font-bold ${
-            checkedStates[index] ? "text-secondary-gray" : "text-primary-dark"
+          className={`flex gap-4 bg-secondary-light-blue dark:bg-primary-semi-dark px-3 pt-[13px] pb-4 text-[12px] font-bold ${
+            checkedStates[index]
+              ? "text-secondary-gray"
+              : "text-primary-dark dark:text-white"
           } rounded-lg`}
         >
           <input
@@ -94,7 +96,7 @@ export function Subtask_List({
               handleCheckboxChange(index, subtask._id!, checkedStates[index])
             }
             type="checkbox"
-            className="cursor-pointer"
+            className="cursor-pointer dark:bg-secondary-dark-gray"
           />
           <label className={`${checkedStates[index] && "line-through"}`}>
             {" "}

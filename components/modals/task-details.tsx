@@ -38,14 +38,14 @@ export default function Details({
   return (
     <Overlay>
       <section
-        className={`bg-white md:w-[480px] rounded-lg mx-4 pt-6 pb-8 ${
+        className={`bg-white md:w-[480px] dark:bg-secondary-dark-gray rounded-lg mx-4 pt-6 pb-8 ${
           showDelete ? "hidden" : "block"
         }`}
       >
         <article className="mx-6">
           <div>
             <div className="flex justify-between items-center gap-6 mb-6">
-              <h1 className="font-bold text-primary-dark md:text-[20px]">
+              <h1 className="font-bold text-primary-dark dark:text-white md:text-[20px]">
                 {data.title}
               </h1>
               <Image
@@ -60,7 +60,7 @@ export default function Details({
             </div>
             {showDropdown && (
               <section
-                className={` absolute bg-white w-[192px] md:translate-x-[350px] translate-x-28 rounded-lg shadow-lg justify-end -translate-y-[32px] py-4`}
+                className={` absolute bg-white dark:bg-primary-semi-dark w-[192px] md:translate-x-[350px] translate-x-28 rounded-lg shadow-lg justify-end -translate-y-[32px] py-4`}
               >
                 <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
                   <Link href={`/updatetask/${id}/${name}/${data.title}`}>
@@ -83,7 +83,7 @@ export default function Details({
             {data.description}
           </p>
 
-          <h2 className="mb-4 text-[13px] text-secondary-gray font-bold">
+          <h2 className="mb-4 text-[13px] text-secondary-gray dark:text-white font-bold">
             Subtasks ({completed} of {data.subtasks.length})
           </h2>
 
@@ -96,7 +96,7 @@ export default function Details({
             />
           </div>
           <div>
-            <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
+            <h1 className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold">
               Current Status
             </h1>
             <Status options={options} defautValue={data.status} />
