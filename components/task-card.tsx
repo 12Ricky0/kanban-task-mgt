@@ -1,8 +1,8 @@
 "use client";
-import { UniqueIdentifier, useDraggable } from "@dnd-kit/core";
+import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Subtask, Tasks } from "@/libs/definitions";
+import { Subtask } from "@/libs/definitions";
 import Link from "next/link";
 import { useContext } from "react";
 import { KanbanContext } from "@/context";
@@ -19,7 +19,7 @@ export default function TaskCard({
   subtask?: Subtask[];
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: id, data: { type: "task", title } });
+    useSortable({ id: id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -50,6 +50,28 @@ export default function TaskCard({
           </p>
         </article>
       </section>
+    </div>
+  );
+}
+
+export function Item({ id }: { id: UniqueIdentifier }) {
+  const style = {
+    width: "280px",
+    height: 50,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "24px",
+    margin: "10px 0",
+    borderRadius: 5,
+  };
+
+  return (
+    <div
+      className="bg-white dark:bg-secondary-dark-gray text-primary-dark dark:text-white"
+      style={style}
+    >
+      {id}
     </div>
   );
 }

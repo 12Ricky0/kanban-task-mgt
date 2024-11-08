@@ -1,26 +1,21 @@
 "use client";
-import { useSortable } from "@dnd-kit/sortable";
 import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import TaskCard from "../task-card";
-import { CSS } from "@dnd-kit/utilities";
-import { DragOverlay, useDroppable } from "@dnd-kit/core";
+import { useDroppable } from "@dnd-kit/core";
 
-import { Subtask, Task } from "@/libs/definitions";
+import { Task } from "@/libs/definitions";
 
 export default function Column({
   task,
   index,
   name,
-  active,
 }: {
   task: Task[];
   index: string;
   name: string;
-  active: any;
-  // subtask: Subtask[];
 }) {
   function color(index: string) {
     switch (index) {
@@ -41,16 +36,9 @@ export default function Column({
     }
   }
 
-  // const { attributes, listeners, setNodeRef, transform, transition } =
-  //   useSortable({ id: name, data: { type: "container", name } });
   const { setNodeRef } = useDroppable({
     id: name,
   });
-
-  // const style = {
-  //   transform: CSS.Transform.toString(transform),
-  //   transition: transition,
-  // };
 
   return (
     <article className="min-h-full">
@@ -60,14 +48,12 @@ export default function Column({
           {name.toLocaleUpperCase()} ({task.length})
         </h1>
       </div>
-      <SortableContext id={name} items={task.map((t) => t.title)}>
-        <ul
-          ref={setNodeRef}
-          // style={style}
-          // {...attributes}
-          // {...listeners}
-          className=""
-        >
+      <SortableContext
+        strategy={verticalListSortingStrategy}
+        id={name}
+        items={task.map((t) => t.title)}
+      >
+        <ul ref={setNodeRef} className="min-w-[200px] min-h-[50%]">
           {task.map((d) => (
             <div key={d.title} className="mb-5">
               <TaskCard

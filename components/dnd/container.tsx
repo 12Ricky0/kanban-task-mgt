@@ -2,7 +2,6 @@
 
 import {
   DndContext,
-  closestCenter,
   KeyboardSensor,
   PointerSensor,
   TouchSensor,
@@ -11,26 +10,19 @@ import {
   DragOverEvent,
   DragEndEvent,
   DragStartEvent,
-  DragMoveEvent,
   DragOverlay,
   UniqueIdentifier,
+  closestCorners,
 } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { useState, useContext, useEffect } from "react";
 import { KanbanContext } from "@/context";
 import Column from "./column";
-import TaskCard from "../task-card";
 import { Subtask, Board } from "@/libs/definitions";
-import { createPortal } from "react-dom";
+import { Item } from "../task-card";
 
 export default function Container({ data }: { data: Board[] }) {
   const { userboard }: any = useContext(KanbanContext);
-  const [results, setResults] = useState();
   const [items, setItems] = useState<{
     [key: string]: { title: string; subtasks: Subtask[] }[];
   }>({});
@@ -74,12 +66,13 @@ export default function Container({ data }: { data: Board[] }) {
     setActiveId(id);
   }
 
-  function handleDragOver(event) {
-    const { active, over, draggingRect } = event;
+  function handleDragOver(event: DragOverEvent) {
+    const { active, over } = event;
+    const draggingRec = active.rect.current.translated;
 
     // Find the containers
     const activeContainer = active.data.current?.sortable?.containerId;
-    const overContainer = over?.data.current?.sortable?.containerId;
+    const overContainer = over?.data.current?.sortable?.containerId || over?.id;
 
     if (
       !activeContainer ||
@@ -108,7 +101,7 @@ export default function Container({ data }: { data: Board[] }) {
         const isBelowLastItem =
           over &&
           overIndex === overItems.length - 1 &&
-          draggingRect.offsetTop > over.rect.offsetTop + over.rect.height;
+          draggingRec!.top > over.rect.top + over.rect.height;
 
         const modifier = isBelowLastItem ? 1 : 0;
 
@@ -164,10 +157,9 @@ export default function Container({ data }: { data: Board[] }) {
   }
   return (
     <DndContext
-      // onDragEnd={handleDragEnd}
       sensors={sensors}
       onDragOver={handleDragOver}
-      collisionDetection={closestCenter}
+      collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
       onDragStart={handleDragStart}
     >
@@ -176,10 +168,11 @@ export default function Container({ data }: { data: Board[] }) {
           index={Object.keys(items).indexOf(column).toString()}
           name={column}
           key={column}
-          active={activeId}
+          // active={activeId}
           task={task && task.map((t) => t)}
         />
       ))}
+      <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
     </DndContext>
   );
 }

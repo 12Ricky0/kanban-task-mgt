@@ -15,11 +15,12 @@ export default function Header({ boards }: { boards: Board[] }) {
     userboard,
     showActionButtons,
     setShowActionButtons,
+    darkMode,
   }: any = useContext(KanbanContext);
 
   return (
     <section className="">
-      <header className="bg-white  dark:bg-secondary-dark-gray md:border-b flex py-[20px] md:py-0 justify-between items-center">
+      <header className="bg-white  dark:bg-secondary-dark-gray md:border-b dark:border-secondary-light-gray flex py-[20px] md:py-0 justify-between items-center">
         <div className="inline-flex ml-4 md:ml-6 gap-4 md:gap-6">
           <Image
             src="/assets/logo-mobile.svg"
@@ -29,9 +30,9 @@ export default function Header({ boards }: { boards: Board[] }) {
             className="block md:hidden"
           />
 
-          <div className="hidden md:inline-flex border-r py-10 items-center">
+          <div className="hidden md:inline-flex border-r dark:border-secondary-light-gray py-10 items-center">
             <Image
-              src="/assets/logo-dark.svg"
+              src={`/assets/logo-${darkMode ? "light" : "dark"}.svg`}
               alt="Logo"
               width={24}
               height={25}
