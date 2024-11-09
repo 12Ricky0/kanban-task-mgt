@@ -4,7 +4,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Subtask } from "@/libs/definitions";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { KanbanContext } from "@/context";
 
 export default function TaskCard({
@@ -31,25 +31,25 @@ export default function TaskCard({
 
   return (
     <div>
-      <section
-        ref={setNodeRef}
-        style={style}
-        {...attributes}
-        {...listeners}
-        className="w-[280px] rounded-lg bg-white dark:bg-secondary-dark-gray py-[23px]"
-      >
-        <article className="px-4">
-          <Link href={`/details/${userboard.id}/${slug}/${title}`}>
-            <h1 className="font-bold text-primary-dark dark:text-white text-[15px] mb-2">
+      <Link href={`/details/${userboard.id}/${slug}/${title}`} passHref>
+        <section
+          ref={setNodeRef}
+          style={style}
+          {...attributes}
+          {...listeners}
+          className="w-[280px] group rounded-lg bg-white dark:bg-secondary-dark-gray py-[23px]"
+        >
+          <article className="px-4">
+            <h1 className="font-bold group-hover:text-primary-violet text-primary-dark dark:text-white text-[15px] mb-2">
               {title}
             </h1>
-          </Link>
 
-          <p className="mb-4 text-[13px] text-secondary-gray font-bold">
-            {completed} of {subtask!.length} subtasks
-          </p>
-        </article>
-      </section>
+            <p className="mb-4 text-[13px] text-secondary-gray font-bold">
+              {completed} of {subtask!.length} subtasks
+            </p>
+          </article>
+        </section>
+      </Link>
     </div>
   );
 }

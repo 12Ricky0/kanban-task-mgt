@@ -15,6 +15,7 @@ export default function KanbanProvider({
   const [showDelete, setShowDelete] = useState(false);
   const [showActionButtons, setShowActionButtons] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [displaySidebar, setDisplaySidebar] = useState(true);
 
   useEffect(() => {
     fetch("/api")
@@ -55,6 +56,8 @@ export default function KanbanProvider({
         setShowActionButtons,
         darkMode,
         setDarkMode,
+        displaySidebar,
+        setDisplaySidebar,
       }}
     >
       {children}

@@ -44,9 +44,11 @@ export const tasks = z.object({
 
 export const columns = z
   .object({
-    name: z.string({
-      required_error: "Column name is required",
-    }),
+    name: z
+      .string({
+        required_error: "Column name is required",
+      })
+      .min(1, { message: "Can`t be empty" }),
     tasks: z.array(tasks),
   })
   .required();

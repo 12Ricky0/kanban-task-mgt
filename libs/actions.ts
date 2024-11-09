@@ -222,3 +222,33 @@ export async function deleteTask(id: string, column_id: string, title: string) {
   revalidatePath("/");
   redirect("/");
 }
+
+export async function updateDnD(
+  id: string,
+  active: string,
+  title: string | number,
+  over: string
+) {
+  try {
+    const doc = await Kanban.findById(id);
+
+    const activeColumn = doc.columns.find(
+      (column: Column) => column.name === active
+    );
+    const destColumn = doc.columns.find(
+      (column: Column) => column.name === over
+    );
+
+    const taskIndex = activeColumn.tasks.findIndex(
+      (task: Tasks) => task.title === title
+    );
+
+    const [task] = activeColumn.tasks.splice(taskIndex, 1);
+    destColumn.tasks.push(task);
+
+    await doc.save();
+  } catch (error) {
+    console.error(error);
+  }
+  revalidatePath("/");
+}

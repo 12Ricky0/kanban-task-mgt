@@ -3,6 +3,7 @@
 import {
   DndContext,
   KeyboardSensor,
+  MouseSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
@@ -20,9 +21,11 @@ import { KanbanContext } from "@/context";
 import Column from "./column";
 import { Subtask, Board } from "@/libs/definitions";
 import { Item } from "../task-card";
+import { updateDnD } from "@/libs/actions";
+import { AddColumnButton } from "../buttons/buttons";
 
 export default function Container({ data }: { data: Board[] }) {
-  const { userboard }: any = useContext(KanbanContext);
+  const { userboard, displaySidebar }: any = useContext(KanbanContext);
   const [items, setItems] = useState<{
     [key: string]: { title: string; subtasks: Subtask[] }[];
   }>({});
@@ -44,9 +47,8 @@ export default function Container({ data }: { data: Board[] }) {
 
     setItems(mainTask);
   }, [userboard, data]);
-
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    // useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
@@ -54,6 +56,11 @@ export default function Container({ data }: { data: Board[] }) {
       activationConstraint: {
         delay: 250,
         tolerance: 5,
+      },
+    }),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
       },
     })
   );
@@ -120,6 +127,7 @@ export default function Container({ data }: { data: Board[] }) {
         ],
       };
     });
+    updateDnD(userboard.id, activeContainer, active.id, overContainer);
   }
 
   function handleDragEnd(event: DragEndEvent) {
@@ -156,23 +164,30 @@ export default function Container({ data }: { data: Board[] }) {
     setActiveId(null);
   }
   return (
-    <DndContext
-      sensors={sensors}
-      onDragOver={handleDragOver}
-      collisionDetection={closestCorners}
-      onDragEnd={handleDragEnd}
-      onDragStart={handleDragStart}
+    <section
+      className={`flex gap-6 md:mt-[100px] mt-[70px] ${
+        displaySidebar ? "md:pl-[280px]" : "md:pl-6 "
+      } overflow-scroll pl-6 md:pl-0`}
     >
-      {Object.entries(items).map(([column, task]) => (
-        <Column
-          index={Object.keys(items).indexOf(column).toString()}
-          name={column}
-          key={column}
-          // active={activeId}
-          task={task && task.map((t) => t)}
-        />
-      ))}
-      <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
-    </DndContext>
+      <DndContext
+        sensors={sensors}
+        onDragOver={handleDragOver}
+        collisionDetection={closestCorners}
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
+      >
+        {Object.entries(items).map(([column, task]) => (
+          <Column
+            index={Object.keys(items).indexOf(column).toString()}
+            name={column}
+            key={column}
+            // active={activeId}
+            task={task && task.map((t) => t)}
+          />
+        ))}
+        <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+      </DndContext>
+      <AddColumnButton />
+    </section>
   );
 }

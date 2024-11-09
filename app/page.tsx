@@ -10,7 +10,7 @@ import data from "@/data.json";
 import { AddColumnButton } from "@/components/buttons/buttons";
 import Container from "@/components/dnd/container";
 // import BoardForm from "@/components/forms/board";
-import { fetchAllTask, fetchTaskDetails } from "@/libs/data";
+import { fetchAllTask } from "@/libs/data";
 
 export default async function Home() {
   // const mainTask = i[0].columns.map((column) => column.tasks);
@@ -30,18 +30,28 @@ export default async function Home() {
   let res = await data?.json();
   // console.log(res);
   return (
+    // <main className="">
+    //   <Header boards={res} />
+    //   <div className="flex gap-6 pl-6 md:pl-0 overflow-scroll">
+    //     <div className="hidden md:block">
+    //       <NavBar boards={res} />
+    //     </div>
+    //     <Container data={res} />
+    //     <AddColumnButton />
+    //   </div>
+    // </main>
     <main className="">
-      <Header boards={res} />
-      <div className="flex gap-6 pl-6 md:pl-0 overflow-scroll">
-        <div className="hidden md:block">
+      <div className="md:flex justify-between">
+        <div className="min-h-screen hidden md:inline-block">
           <NavBar boards={res} />
         </div>
-        <Container data={res} />
-        <AddColumnButton />
+        <div className="md:w-full ">
+          <Header boards={res} />
+          <div className="">
+            <Container data={res} />
+          </div>
+        </div>
       </div>
-      {/* <DeleteModal /> */}
-      {/* <Details /> */}
-      {/* <TaskForm /> */}
     </main>
   );
 }

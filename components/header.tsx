@@ -16,11 +16,18 @@ export default function Header({ boards }: { boards: Board[] }) {
     showActionButtons,
     setShowActionButtons,
     darkMode,
+    displaySidebar,
   }: any = useContext(KanbanContext);
 
   return (
-    <section className="">
-      <header className="bg-white  dark:bg-secondary-dark-gray md:border-b dark:border-secondary-light-gray flex py-[20px] md:py-0 justify-between items-center">
+    <section
+      className={`${
+        displaySidebar ? "md:pt-[20px] md:pb-[28px]" : "pt-0 pb-0 "
+      } bg-white ${
+        displaySidebar && "ml-[260x] "
+      } dark:bg-secondary-dark-gray md:border-b fixed w-full top-0  dark:border-secondary-light-gray`}
+    >
+      <header className="  flex py-[20px] md:py-0 justify-between items-center">
         <div className="inline-flex ml-4 md:ml-6 gap-4 md:gap-6">
           <Image
             src="/assets/logo-mobile.svg"
@@ -30,17 +37,23 @@ export default function Header({ boards }: { boards: Board[] }) {
             className="block md:hidden"
           />
 
-          <div className="hidden md:inline-flex border-r dark:border-secondary-light-gray py-10 items-center">
-            <Image
-              src={`/assets/logo-${darkMode ? "light" : "dark"}.svg`}
-              alt="Logo"
-              width={24}
-              height={25}
-              className={`w-auto h-auto  pr-[24px]`}
-            />
-          </div>
+          {!displaySidebar && (
+            <div className="hidden md:inline-flex border-r dark:border-secondary-light-gray py-10 items-center">
+              <Image
+                src={`/assets/logo-${darkMode ? "light" : "dark"}.svg`}
+                alt="Logo"
+                width={24}
+                height={25}
+                className={`w-auto h-auto  pr-[24px]`}
+              />
+            </div>
+          )}
           <div className="md:inline-flex hidden gap-2 items-center">
-            <h1 className="text-[18px] dark:text-white md:text-[20px] leading-normal font-bold">
+            <h1
+              className={`text-[18px] ${
+                displaySidebar && " pl-[260px]"
+              } dark:text-white md:text-[24px] leading-normal font-bold`}
+            >
               {userboard.name}
             </h1>
           </div>
@@ -48,7 +61,7 @@ export default function Header({ boards }: { boards: Board[] }) {
             onClick={() => setDisplayMenu(!displayMenu)}
             className="inline-flex md:hidden gap-2 items-center"
           >
-            <h1 className="text-[18px] md:text-[20px] dark:text-white leading-normal font-bold">
+            <h1 className="text-[18px]  md:text-[24px] dark:text-white leading-normal font-bold">
               {userboard.name}
             </h1>
             <Image
@@ -64,7 +77,7 @@ export default function Header({ boards }: { boards: Board[] }) {
         <div>
           <div className="inline-flex items-center mr-4 md:mr-6 gap-4 md:gap-6">
             <Link href={`/createtask/${userboard.id}`}>
-              <div className="bg-primary-violet w-12 h-8 md:h-auto md:w-auto md:py-[15px] cursor-pointer  md:px-6 rounded-3xl flex items-center justify-center">
+              <div className="bg-primary-violet hover:bg-primary-light-violet w-12 h-8 md:h-auto md:w-auto md:py-[15px] cursor-pointer  md:px-6 rounded-3xl flex items-center justify-center">
                 <Image
                   src="/assets/icon-add-task-mobile.svg"
                   alt="add-task"

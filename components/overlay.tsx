@@ -16,7 +16,8 @@ export function Overlay({ children }: { children: ReactNode }) {
       if (
         pathname.includes("details") ||
         pathname.includes("create") ||
-        pathname.includes("edit")
+        pathname.includes("edit") ||
+        pathname.includes("update")
       ) {
         router.back();
       }
@@ -25,7 +26,7 @@ export function Overlay({ children }: { children: ReactNode }) {
   return (
     <div
       onClick={handleClick}
-      className="overlay flex items-center justify-center"
+      className="overlay min-w-full z-20 flex items-center justify-center"
     >
       {children}
     </div>
