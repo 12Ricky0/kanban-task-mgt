@@ -1,16 +1,9 @@
 import Image from "next/image";
 import Header from "@/components/header";
 import NavBar from "@/components/side-bar";
-import Column from "@/components/dnd/column";
-import DeleteModal from "@/components/modals/delete";
-import TaskForm from "@/components/forms/task-form";
-import Details from "@/components/modals/task-details";
-import TaskCard from "@/components/task-card";
-import data from "@/data.json";
-import { AddColumnButton } from "@/components/buttons/buttons";
 import Container from "@/components/dnd/container";
-// import BoardForm from "@/components/forms/board";
 import { fetchAllTask } from "@/libs/data";
+import LoginForm from "@/components/forms/login-form";
 
 export default async function Home() {
   // const mainTask = i[0].columns.map((column) => column.tasks);
@@ -30,16 +23,6 @@ export default async function Home() {
   let res = await data?.json();
   // console.log(res);
   return (
-    // <main className="">
-    //   <Header boards={res} />
-    //   <div className="flex gap-6 pl-6 md:pl-0 overflow-scroll">
-    //     <div className="hidden md:block">
-    //       <NavBar boards={res} />
-    //     </div>
-    //     <Container data={res} />
-    //     <AddColumnButton />
-    //   </div>
-    // </main>
     <main className="">
       <div className="md:flex justify-between">
         <div className="min-h-screen hidden md:inline-block">

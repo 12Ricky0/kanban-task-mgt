@@ -3,15 +3,39 @@ import { z } from "zod";
 import Kanban from "@/models/kanbanData";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
 import {
   columns,
   board,
   subTask,
   tasks,
+  credentials,
   Column,
   Tasks,
   Subtask,
 } from "./definitions";
+
+export async function registerUser(prevState: any, formData: FormData) {
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const repeat = formData.get("repeat_password");
+  const validateCredentials = credentials.safeParse({
+    email: email,
+    password: password,
+  });
+
+  if (password !== repeat) {
+    return { message: "Password do not match" };
+  }
+  if (!validateCredentials.success) {
+    return {
+      errors: validateCredentials.error.flatten().fieldErrors,
+      // message: "Missing Fields. Failed to Create Board.",
+    };
+  }
+
+  // console.log(validateCredentials);
+}
 
 export async function createBoard(prevState: any, formData: FormData) {
   const columnNames = formData.getAll("column");

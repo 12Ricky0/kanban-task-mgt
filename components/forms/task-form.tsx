@@ -53,7 +53,7 @@ export default function TaskForm({ options }: { options: string[] }) {
               id="title"
               name="title"
               placeholder="e.g. Take coffee break"
-              className="w-full border dark:text-white border-secondary-gray dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
+              className="w-full border dark:text-white border-secondary-gray outline-primary-violet focus:outline focus:border-0 dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
             {state?.errors.title && (
               <div className="">
@@ -77,7 +77,7 @@ export default function TaskForm({ options }: { options: string[] }) {
               placeholder="e.g. It’s always good to take a break. This 
 15 minute break will  recharge the batteries 
 a little."
-              className="w-full border dark:text-white leading-[23px] dark:bg-secondary-dark-gray border-opacity-25 border-secondary-gray rounded-lg font-medium text-[13px] px-4 py-2"
+              className="w-full border outline-primary-violet focus:outline focus:border-0 dark:text-white leading-[23px] dark:bg-secondary-dark-gray border-opacity-25 border-secondary-gray rounded-lg font-medium text-[13px] px-4 py-2"
             />
           </div>
 

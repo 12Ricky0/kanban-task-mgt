@@ -67,7 +67,7 @@ export default function NavBar({ boards }: { boards: Board[] }) {
               className="inline-block mr-3 ml-6"
             />
             <Link href="/createboard">
-              <span className="text-primary-violet text-[15px] font-bold">
+              <span className="text-primary-violet hover:text-primary-light-violet text-[15px] font-bold">
                 + Create New Board
               </span>
             </Link>

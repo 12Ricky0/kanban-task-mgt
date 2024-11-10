@@ -1,10 +1,11 @@
 "use client";
 import { Overlay } from "../overlay";
-import { useState, useActionState } from "react";
+import { useState, useActionState, ChangeEvent } from "react";
 import SubtaskForm from "./subtask";
 import Image from "next/image";
 import { BoardColumns } from "./subtask";
 import { createBoard } from "@/libs/actions";
+import { useRouter } from "next/navigation";
 export default function BoardForm() {
   // const [columns, setColumns] = useState<JSX.Element[]>([]);
 
@@ -25,6 +26,15 @@ export default function BoardForm() {
   }
 
   const [state, formAction] = useActionState(createBoard, null);
+  const [formData, setFormData] = useState({ "board-title": "" });
+  const router = useRouter();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <Overlay>
@@ -33,7 +43,15 @@ export default function BoardForm() {
           Add New Board
         </h1>
 
-        <form action={formAction} className="mx-6">
+        <form
+          onSubmit={() => {
+            if (formData["board-title"]) {
+              setTimeout(() => router.back(), 1000); // Navigate back once after 20ms
+            }
+          }}
+          action={formAction}
+          className="mx-6"
+        >
           <div className="flex flex-col">
             <label
               className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold"
@@ -45,10 +63,13 @@ export default function BoardForm() {
               type="text"
               id="title"
               name="board-title"
+              value={formData["board-title"]}
+              onChange={handleChange}
+              // required
               placeholder="e.g. Web Design"
-              className="w-full border dark:text-white dark:bg-secondary-dark-gray border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
+              className="w-full border dark:text-white dark:bg-secondary-dark-gray outline-primary-violet focus:outline focus:border-0 border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
-            {state?.errors.name && (
+            {state?.errors?.name && (
               <div className="">
                 <p className="text-[13px] md:text-[14px] text-tetiary-red">
                   {state.errors.name}

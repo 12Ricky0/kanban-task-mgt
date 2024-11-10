@@ -51,7 +51,7 @@ export default function EditBoardForm({
               name="board-title"
               defaultValue={board.name}
               placeholder="e.g. Web Design"
-              className="w-full border dark:text-white dark:bg-secondary-dark-gray border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
+              className="w-full border dark:text-white outline-primary-violet focus:outline focus:border-0 dark:bg-secondary-dark-gray border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
             {state?.errors.name && (
               <div className="">
@@ -90,7 +90,7 @@ export default function EditBoardForm({
             </button>
           </div>
           <button className="block mb-4 text-white hover:bg-primary-light-violet h-10 font-bold text-[13px] bg-primary-violet w-[100%] rounded-full">
-            Create New Board
+            Save Changes
           </button>
         </form>
       </section>

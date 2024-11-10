@@ -24,7 +24,7 @@ export default function SubtaskForm({
         // onChange={handleChange}
         defaultValue={defaultValue}
         placeholder="e.g. Make coffee"
-        className="w-full border border-secondary-gray dark:bg-secondary-dark-gray dark:text-white border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
+        className="w-full border border-secondary-gray outline-primary-violet focus:outline focus:border-0 dark:bg-secondary-dark-gray dark:text-white border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
       />
       <Image
         src="/assets/icon-cross.svg"
@@ -56,7 +56,7 @@ export function BoardColumns({
         ref={inputRef}
         placeholder="e.g. Make coffee"
         defaultValue={name}
-        className="w-full border border-secondary-gray dark:text-white dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
+        className="w-full border border-secondary-gray outline-primary-violet focus:outline focus:border-0 dark:text-white dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
       />
       <Image
         src="/assets/icon-cross.svg"
