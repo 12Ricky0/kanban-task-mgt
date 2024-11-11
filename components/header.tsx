@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Popup from "./subtask-card";
 import { KanbanContext } from "@/context";
 import NavBar from "./side-bar";
 import TaskForm from "./forms/task-form";
 import Link from "next/link";
 import { Board } from "@/libs/definitions";
+import { PowerIcon } from "@heroicons/react/24/solid";
+import { signOut, signIn } from "next-auth/react";
 
 export default function Header({ boards }: { boards: Board[] }) {
   const {
@@ -18,6 +20,7 @@ export default function Header({ boards }: { boards: Board[] }) {
     darkMode,
     displaySidebar,
   }: any = useContext(KanbanContext);
+  const [showButton, setShowButton] = useState(false);
 
   return (
     <section
@@ -98,6 +101,10 @@ export default function Header({ boards }: { boards: Board[] }) {
               className="cursor-pointer"
               onClick={() => setShowActionButtons(!showActionButtons)}
             />
+            <PowerIcon
+              onClick={() => setShowButton(!showButton)}
+              className="md:size-7 size-6 dark:text-white cursor-pointer"
+            />
           </div>
           {showActionButtons && (
             <Popup type={userboard.name} id={userboard.id} />
@@ -107,6 +114,22 @@ export default function Header({ boards }: { boards: Board[] }) {
       {displayMenu && (
         <div className="absolute w-full">
           <NavBar boards={boards} />
+        </div>
+      )}
+      {showButton && (
+        <div className="absolute bg-white dark:bg-primary-semi-dark p-6 font-bold text-[18px] right-0 rounded-lg shadow-lg flex flex-col gap-2 mr-6 mt-5 ">
+          <button
+            className="text-secondary-gray hover:text-green-400 font-bold"
+            onClick={() => signIn("github", { redirectTo: "/" })}
+          >
+            Login
+          </button>
+          <button
+            className="hover:text-red-400 text-secondary-gray"
+            onClick={() => signOut({ redirectTo: "/login" })}
+          >
+            Logout
+          </button>
         </div>
       )}
     </section>

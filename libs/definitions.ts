@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 export type User = {
-  _id: string;
-  name: string;
+  _id?: string;
   email: string;
   password: string;
 };
@@ -32,6 +31,7 @@ export interface Column {
 }
 
 export interface Board {
+  // user: User;
   _id: string;
   name: string;
   columns: Column[];
@@ -42,7 +42,6 @@ export const credentials = z.object({
   password: z
     .string()
     .min(6, { message: "Password must contain at least 6 character(s)" }),
-  matcher: z.string().min(6),
 });
 
 export const subTask = z.object({

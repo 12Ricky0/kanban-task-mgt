@@ -1,9 +1,12 @@
 "use server";
 import { z } from "zod";
 import Kanban from "@/models/kanbanData";
+import KanbanUser from "@/models/kanbanUser";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
+// import bcrypt from "bcrypt";
 import {
   columns,
   board,
@@ -16,6 +19,8 @@ import {
 } from "./definitions";
 
 export async function registerUser(prevState: any, formData: FormData) {
+  const saltRounds = 10;
+
   const email = formData.get("email");
   const password = formData.get("password");
   const repeat = formData.get("repeat_password");
@@ -34,7 +39,33 @@ export async function registerUser(prevState: any, formData: FormData) {
     };
   }
 
+  try {
+    await KanbanUser.create(validateCredentials.data);
+  } catch (error) {}
+  redirect("/login");
   // console.log(validateCredentials);
+}
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+}
+export async function getUser(email: string) {
+  return await KanbanUser.findOne({ email: email });
 }
 
 export async function createBoard(prevState: any, formData: FormData) {

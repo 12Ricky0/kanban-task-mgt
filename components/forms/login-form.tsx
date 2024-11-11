@@ -1,11 +1,18 @@
 "use client";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useActionState } from "react";
 import { KanbanContext } from "@/context";
 import Image from "next/image";
+import { authenticate } from "@/libs/actions";
 
 export default function LoginForm() {
   const { darkMode }: any = useContext(KanbanContext);
+
+  const [state, formAction, isPending] = useActionState(
+    authenticate,
+    undefined
+  );
+
   return (
     <div>
       <Image
@@ -20,7 +27,7 @@ export default function LoginForm() {
         <h1 className="text-[24px] text-primary-violet font-bold tracking-[2.4px] mb-[19px] text-center">
           Login
         </h1>
-        <form className="flex flex-col ">
+        <form action={formAction} className="flex flex-col ">
           <label
             className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold"
             htmlFor="email"
@@ -51,15 +58,28 @@ export default function LoginForm() {
             className="w-full border mb-6 border-secondary-gray outline-primary-violet focus:outline focus:border-0 dark:text-white dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
           />
           <button
+            aria-disabled={isPending}
             className="bg-primary-violet hover:bg-primary-light-violet h-9 md:h-auto w-auto md:py-[10px] cursor-pointer  md:px-6 rounded-3xl flex items-center justify-center text-white md:block text-[15px] font-semibold"
             type="submit"
           >
             Login
           </button>
+
+          <div
+            className="flex h-8 items-end space-x-1"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            {state && (
+              <>
+                <p className="text-sm text-red-500">{state}</p>
+              </>
+            )}
+          </div>
         </form>
 
         <p className="text-center dark:text-white font-medium text-secondary-gray mt-6 text-tetiary-gray">
-          Don't have an account?{" "}
+          Don`t have an account?{" "}
           <Link
             className="font-bold text-primary-violet hover:text-primary-light-violet"
             href="/signup"
