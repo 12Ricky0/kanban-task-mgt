@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { dbConnect } from "./dbConnect";
 // import bcrypt from "bcrypt";
 import {
   columns,
@@ -40,6 +41,8 @@ export async function registerUser(prevState: any, formData: FormData) {
   }
 
   try {
+    await dbConnect();
+
     await KanbanUser.create(validateCredentials.data);
   } catch (error) {}
   redirect("/login");
@@ -65,6 +68,8 @@ export async function authenticate(
   }
 }
 export async function getUser(email: string) {
+  await dbConnect();
+
   return await KanbanUser.findOne({ email: email });
 }
 

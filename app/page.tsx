@@ -23,6 +23,15 @@ export default async function Home() {
   let data = await fetchAllTask();
   let res = await data?.json();
   // console.log(session);
+
+  // if (!session) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <LoginForm />
+  //     </div>
+  //   );
+  // }
+
   return (
     <main className="">
       <div className="md:flex justify-between">
