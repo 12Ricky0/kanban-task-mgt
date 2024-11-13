@@ -4,8 +4,12 @@ import { z } from "zod";
 import { credentials } from "./libs/definitions";
 import { getUser } from "./libs/actions";
 import mongoose from "mongoose";
+import { authConfig } from "./auth.config";
+import bcryptjs from "bcryptjs";
+import GitHub from "next-auth/providers/github";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -18,7 +22,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           const user = await getUser(email);
           if (!user) return null;
 
-          const passwordsMatch = user.password === password;
+          const passwordsMatch = await bcryptjs.compare(
+            password,
+            user.password
+          );
           if (passwordsMatch) return user;
         }
         console.log("Invalid credentials");

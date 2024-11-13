@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useContext, useActionState } from "react";
+import { useContext, useActionState, useState, ChangeEvent } from "react";
 import { KanbanContext } from "@/context";
 import Image from "next/image";
 import { authenticate } from "@/libs/actions";
@@ -13,15 +13,27 @@ export default function LoginForm() {
     undefined
   );
 
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <div>
-      <Image
+      {/* <Image
         src={`/assets/logo-${darkMode ? "light" : "dark"}.svg`}
         alt="Logo"
         width={24}
         height={25}
         className={`w-auto h-auto mx-auto  mb-[24px]`}
-      />
+      /> */}
 
       <section className=" bg-white p-6 dark:bg-secondary-dark-gray w-full md:w-[400px] mx-6 rounded-lg">
         <h1 className="text-[24px] text-primary-violet font-bold tracking-[2.4px] mb-[19px] text-center">
@@ -41,6 +53,8 @@ export default function LoginForm() {
             name="email"
             placeholder="Email"
             required
+            value={formData.email}
+            onChange={handleChange}
           />
 
           <label
@@ -55,6 +69,8 @@ export default function LoginForm() {
             name="password"
             placeholder="Password"
             required
+            value={formData.password}
+            onChange={handleChange}
             className="w-full border mb-6 border-secondary-gray outline-primary-violet focus:outline focus:border-0 dark:text-white dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
           />
           <button

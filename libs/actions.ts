@@ -7,7 +7,8 @@ import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { dbConnect } from "./dbConnect";
-// import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
+
 import {
   columns,
   board,
@@ -20,11 +21,10 @@ import {
 } from "./definitions";
 
 export async function registerUser(prevState: any, formData: FormData) {
-  const saltRounds = 10;
-
   const email = formData.get("email");
   const password = formData.get("password");
   const repeat = formData.get("repeat_password");
+
   const validateCredentials = credentials.safeParse({
     email: email,
     password: password,
@@ -41,9 +41,14 @@ export async function registerUser(prevState: any, formData: FormData) {
   }
 
   try {
+    var salt = bcryptjs.genSaltSync(10);
+
+    const { email, password } = validateCredentials.data;
+    const hashedPassword = await bcryptjs.hash(password, salt);
+    const data = { email: email, password: hashedPassword };
     await dbConnect();
 
-    await KanbanUser.create(validateCredentials.data);
+    await KanbanUser.create(data);
   } catch (error) {}
   redirect("/login");
   // console.log(validateCredentials);

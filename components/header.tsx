@@ -126,7 +126,7 @@ export default function Header({ boards }: { boards: Board[] }) {
           </button>
           <button
             className="hover:text-red-400 text-secondary-gray"
-            onClick={() => signOut({ redirectTo: "/login" })}
+            onClick={() => signOut()}
           >
             Logout
           </button>
