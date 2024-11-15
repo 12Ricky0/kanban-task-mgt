@@ -31,8 +31,8 @@ export interface Column {
 }
 
 export interface Board {
-  // user: User;
   _id: string;
+  user: string;
   name: string;
   columns: Column[];
 }
@@ -69,6 +69,7 @@ export const columns = z
 
 export const board = z
   .object({
+    user: z.string().email(),
     name: z
       .string({
         required_error: "Name is required",

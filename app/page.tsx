@@ -22,7 +22,7 @@ export default async function Home() {
   const session = await auth();
   let data = await fetchAllTask();
   let res = await data?.json();
-  // console.log(session);
+  // console.log(res);
 
   // if (!session) {
   //   return (

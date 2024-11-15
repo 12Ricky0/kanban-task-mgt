@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import { authConfig } from "./auth.config";
 import bcryptjs from "bcryptjs";
 import GitHub from "next-auth/providers/github";
+import { redirect } from "next/navigation";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,

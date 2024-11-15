@@ -1,11 +1,26 @@
 "use server";
 import { dbConnect } from "./dbConnect";
 import Kanban from "@/models/kanbanData";
+import { auth } from "@/auth";
+import { getUser } from "./actions";
+import { createBoard } from "./actions";
 
 export async function fetchAllTask() {
   try {
     await dbConnect();
-    const res = await Kanban.find();
+    const session = await auth();
+
+    const data = {
+      boards: [{ user: session?.user?.email, name: "Welcome", columns: [] }],
+    };
+
+    const res = await Kanban.find({ user: session?.user?.email });
+    // const response = Response.json(res);
+    // if (!response) {
+    //   await Kanban.create(data);
+    //   const d = await Kanban.findOne({ user: session?.user?.email });
+    //   return Response.json(d);
+    // }
     return Response.json(res);
   } catch (error) {
     console.error(error);
@@ -29,6 +44,7 @@ export async function fetchAllTask() {
 export async function fetchTaskDetailsById(id: string) {
   try {
     await dbConnect();
+
     const res = await Kanban.findOne({
       _id: id,
     });

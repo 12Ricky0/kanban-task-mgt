@@ -1,5 +1,6 @@
 import { dbConnect } from "@/libs/dbConnect";
 import Kanban from "@/models/kanbanData";
+import { auth } from "@/auth";
 
 export async function POST(request: Request) {
   const res = await request.json();
@@ -15,6 +16,8 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   await dbConnect();
-  const res = await Kanban.find();
+  const session = await auth();
+
+  const res = await Kanban.find({ user: session?.user?.email });
   return Response.json(res);
 }

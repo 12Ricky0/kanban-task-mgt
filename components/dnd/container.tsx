@@ -31,11 +31,11 @@ export default function Container({ data }: { data: Board[] }) {
   }>({});
 
   useEffect(() => {
-    const filteredResults = data.filter((d) => d.name === userboard.name);
+    const filteredResults = data?.filter((d) => d.name === userboard.name);
     const mainTask: {
       [key: string]: { title: string; subtasks: Subtask[] }[];
     } =
-      filteredResults.length > 0
+      filteredResults?.length > 0
         ? filteredResults[0].columns.reduce((acc: any, column) => {
             acc[column.name] = column.tasks.map((task) => ({
               title: task.title,

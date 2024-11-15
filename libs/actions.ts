@@ -8,7 +8,7 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { dbConnect } from "./dbConnect";
 import bcryptjs from "bcryptjs";
-
+import { auth } from "@/auth";
 import {
   columns,
   board,
@@ -30,6 +30,10 @@ export async function registerUser(prevState: any, formData: FormData) {
     password: password,
   });
 
+  const user = await getUser(email!.toString());
+  if (user) {
+    return { message: "Email already in use" };
+  }
   if (password !== repeat) {
     return { message: "Password do not match" };
   }
@@ -49,6 +53,13 @@ export async function registerUser(prevState: any, formData: FormData) {
     await dbConnect();
 
     await KanbanUser.create(data);
+
+    const userData = {
+      user: email,
+      name: "Welcome",
+      columns: [],
+    };
+    await Kanban.create(userData);
   } catch (error) {}
   redirect("/login");
   // console.log(validateCredentials);
@@ -71,6 +82,7 @@ export async function authenticate(
     }
     throw error;
   }
+  redirect("/");
 }
 export async function getUser(email: string) {
   await dbConnect();
@@ -80,6 +92,7 @@ export async function getUser(email: string) {
 
 export async function createBoard(prevState: any, formData: FormData) {
   const columnNames = formData.getAll("column");
+  const session = await auth();
 
   const columnsData = columnNames.map((name) => ({
     name: name,
@@ -89,6 +102,7 @@ export async function createBoard(prevState: any, formData: FormData) {
   const validateColumn = z.array(columns).safeParse(columnsData);
 
   const validateBoard = board.safeParse({
+    user: session?.user?.email,
     name: formData.get("board-title"),
     columns: validateColumn.data,
   });
@@ -112,6 +126,8 @@ export async function updateBoard(
   prevState: any,
   formData: FormData
 ) {
+  const session = await auth();
+
   const columnNames = formData?.getAll("column") as string[];
   const rawFormData = Object.fromEntries(formData.entries());
 
@@ -123,6 +139,7 @@ export async function updateBoard(
   const validateColumn = z.array(columns).safeParse(columnsData);
 
   const validateBoard = board.safeParse({
+    user: session?.user?.email,
     name: formData.get("board-title"),
     columns: validateColumn.data,
   });
