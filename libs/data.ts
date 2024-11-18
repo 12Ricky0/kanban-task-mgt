@@ -9,18 +9,7 @@ export async function fetchAllTask() {
   try {
     await dbConnect();
     const session = await auth();
-
-    const data = {
-      boards: [{ user: session?.user?.email, name: "Welcome", columns: [] }],
-    };
-
     const res = await Kanban.find({ user: session?.user?.email });
-    // const response = Response.json(res);
-    // if (!response) {
-    //   await Kanban.create(data);
-    //   const d = await Kanban.findOne({ user: session?.user?.email });
-    //   return Response.json(d);
-    // }
     return Response.json(res);
   } catch (error) {
     console.error(error);

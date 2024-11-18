@@ -17,7 +17,6 @@ import {
   credentials,
   Column,
   Tasks,
-  Subtask,
 } from "./definitions";
 
 export async function registerUser(prevState: any, formData: FormData) {
@@ -40,7 +39,6 @@ export async function registerUser(prevState: any, formData: FormData) {
   if (!validateCredentials.success) {
     return {
       errors: validateCredentials.error.flatten().fieldErrors,
-      // message: "Missing Fields. Failed to Create Board.",
     };
   }
 
@@ -62,7 +60,6 @@ export async function registerUser(prevState: any, formData: FormData) {
     await Kanban.create(userData);
   } catch (error) {}
   redirect("/login");
-  // console.log(validateCredentials);
 }
 
 export async function authenticate(
@@ -116,7 +113,9 @@ export async function createBoard(prevState: any, formData: FormData) {
 
   try {
     await Kanban.create(validateBoard.data);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
   revalidatePath("/");
   redirect("/");
 }
@@ -162,7 +161,6 @@ export async function updateBoard(
 export async function deleteBoard(id: string) {
   try {
     await Kanban.findByIdAndDelete(id);
-    // console.log(id);
   } catch (error) {}
   revalidatePath("/");
   redirect("/");
@@ -251,7 +249,9 @@ export async function updateTask(
     toEdit.status = s;
     toEdit.subtasks = subtasks;
     await doc.save();
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
   revalidatePath("/");
   redirect("/");
 }
@@ -288,7 +288,9 @@ export async function updatedIsCompleted(
         ],
       }
     );
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
   revalidatePath(
     "/details/" + id + "/" + encodeURI(col.name) + "/" + encodeURI(title.title)
   );
@@ -300,7 +302,9 @@ export async function deleteTask(id: string, column_id: string, title: string) {
       { _id: id, "columns._id": column_id },
       { $pull: { "columns.$.tasks": { title: title } } }
     );
-  } catch (error) {}
+  } catch (error) {
+    console.error(error);
+  }
   revalidatePath("/");
   redirect("/");
 }
@@ -332,5 +336,25 @@ export async function updateDnD(
   } catch (error) {
     console.error(error);
   }
+  revalidatePath("/");
+}
+
+export async function sortTask(
+  id: string,
+  active: string,
+  oldIndex: number,
+  newIndex: number
+) {
+  try {
+    const doc = await Kanban.findById(id);
+    const activeColumn = doc.columns.find(
+      (column: Column) => column.name === active
+    );
+
+    const [task] = activeColumn.tasks.splice(oldIndex, 1); // Remove task from old position
+    activeColumn.tasks.splice(newIndex, 0, task); // Insert task at new position
+
+    await doc.save();
+  } catch (error) {}
   revalidatePath("/");
 }

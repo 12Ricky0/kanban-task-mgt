@@ -90,18 +90,35 @@ export function Subtask_List({
               : "text-primary-dark dark:text-white"
           } rounded-lg`}
         >
-          <input
-            checked={checkedStates[index]}
-            onChange={() =>
-              handleCheckboxChange(index, subtask._id!, checkedStates[index])
-            }
-            type="checkbox"
-            className="cursor-pointer dark:bg-secondary-dark-gray"
-          />
-          <label className={`${checkedStates[index] && "line-through"}`}>
-            {" "}
-            {subtask.title}
-          </label>
+          <>
+            <input
+              checked={checkedStates[index]}
+              onChange={() =>
+                handleCheckboxChange(index, subtask._id!, checkedStates[index])
+              }
+              type="checkbox"
+              className="relative peer cursor-pointer dark:bg-secondary-dark-gray appearance-none w-4 h-4 border-1 border-secondary-light-gray rounded-sm bg-white checked:bg-primary-violet checked:border-0"
+            />
+            <label className={`${checkedStates[index] && "line-through"}`}>
+              {" "}
+              {subtask.title}
+            </label>
+            <svg
+              className="ml-[2px]
+      absolute 
+      w-3 h-4 
+      hidden peer-checked:block  pointer-events-none"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </>
         </section>
       ))}
     </div>

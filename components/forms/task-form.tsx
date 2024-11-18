@@ -7,10 +7,12 @@ import Image from "next/image";
 import Status from "./status";
 import { createTask } from "@/libs/actions";
 import { KanbanContext } from "@/context";
+import { useRouter } from "next/navigation";
 
 export default function TaskForm({ options }: { options: string[] }) {
   const [subtasks, setSubtasks] = useState<JSX.Element[]>([]);
   const { userboard }: any = useContext(KanbanContext);
+  const router = useRouter();
 
   const payload = createTask.bind(null, userboard.id);
 
@@ -40,7 +42,13 @@ export default function TaskForm({ options }: { options: string[] }) {
           Add New Task
         </h1>
 
-        <form action={formAction} className="mx-6">
+        <form
+          onSubmit={() => {
+            setTimeout(() => !state?.errors.status && router.back(), 1000);
+          }}
+          action={formAction}
+          className="mx-6"
+        >
           <div className="flex flex-col">
             <label
               className="mb-2 text-[13px] text-secondary-gray dark:text-white font-bold"
@@ -52,6 +60,7 @@ export default function TaskForm({ options }: { options: string[] }) {
               type="text"
               id="title"
               name="title"
+              required
               placeholder="e.g. Take coffee break"
               className="w-full border dark:text-white border-secondary-gray outline-primary-violet focus:outline focus:border-0 dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />

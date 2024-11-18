@@ -6,6 +6,7 @@ import Image from "next/image";
 import { BoardColumns } from "./subtask";
 import { updateBoard } from "@/libs/actions";
 import { Board } from "@/libs/definitions";
+import { useRouter } from "next/navigation";
 
 export default function EditBoardForm({
   board,
@@ -30,6 +31,9 @@ export default function EditBoardForm({
   }
   const payload = updateBoard.bind(null, id);
   const [state, formAction] = useActionState(payload, null);
+
+  const router = useRouter();
+
   return (
     <Overlay>
       <section className="bg-white dark:bg-secondary-dark-gray mx-4 w-full md:w-[480px] rounded-lg z-10">
@@ -37,7 +41,13 @@ export default function EditBoardForm({
           Edit Board
         </h1>
 
-        <form action={formAction} className="mx-6">
+        <form
+          onSubmit={() => {
+            setTimeout(() => router.back(), 1000); // Navigate back once after 20ms
+          }}
+          action={formAction}
+          className="mx-6"
+        >
           <div className="flex flex-col">
             <label
               className="mb-2 text-[13px] text-secondary-gray font-bold"
@@ -50,6 +60,7 @@ export default function EditBoardForm({
               id="title"
               name="board-title"
               defaultValue={board.name}
+              required
               placeholder="e.g. Web Design"
               className="w-full border dark:text-white outline-primary-violet focus:outline focus:border-0 dark:bg-secondary-dark-gray border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />

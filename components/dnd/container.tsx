@@ -21,11 +21,13 @@ import { KanbanContext } from "@/context";
 import Column from "./column";
 import { Subtask, Board } from "@/libs/definitions";
 import { Item } from "../task-card";
-import { updateDnD } from "@/libs/actions";
+import { updateDnD, sortTask } from "@/libs/actions";
 import { AddColumnButton } from "../buttons/buttons";
+import Empty from "../empty-column";
 
 export default function Container({ data }: { data: Board[] }) {
-  const { userboard, displaySidebar }: any = useContext(KanbanContext);
+  const { userboard, displaySidebar, columnIsEmpty, setColumnIsEmpty }: any =
+    useContext(KanbanContext);
   const [items, setItems] = useState<{
     [key: string]: { title: string; subtasks: Subtask[] }[];
   }>({});
@@ -47,6 +49,11 @@ export default function Container({ data }: { data: Board[] }) {
 
     setItems(mainTask);
   }, [userboard, data]);
+
+  useEffect(() => {
+    setColumnIsEmpty(Object.keys(items).length === 0);
+  }, [items]);
+
   const sensors = useSensors(
     // useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -127,6 +134,7 @@ export default function Container({ data }: { data: Board[] }) {
         ],
       };
     });
+
     updateDnD(userboard.id, activeContainer, active.id, overContainer);
   }
 
@@ -159,9 +167,13 @@ export default function Container({ data }: { data: Board[] }) {
           overIndex
         ),
       }));
+      sortTask(userboard.id, activeContainer, activeIndex, overIndex);
     }
 
     setActiveId(null);
+  }
+  if (columnIsEmpty) {
+    return <Empty />;
   }
   return (
     <section
@@ -181,7 +193,6 @@ export default function Container({ data }: { data: Board[] }) {
             index={Object.keys(items).indexOf(column).toString()}
             name={column}
             key={column}
-            // active={activeId}
             task={task && task.map((t) => t)}
           />
         ))}

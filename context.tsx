@@ -16,12 +16,13 @@ export default function KanbanProvider({
   const [showActionButtons, setShowActionButtons] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [displaySidebar, setDisplaySidebar] = useState(true);
+  const [columnIsEmpty, setColumnIsEmpty] = useState(false);
 
   useEffect(() => {
     fetch("/api")
       .then((response) => response.json())
       .then((data) => {
-        setUserBoard({ name: data[0].name, id: data[0]._id });
+        setUserBoard({ name: data[0]?.name, id: data[0]?._id });
         return data;
       });
 
@@ -58,6 +59,8 @@ export default function KanbanProvider({
         setDarkMode,
         displaySidebar,
         setDisplaySidebar,
+        columnIsEmpty,
+        setColumnIsEmpty,
       }}
     >
       {children}

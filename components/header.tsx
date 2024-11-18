@@ -18,6 +18,7 @@ export default function Header({ boards }: { boards: Board[] }) {
     showActionButtons,
     setShowActionButtons,
     darkMode,
+    columnIsEmpty,
     displaySidebar,
   }: any = useContext(KanbanContext);
   const [showButton, setShowButton] = useState(false);
@@ -79,8 +80,17 @@ export default function Header({ boards }: { boards: Board[] }) {
 
         <div>
           <div className="inline-flex items-center mr-4 md:mr-6 gap-4 md:gap-6">
-            <Link href={`/createtask/${userboard.id}`}>
-              <div className="bg-primary-violet hover:bg-primary-light-violet w-12 h-8 md:h-auto md:w-auto md:py-[15px] cursor-pointer  md:px-6 rounded-3xl flex items-center justify-center">
+            <Link
+              className="disabled"
+              href={`${columnIsEmpty ? "/" : "/createtask/" + userboard.id} `}
+            >
+              <div
+                className={` ${
+                  columnIsEmpty
+                    ? "bg-primary-light-violet"
+                    : "bg-primary-violet"
+                } hover:bg-primary-light-violet w-12 h-8 md:h-auto md:w-auto md:py-[15px] cursor-pointer  md:px-6 rounded-3xl flex items-center justify-center`}
+              >
                 <Image
                   src="/assets/icon-add-task-mobile.svg"
                   alt="add-task"
@@ -102,8 +112,8 @@ export default function Header({ boards }: { boards: Board[] }) {
               onClick={() => setShowActionButtons(!showActionButtons)}
             />
             <PowerIcon
-              onClick={() => setShowButton(!showButton)}
-              className="md:size-7 size-6 dark:text-white cursor-pointer"
+              onClick={() => signOut()}
+              className="md:size-7 size-6 dark:text-white hover:text-red-400 cursor-pointer"
             />
           </div>
           {showActionButtons && (
@@ -116,11 +126,11 @@ export default function Header({ boards }: { boards: Board[] }) {
           <NavBar boards={boards} />
         </div>
       )}
-      {showButton && (
+      {/* {showButton && (
         <div className="absolute bg-white dark:bg-primary-semi-dark p-6 font-bold text-[18px] right-0 rounded-lg shadow-lg flex flex-col gap-2 mr-6 mt-5 ">
           <button
             className="text-secondary-gray hover:text-green-400 font-bold"
-            onClick={() => signIn("github", { redirectTo: "/" })}
+            onClick={() => signIn("credentials", { redirectTo: "/" })}
           >
             Login
           </button>
@@ -131,7 +141,7 @@ export default function Header({ boards }: { boards: Board[] }) {
             Logout
           </button>
         </div>
-      )}
+      )} */}
     </section>
   );
 }
