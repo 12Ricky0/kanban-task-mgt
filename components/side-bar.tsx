@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import Link from "next/link";
 import { Board } from "@/libs/definitions";
 import { KanbanContext } from "@/context";
@@ -115,7 +115,7 @@ export default function NavBar({ boards }: { boards: Board[] }) {
               alt="board"
               width={16}
               height={16}
-              className="inline-block mr-3 ml-6"
+              className="inline-block w-auto h-auto mr-3 ml-6"
             />
             <span className="text-secondary-gray group-hover:text-primary-violet  text-[15px] font-bold">
               Hide Sidebar

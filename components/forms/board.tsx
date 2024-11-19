@@ -1,14 +1,10 @@
 "use client";
 import { Overlay } from "../overlay";
 import { useState, useActionState, ChangeEvent } from "react";
-import SubtaskForm from "./subtask";
-import Image from "next/image";
 import { BoardColumns } from "./subtask";
 import { createBoard } from "@/libs/actions";
 import { useRouter } from "next/navigation";
 export default function BoardForm() {
-  // const [columns, setColumns] = useState<JSX.Element[]>([]);
-
   const [columns, setColumns] = useState([
     { id: 0, name: "Todo" },
     { id: 1, name: "Doing" },
@@ -46,7 +42,7 @@ export default function BoardForm() {
         <form
           onSubmit={() => {
             if (formData["board-title"]) {
-              setTimeout(() => router.back(), 1000); // Navigate back once after 20ms
+              setTimeout(() => router.back(), 1000);
             }
           }}
           action={formAction}
@@ -57,7 +53,7 @@ export default function BoardForm() {
               className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold"
               htmlFor="title"
             >
-              Name
+              Board Name
             </label>
             <input
               type="text"
@@ -65,7 +61,6 @@ export default function BoardForm() {
               name="board-title"
               value={formData["board-title"]}
               onChange={handleChange}
-              // required
               placeholder="e.g. Web Design"
               className="w-full border dark:text-white dark:bg-secondary-dark-gray outline-primary-violet focus:outline focus:border-0 border-secondary-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
             />
@@ -80,7 +75,7 @@ export default function BoardForm() {
 
           <div className="mt-6">
             <h1 className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold">
-              Columns
+              Board Columns
             </h1>
             {columns.map((column) => (
               <BoardColumns

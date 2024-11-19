@@ -2,8 +2,7 @@
 
 import { Overlay } from "../overlay";
 import SubtaskForm from "./subtask";
-import { ReactEventHandler, useState, useActionState, useContext } from "react";
-import Image from "next/image";
+import { useState, useActionState, useContext } from "react";
 import Status from "./status";
 import { createTask } from "@/libs/actions";
 import { KanbanContext } from "@/context";

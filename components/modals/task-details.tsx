@@ -6,12 +6,8 @@ import { Subtask_List } from "../subtask-card";
 import Status from "../forms/status";
 import { useState, useContext } from "react";
 import { Tasks } from "@/libs/definitions";
-import { Board } from "@/libs/definitions";
-import Popup from "../subtask-card";
 import DeleteModal from "./delete";
-import { deleteModel } from "mongoose";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { KanbanContext } from "@/context";
 export default function Details({
   data,
@@ -27,7 +23,6 @@ export default function Details({
   column_id: string;
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
-  // const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const { setShowDelete, showDelete }: any = useContext(KanbanContext);
 
@@ -56,7 +51,6 @@ export default function Details({
                 className="cursor-pointer"
                 onClick={() => setShowDropdown(!showDropdown)}
               />
-              {/* <Popup className="translate-y-[80px] bg-primary-violet left-[850px]" /> */}
             </div>
             {showDropdown && (
               <section

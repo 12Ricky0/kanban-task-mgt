@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 export default function SubtaskForm({
   index,
@@ -19,9 +18,8 @@ export default function SubtaskForm({
     <div className="flex gap-4 items-center mb-3">
       <input
         type="text"
-        id="subtask"
+        id={`subtask` + index}
         name="subtask"
-        // onChange={handleChange}
         defaultValue={defaultValue}
         placeholder="e.g. Make coffee"
         className="w-full border border-secondary-gray outline-primary-violet focus:outline focus:border-0 dark:bg-secondary-dark-gray dark:text-white border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
@@ -51,7 +49,7 @@ export function BoardColumns({
     <section className="flex gap-4 items-center mb-3">
       <input
         type="text"
-        id="column"
+        id={`column` + name}
         name="column"
         ref={inputRef}
         placeholder="e.g. Make coffee"

@@ -351,8 +351,8 @@ export async function sortTask(
       (column: Column) => column.name === active
     );
 
-    const [task] = activeColumn.tasks.splice(oldIndex, 1); // Remove task from old position
-    activeColumn.tasks.splice(newIndex, 0, task); // Insert task at new position
+    const [task] = activeColumn.tasks.splice(oldIndex, 1);
+    activeColumn.tasks.splice(newIndex, 0, task);
 
     await doc.save();
   } catch (error) {}

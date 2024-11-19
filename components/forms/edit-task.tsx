@@ -2,11 +2,9 @@
 
 import { Overlay } from "../overlay";
 import SubtaskForm from "./subtask";
-import { ReactEventHandler, useState, useActionState, useContext } from "react";
-import Image from "next/image";
+import { useState, useActionState } from "react";
 import Status from "./status";
 import { updateTask } from "@/libs/actions";
-import { KanbanContext } from "@/context";
 import { Tasks } from "@/libs/definitions";
 
 export default function Edit_Task_Form({
@@ -43,7 +41,6 @@ export default function Edit_Task_Form({
       </div>
     ))
   );
-  //   const { userboard }: any = useContext(KanbanContext);
 
   const payload = updateTask.bind(null, id);
 

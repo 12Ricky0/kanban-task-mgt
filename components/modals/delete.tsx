@@ -1,5 +1,4 @@
 "use client";
-import { Overlay } from "../overlay";
 import { useContext } from "react";
 import { KanbanContext } from "@/context";
 import { deleteBoard, deleteTask } from "@/libs/actions";
@@ -42,11 +41,9 @@ export default function DeleteModal({
                   setShowDelete(false);
                   setShowActionButtons(false);
                 } else {
-                  // console.log(pathname);
                   deleteTask(id!, column_id!, title);
                 }
                 return;
-                // console.log(pathname == "/");
               }}
               className="block mb-4 text-white hover:bg-tetiary-light-red leading-[23p] h-10 font-bold text-[13px] bg-tetiary-red w-[100%] rounded-full"
             >

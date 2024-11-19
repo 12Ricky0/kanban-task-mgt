@@ -1,10 +1,9 @@
 "use client";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Popup from "./subtask-card";
 import { KanbanContext } from "@/context";
 import NavBar from "./side-bar";
-import TaskForm from "./forms/task-form";
 import Link from "next/link";
 import { Board } from "@/libs/definitions";
 import { PowerIcon } from "@heroicons/react/24/solid";
@@ -21,7 +20,6 @@ export default function Header({ boards }: { boards: Board[] }) {
     columnIsEmpty,
     displaySidebar,
   }: any = useContext(KanbanContext);
-  const [showButton, setShowButton] = useState(false);
 
   return (
     <section
@@ -48,6 +46,7 @@ export default function Header({ boards }: { boards: Board[] }) {
                 alt="Logo"
                 width={24}
                 height={25}
+                priority
                 className={`w-auto h-auto  pr-[24px]`}
               />
             </div>
@@ -126,22 +125,6 @@ export default function Header({ boards }: { boards: Board[] }) {
           <NavBar boards={boards} />
         </div>
       )}
-      {/* {showButton && (
-        <div className="absolute bg-white dark:bg-primary-semi-dark p-6 font-bold text-[18px] right-0 rounded-lg shadow-lg flex flex-col gap-2 mr-6 mt-5 ">
-          <button
-            className="text-secondary-gray hover:text-green-400 font-bold"
-            onClick={() => signIn("credentials", { redirectTo: "/" })}
-          >
-            Login
-          </button>
-          <button
-            className="hover:text-red-400 text-secondary-gray"
-            onClick={() => signOut()}
-          >
-            Logout
-          </button>
-        </div>
-      )} */}
     </section>
   );
 }

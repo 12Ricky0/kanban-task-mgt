@@ -4,7 +4,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Subtask } from "@/libs/definitions";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { KanbanContext } from "@/context";
 
 export default function TaskCard({

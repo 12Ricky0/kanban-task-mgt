@@ -1,8 +1,6 @@
 "use client";
 import { Overlay } from "../overlay";
 import { useState, useActionState, useRef } from "react";
-import SubtaskForm from "./subtask";
-import Image from "next/image";
 import { BoardColumns } from "./subtask";
 import { updateBoard } from "@/libs/actions";
 import { Board } from "@/libs/definitions";
@@ -43,7 +41,7 @@ export default function EditBoardForm({
 
         <form
           onSubmit={() => {
-            setTimeout(() => router.back(), 1000); // Navigate back once after 20ms
+            setTimeout(() => router.back(), 1000);
           }}
           action={formAction}
           className="mx-6"
@@ -53,7 +51,7 @@ export default function EditBoardForm({
               className="mb-2 text-[13px] text-secondary-gray font-bold"
               htmlFor="title"
             >
-              Name
+              Board Name
             </label>
             <input
               type="text"
@@ -75,7 +73,7 @@ export default function EditBoardForm({
 
           <div className="mt-6">
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
-              Columns
+              Board Columns
             </h1>
             {columns.map((column, index) => (
               <div key={index}>

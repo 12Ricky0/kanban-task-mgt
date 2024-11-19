@@ -2,8 +2,6 @@
 import { dbConnect } from "./dbConnect";
 import Kanban from "@/models/kanbanData";
 import { auth } from "@/auth";
-import { getUser } from "./actions";
-import { createBoard } from "./actions";
 
 export async function fetchAllTask() {
   try {
@@ -14,22 +12,9 @@ export async function fetchAllTask() {
   } catch (error) {
     console.error(error);
   } finally {
-    // mongoose.connection.close();
   }
 }
 
-// export async function fetchTaskDetails(id: string) {
-//   try {
-//     await dbConnect();
-//     const res = await Kanban.findOne({
-//       name: id,
-//     });
-
-//     return Response.json(res);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
 export async function fetchTaskDetailsById(id: string) {
   try {
     await dbConnect();

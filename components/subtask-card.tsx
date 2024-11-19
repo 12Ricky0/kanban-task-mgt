@@ -15,7 +15,6 @@ export default function Popup({
   type: string;
   id: string;
 }) {
-  // const [showDelete, setShowDelete] = useState(false);
   const {
     showDelete,
     setShowDelete,
