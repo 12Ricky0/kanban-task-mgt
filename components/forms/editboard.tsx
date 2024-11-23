@@ -15,9 +15,9 @@ export default function EditBoardForm({
 }) {
   const [columns, setColumns] = useState(board.columns);
 
-  function handleDelete(key: number) {
+  function handleDelete(key: number | string) {
     setColumns((prev) => {
-      return prev.filter((_, i) => i !== key);
+      return prev.filter((col, i) => col._id !== key);
     });
   }
   const inputRef = useRef<HTMLInputElement>(null);
@@ -80,7 +80,7 @@ export default function EditBoardForm({
                 <BoardColumns
                   name={column.name}
                   key={index}
-                  onDelete={() => handleDelete(index)}
+                  onDelete={() => handleDelete(column._id!)}
                 />
                 <input
                   type="hidden"

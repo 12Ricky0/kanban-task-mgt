@@ -2,6 +2,7 @@
 import { dbConnect } from "./dbConnect";
 import Kanban from "@/models/kanbanData";
 import { auth } from "@/auth";
+import { notFound } from "next/navigation";
 
 export async function fetchAllTask() {
   try {
@@ -11,6 +12,7 @@ export async function fetchAllTask() {
     return Response.json(res);
   } catch (error) {
     console.error(error);
+    throw new Error(notFound());
   } finally {
   }
 }
@@ -26,5 +28,6 @@ export async function fetchTaskDetailsById(id: string) {
     return Response.json(res);
   } catch (error) {
     console.error(error);
+    throw new Error(notFound());
   }
 }

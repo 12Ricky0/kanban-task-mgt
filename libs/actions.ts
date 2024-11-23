@@ -18,6 +18,7 @@ import {
   Column,
   Tasks,
 } from "./definitions";
+import { notFound } from "next/navigation";
 
 export async function registerUser(prevState: any, formData: FormData) {
   const email = formData.get("email");
@@ -58,7 +59,9 @@ export async function registerUser(prevState: any, formData: FormData) {
       columns: [],
     };
     await Kanban.create(userData);
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(notFound());
+  }
   redirect("/login");
 }
 
@@ -115,6 +118,7 @@ export async function createBoard(prevState: any, formData: FormData) {
     await Kanban.create(validateBoard.data);
   } catch (error) {
     console.log(error);
+    throw new Error(notFound());
   }
   revalidatePath("/");
   redirect("/");
@@ -149,10 +153,11 @@ export async function updateBoard(
       message: "Missing Fields. Failed to Create Board.",
     };
   }
-
   try {
     await Kanban.findByIdAndUpdate({ _id: id }, validateBoard.data, {});
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(notFound());
+  }
 
   revalidatePath("/");
   redirect("/");
@@ -161,7 +166,9 @@ export async function updateBoard(
 export async function deleteBoard(id: string) {
   try {
     await Kanban.findByIdAndDelete(id);
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(notFound());
+  }
   revalidatePath("/");
   redirect("/");
 }
@@ -201,7 +208,9 @@ export async function createTask(
     const res = doc.columns.find((c: Column) => c.name === status);
     res.tasks.push(validateTask.data);
     await doc.save();
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(notFound());
+  }
   revalidatePath("/");
   redirect("/");
 }
@@ -251,6 +260,7 @@ export async function updateTask(
     await doc.save();
   } catch (error) {
     console.error(error);
+    throw new Error(notFound());
   }
   revalidatePath("/");
   redirect("/");
@@ -290,6 +300,7 @@ export async function updatedIsCompleted(
     );
   } catch (error) {
     console.error(error);
+    throw new Error(notFound());
   }
   revalidatePath(
     "/details/" + id + "/" + encodeURI(col.name) + "/" + encodeURI(title.title)
@@ -304,6 +315,7 @@ export async function deleteTask(id: string, column_id: string, title: string) {
     );
   } catch (error) {
     console.error(error);
+    throw new Error(notFound());
   }
   revalidatePath("/");
   redirect("/");
@@ -330,11 +342,13 @@ export async function updateDnD(
     );
 
     const [task] = activeColumn.tasks.splice(taskIndex, 1);
+    task.status = destColumn.name;
     destColumn.tasks.push(task);
 
     await doc.save();
   } catch (error) {
     console.error(error);
+    throw new Error(notFound());
   }
   revalidatePath("/");
 }
@@ -355,6 +369,8 @@ export async function sortTask(
     activeColumn.tasks.splice(newIndex, 0, task);
 
     await doc.save();
-  } catch (error) {}
+  } catch (error) {
+    throw new Error(notFound());
+  }
   revalidatePath("/");
 }
