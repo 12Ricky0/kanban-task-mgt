@@ -21,7 +21,7 @@ export function Overlay({ children }: { children: ReactNode }) {
   return (
     <div
       onClick={handleClick}
-      className="overlay min-w-full z-20 flex items-center justify-center"
+      className={`overlay min-w-full z-20 flex items-center justify-center `}
     >
       {children}
     </div>

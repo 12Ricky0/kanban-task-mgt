@@ -13,20 +13,60 @@ export default function EditBoardForm({
   board: Board;
   id: string;
 }) {
-  const [columns, setColumns] = useState(board.columns);
+  // const [columns, setColumns] = useState(board.columns);
+
+  const [columns, setColumns] = useState<JSX.Element[]>(
+    board.columns.map((column) => (
+      <div key={column._id}>
+        <BoardColumns
+          name={column.name}
+          key={column._id}
+          onDelete={() =>
+            setColumns((prev) =>
+              prev.filter((subtask) => subtask.key !== column._id)
+            )
+          }
+        />
+        <input
+          type="hidden"
+          readOnly
+          name={column.name}
+          value={JSON.stringify(column.tasks)}
+        />
+      </div>
+    ))
+  );
 
   function handleDelete(key: number | string) {
     setColumns((prev) => {
-      return prev.filter((col, i) => col._id !== key);
+      return prev.filter((col) => col.key !== key);
     });
   }
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // function handleAdd(event: React.FormEvent) {
+  //   event.preventDefault();
+  //   const columnName = inputRef.current?.value;
+  //   setColumns((prev) => [...prev, { name: columnName!, tasks: [] }]);
+  // }
+
   function handleAdd(event: React.FormEvent) {
     event.preventDefault();
-    const columnName = inputRef.current?.value;
-    setColumns((prev) => [...prev, { name: columnName!, tasks: [] }]);
+    const uniqueId = Date.now();
+
+    setColumns((prev) => [
+      ...prev,
+      <div key={uniqueId}>
+        <BoardColumns
+          key={uniqueId}
+          name={inputRef.current?.value!}
+          onDelete={() => handleDelete(uniqueId)}
+        />
+        {/* <input type="text" hidden readOnly name={inputRef.current?.value} /> */}
+      </div>,
+    ]);
   }
+
   const payload = updateBoard.bind(null, id);
   const [state, formAction] = useActionState(payload, null);
 
@@ -75,7 +115,8 @@ export default function EditBoardForm({
             <h1 className="mb-2 text-[13px] text-secondary-gray font-bold">
               Board Columns
             </h1>
-            {columns.map((column, index) => (
+            {columns}
+            {/* {columns.map((column, index) => (
               <div key={index}>
                 <BoardColumns
                   name={column.name}
@@ -89,7 +130,7 @@ export default function EditBoardForm({
                   value={JSON.stringify(column.tasks)}
                 />
               </div>
-            ))}
+            ))} */}
 
             <button
               className=" text-primary-violet hover:bg-secondary-light-blue h-10 font-bold text-[13px] bg-tetiary-white-space w-[100%] mb-6 rounded-full"

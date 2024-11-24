@@ -7,8 +7,9 @@ import Status from "../forms/status";
 import { useState, useContext } from "react";
 import { Tasks } from "@/libs/definitions";
 import DeleteModal from "./delete";
-import Link from "next/link";
 import { KanbanContext } from "@/context";
+import { useRouter } from "next/navigation";
+
 export default function Details({
   data,
   options,
@@ -26,6 +27,7 @@ export default function Details({
 
   const { setShowDelete, showDelete }: any = useContext(KanbanContext);
 
+  const router = useRouter();
   const completed = data.subtasks.filter(
     (task) => task.isCompleted === true
   ).length;
@@ -33,7 +35,7 @@ export default function Details({
   return (
     <Overlay>
       <section
-        className={`bg-white md:w-[480px] dark:bg-secondary-dark-gray rounded-lg mx-4 pt-6 pb-8 ${
+        className={`bg-white md:w-[480px] dark:bg-secondary-dark-gray rounded-lg mx-4  pt-6 pb-8 ${
           showDelete ? "hidden" : "block"
         }`}
       >
@@ -56,10 +58,20 @@ export default function Details({
               <section
                 className={` absolute bg-white dark:bg-primary-semi-dark w-[192px] md:translate-x-[350px] translate-x-28 rounded-lg shadow-lg justify-end -translate-y-[32px] py-4`}
               >
-                <button className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray">
-                  <Link href={`/updatetask/${id}/${name}/${data.title}`}>
-                    Edit Task
-                  </Link>
+                <button
+                  onClick={() => {
+                    router.back();
+                    setTimeout(
+                      () =>
+                        router.push(
+                          "/updatetask/" + id + "/" + name + "/" + data.title
+                        ),
+                      1000
+                    );
+                  }}
+                  className="block ml-4 mb-4 text-[13px] font-medium text-secondary-gray"
+                >
+                  Edit Task
                 </button>
                 <button
                   onClick={() => {

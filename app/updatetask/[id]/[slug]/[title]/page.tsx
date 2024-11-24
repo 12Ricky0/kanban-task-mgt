@@ -5,21 +5,21 @@ import { Column, Tasks } from "@/libs/definitions";
 export default async function Edit_Task({
   params,
 }: {
-  params: { slug: string };
+  params: { id: string; slug: string; title: string };
 }) {
-  let s = await params;
-  const slug = s.slug;
-  const id = decodeURIComponent(slug[0]);
-  const name = slug[1];
-  const title = decodeURIComponent(slug[2]);
+  let query = await params;
 
-  const req = await fetchTaskDetailsById(id);
+  const req = await fetchTaskDetailsById(query.id);
   const response = await req?.json();
 
   const columnNames = response.columns.map((column: Column) => column.name);
 
-  let res = response.columns.find((column: Column) => column.name === name);
-  let data = res.tasks.find((task: Tasks) => task.title === title);
+  let res = response.columns.find(
+    (column: Column) => column.name === query.slug
+  );
+  let data = res.tasks.find(
+    (task: Tasks) => task.title === decodeURIComponent(query.title)
+  );
 
   return (
     <Edit_Task_Form

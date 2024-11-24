@@ -105,9 +105,8 @@ export default function LoginForm({ token }: { token: string }) {
           <button
             className="bg-primary-violet hover:bg-primary-light-violet h-9 md:h-auto w-[100%] md:py-[10px] cursor-pointer  md:px-6 rounded-3xl flex items-center justify-center text-white md:block text-[15px] font-semibold"
             onClick={() => {
-              router.refresh();
-
               router.replace("/");
+              setTimeout(() => window.location.reload(), 1000);
             }}
           >
             Load Kanban
