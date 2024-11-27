@@ -32,7 +32,10 @@ Users are be able to:
 
 ### Screenshot
 
-![](./screenshot.jpg)
+![./public/home.png](./public/home.png)
+![./public/add.png](./public/add.png)
+![./public/board.png](./public/board.png)
+![./public/details.png](./public/details.png)
 
 ### Links
 
