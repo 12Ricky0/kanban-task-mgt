@@ -3,7 +3,7 @@ import EditBoardForm from "@/components/forms/editboard";
 export default async function Edit_Board({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const s = await params;
   const id = decodeURIComponent(s.id);

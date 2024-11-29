@@ -6,7 +6,6 @@ export async function POST(request: Request) {
   const res = await request.json();
   await dbConnect();
   await Kanban.create(res.boards);
-  //   console.log(res);
 
   return Response.json(
     { message: "Data Inserted Sucessfully" },

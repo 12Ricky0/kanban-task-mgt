@@ -3,7 +3,6 @@
 import {
   DndContext,
   KeyboardSensor,
-  MouseSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
@@ -55,7 +54,6 @@ export default function Container({ data }: { data: Board[] }) {
   }, [items]);
 
   const sensors = useSensors(
-    // useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),

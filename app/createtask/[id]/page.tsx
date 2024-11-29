@@ -5,7 +5,7 @@ import { Column } from "@/libs/definitions";
 export default async function createTask({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const s = await params;
   const req = await fetchTaskDetailsById(s.id);

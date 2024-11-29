@@ -5,7 +5,7 @@ import { Column, Tasks } from "@/libs/definitions";
 export default async function TaskDetails({
   params,
 }: {
-  params: { id: string; slug: string; title: string };
+  params: Promise<{ id: string; slug: string; title: string }>;
 }) {
   let s = await params;
 
