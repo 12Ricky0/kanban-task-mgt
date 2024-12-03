@@ -1,5 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import GitHub from "next-auth/providers/github";
 
 export const authConfig = {
   pages: {
@@ -19,5 +20,10 @@ export const authConfig = {
       return true;
     },
   },
-  providers: [],
+  providers: [
+    GitHub({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+    }),
+  ],
 } satisfies NextAuthConfig;

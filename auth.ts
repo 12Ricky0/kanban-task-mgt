@@ -1,13 +1,10 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import GitHub from "next-auth/providers/github";
 import { z } from "zod";
-import { credentials } from "./libs/definitions";
 import { getUser } from "./libs/actions";
-import mongoose from "mongoose";
 import { authConfig } from "./auth.config";
 import bcryptjs from "bcryptjs";
-import GitHub from "next-auth/providers/github";
-import { redirect } from "next/navigation";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -32,6 +29,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log("Invalid credentials");
         return null;
       },
+    }),
+    GitHub({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
     }),
   ],
   callbacks: {
