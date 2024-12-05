@@ -6,6 +6,7 @@ import { useState, useActionState } from "react";
 import Status from "./status";
 import { updateTask } from "@/libs/actions";
 import { Tasks } from "@/libs/definitions";
+import { useRouter } from "next/navigation";
 
 export default function Edit_Task_Form({
   options,
@@ -42,6 +43,8 @@ export default function Edit_Task_Form({
     ))
   );
 
+  const router = useRouter();
+
   const payload = updateTask.bind(null, id);
 
   const [state, formAction] = useActionState(payload, null);
@@ -76,12 +79,18 @@ export default function Edit_Task_Form({
   }
   return (
     <Overlay>
-      <section className="bg-white dark:bg-secondary-dark-gray z-50 mx-4 w-full md:w-[480px] rounded-lg">
+      <section className="bg-white dark:bg-secondary-dark-gray z-50 mx-4 w-full md:w-[480px] overflow-scroll rounded-lg">
         <h1 className="mx-6 font-bold text-[18px] dark:text-white text-primary-dark py-6">
           Edit Task
         </h1>
 
-        <form action={formAction} className="mx-6">
+        <form
+          onSubmit={() => {
+            setTimeout(() => router.back(), 1000);
+          }}
+          action={formAction}
+          className="mx-6"
+        >
           <div className="flex flex-col">
             <label
               className="mb-2 text-[13px] dark:text-white text-secondary-gray font-bold"

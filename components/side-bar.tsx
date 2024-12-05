@@ -18,14 +18,15 @@ export default function NavBar({ boards }: { boards: Board[] }) {
   return displaySidebar ? (
     <nav className="bg-white z-10 md:fixed dark:bg-secondary-dark-gray md:border-r dark:border-secondary-light-gray rounded-lg mt-4 w-[80%] md:flex flex-col  justify-between md:w-[260px] md:mx-0 md:rounded-none md:mt-0 md:h-full mx-auto pb-4">
       <div>
-        <Image
-          src={`/assets/logo-${darkMode ? "light" : "dark"}.svg`}
-          alt="Logo"
-          width={24}
-          height={25}
-          className={`w-auto h-auto px-6 pt-[33px] pb-[54px]`}
-        />
-
+        <Link href="/">
+          <Image
+            src={`/assets/logo-${darkMode ? "light" : "dark"}.svg`}
+            alt="Logo"
+            width={24}
+            height={25}
+            className={`w-auto h-auto px-6 pt-[33px] pb-[54px]`}
+          />
+        </Link>
         <h1 className="text-[12px] text-secondary-gray font-bold tracking-[2.4px] mb-[19px] mx-6 pt-4">
           ALL BOARDS ({boards?.length})
         </h1>

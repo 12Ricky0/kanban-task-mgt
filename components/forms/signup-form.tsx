@@ -32,7 +32,7 @@ export default function SignupForm() {
         className={`w-auto h-auto mx-auto  mb-[24px]`}
       />
 
-      <section className=" bg-white p-6 dark:bg-secondary-dark-gray w-full md:w-[400px] mx-6 rounded-lg">
+      <section className=" bg-white p-6 dark:bg-secondary-dark-gray w-full md:w-[400px] rounded-lg">
         <h1 className="text-[24px] text-primary-violet font-bold  mb-[19px] text-center">
           Sign up
         </h1>
