@@ -60,6 +60,7 @@ export default function LoginForm({ token }: { token: string }) {
               className="w-full border mb-6 border-secondary-gray outline-primary-violet focus:outline focus:border-0 dark:text-white dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2"
               type="email"
               name="email"
+              id="email"
               placeholder="Email"
               required
               value={formData.email}
@@ -74,6 +75,7 @@ export default function LoginForm({ token }: { token: string }) {
             <input
               type="password"
               name="password"
+              id="password"
               placeholder="Password"
               required
               value={formData.password}

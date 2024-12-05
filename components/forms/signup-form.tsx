@@ -54,6 +54,7 @@ export default function SignupForm() {
               } outline-primary-violet focus:outline focus:border-0 dark:text-white dark:bg-secondary-dark-gray border-opacity-25 rounded-lg font-medium text-[13px] pl-4 py-2`}
               type="text"
               name="email"
+              id="email"
               placeholder="Email"
               onChange={handleChange}
               value={formData.email}
@@ -79,6 +80,7 @@ export default function SignupForm() {
             <input
               type="password"
               name="password"
+              id="password"
               placeholder="Password"
               onChange={handleChange}
               value={formData.password}
