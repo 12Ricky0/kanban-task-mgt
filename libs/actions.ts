@@ -115,6 +115,7 @@ export async function createBoard(prevState: any, formData: FormData) {
   }
 
   try {
+    await dbConnect();
     await Kanban.create(validateBoard.data);
   } catch (error) {
     console.log(error);
