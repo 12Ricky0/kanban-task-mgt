@@ -7,7 +7,7 @@ import NavBar from "./side-bar";
 import Link from "next/link";
 import { Board } from "@/libs/definitions";
 import { PowerIcon } from "@heroicons/react/24/solid";
-import { signOut, signIn } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 export default function Header({ boards }: { boards: Board[] }) {
   const {
@@ -31,14 +31,15 @@ export default function Header({ boards }: { boards: Board[] }) {
     >
       <header className="  flex py-[20px] md:py-0 justify-between items-center">
         <div className="inline-flex ml-4 md:ml-6 gap-4 md:gap-6">
-          <Image
-            src="/assets/logo-mobile.svg"
-            alt="Logo"
-            width={24}
-            height={25}
-            className="block md:hidden"
-          />
-
+          <Link href="/">
+            <Image
+              src="/assets/logo-mobile.svg"
+              alt="Logo"
+              width={24}
+              height={25}
+              className="block md:hidden"
+            />
+          </Link>
           {!displaySidebar && (
             <div className="hidden md:inline-flex border-r dark:border-secondary-light-gray py-10 items-center">
               <Image

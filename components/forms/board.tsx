@@ -92,7 +92,10 @@ export default function BoardForm() {
               +Add New Column
             </button>
           </div>
-          <button className="block mb-4 text-white hover:bg-primary-light-violet h-10 font-bold text-[13px] bg-primary-violet w-[100%] rounded-full">
+          <button
+            type="submit"
+            className="block mb-4 text-white hover:bg-primary-light-violet h-10 font-bold text-[13px] bg-primary-violet w-[100%] rounded-full"
+          >
             Create New Board
           </button>
         </form>

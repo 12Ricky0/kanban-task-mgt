@@ -15,13 +15,8 @@ export default function Popup({
   type: string;
   id: string;
 }) {
-  const {
-    showDelete,
-    setShowDelete,
-    userboard,
-    setShowActionButtons,
-    showActionButtons,
-  }: any = useContext(KanbanContext);
+  const { showDelete, setShowDelete, userboard }: any =
+    useContext(KanbanContext);
 
   return (
     <>
@@ -60,8 +55,6 @@ export function Subtask_List({
   column_id: string;
   task_id: string;
 }) {
-  const [isChecked, setIsChecked] = useState(false);
-
   const [checkedStates, setCheckedStates] = useState(
     subtasks.map((subtask) => subtask.isCompleted)
   );

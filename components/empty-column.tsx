@@ -17,12 +17,21 @@ export default function Empty() {
           This board is empty. Create a new column to get started.
         </p>
 
-        <Link
-          className="text-white text-[15px]  rounded-3xl font-semibold bg-primary-violet cursor-pointer hover:bg-primary-light-violet h-auto w-auto py-[15px] px-6"
-          href={`/editboard/${userboard.id}`}
-        >
-          + Add New Column
-        </Link>
+        {userboard.id ? (
+          <Link
+            className="text-white text-[15px]  rounded-3xl font-semibold bg-primary-violet cursor-pointer hover:bg-primary-light-violet h-auto w-auto py-[15px] px-6"
+            href={`/editboard/${userboard.id}`}
+          >
+            + Add New Column
+          </Link>
+        ) : (
+          <button
+            disabled
+            className="text-white text-[15px]  rounded-3xl font-semibold  cursor-pointer bg-primary-light-violet h-auto w-auto py-[15px] px-6"
+          >
+            + Add New Column
+          </button>
+        )}
       </>
     </div>
   );
