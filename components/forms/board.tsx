@@ -40,11 +40,11 @@ export default function BoardForm() {
         </h1>
 
         <form
-          // onSubmit={() => {
-          //   if (formData["board-title"]) {
-          //     setTimeout(() => router.back(), 1000);
-          //   }
-          // }}
+          onSubmit={() => {
+            if (formData["board-title"]) {
+              setTimeout(() => router.back(), 1000);
+            }
+          }}
           action={formAction}
           className="mx-6"
         >
@@ -96,7 +96,7 @@ export default function BoardForm() {
             type="submit"
             className="block mb-4 text-white hover:bg-primary-light-violet h-10 font-bold text-[13px] bg-primary-violet w-[100%] rounded-full"
           >
-            {isPending ? "Submitting" : "Create New Board"}
+            {isPending ? "Submitting..." : "Create New Board"}
           </button>
         </form>
       </section>
