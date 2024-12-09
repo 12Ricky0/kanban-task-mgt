@@ -166,6 +166,8 @@ export async function updateBoard(
 
 export async function deleteBoard(id: string) {
   try {
+    await dbConnect();
+
     await Kanban.findByIdAndDelete(id);
   } catch (error) {
     throw new Error(notFound());

@@ -1,9 +1,7 @@
 "use client";
 
-import { createContext, useState, useEffect, use } from "react";
+import { createContext, useState, useEffect } from "react";
 export const KanbanContext = createContext({});
-import { Board } from "./libs/definitions";
-import { fetchAllTask } from "./libs/data";
 
 export default function KanbanProvider({
   children,
